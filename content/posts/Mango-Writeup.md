@@ -9,12 +9,11 @@ katex: true
 markup: "mmark"
 ---
 
-![](/blog/images/mango/mango.png)
-
-Mango is a medium difficulty box where with basic enumeration and some MongoDB NO-SQL Injection we can extract user passwords to log in and get user access. From there we will leverage a classic jjs privilege escalation to get root access and read the root.txt file.
+![](/blog/images/mango/mango.png#center)
 
 
-## User
+## Foothold / mango
+
 We first start off with an **nmap** scan of the machine IP Address. Then we convert our finished scan to an html file and view it in the browser.
 
 ![](/blog/images/mango/pics/user/1.png)
@@ -79,7 +78,8 @@ After browsing around a bit we see that there is a **user.txt** file in **/home/
 ![](/blog/images/mango/pics/user/18.png)
 
 
-## Root
+## Privilege Escalation / root
+
 To perform more enumeration on this machine, we start a simple python http server and use wget to download [**linPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS) from our host machine, then run the script.
 
 ![](/blog/images/mango/pics/root/1.png)
