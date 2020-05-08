@@ -1,0 +1,24 @@
+{{ define "main" }}
+<article class="post">
+    <header>
+        <h1>{{ .Title }}</h1>
+        <h2 class="subtitle">{{ .Description | markdownify }}</h2>
+        <h2 class="headline">
+        {{ .Date.Format "January 2, 2006" }}
+        <br>
+          {{ with .Params.tags }}
+            {{ range $i, $e := . }}
+              {{ if $i }} | {{ end }}
+              <a href="{{ printf "tags/%s" ($e | urlize) | absURL }}">{{ . }}</a>
+            {{ end }}
+          {{ end }}
+        </h2>
+    </header>
+    <section id="post-body">
+        {{ .Content }}
+    </section>
+</article>
+
+{{ template "_internal/disqus.html" . }}
+
+{{ end }}

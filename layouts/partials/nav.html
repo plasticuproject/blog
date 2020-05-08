@@ -1,0 +1,15 @@
+<nav class="main-nav">
+	{{ if not .IsHome }}
+		<a href='{{ .Site.BaseURL }}'>{{ .Site.Params.home | default "Home" }}</a>
+	{{ end }}
+
+	{{ range .Site.Menus.main }}
+ 		<a href='{{ .URL }}'>{{ .Name }}</a>
+  	{{ end }}
+
+    <a href='{{ printf "%s/tags" .Site.BaseURL }}'>Tags</a>
+
+	{{ if .Site.Params.enableRSS }}
+		<a href="{{ .Site.RSSLink }}">{{ .Site.Params.subscribe | default "RSS" }}</a>
+	{{ end }}
+</nav>
