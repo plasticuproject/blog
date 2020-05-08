@@ -2,21 +2,21 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on plasticuproject&#39;s blog</title>
-    <link>127.0.0.1/posts/</link>
+    <link>https://plasticuproject.github.io/blog/posts/</link>
     <description>Recent content in Posts on plasticuproject&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 17 Apr 2020 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="127.0.0.1/posts/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://plasticuproject.github.io/blog/posts/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>HackTheBox Mango Writeup</title>
-      <link>127.0.0.1/posts/mango-writeup/</link>
+      <link>https://plasticuproject.github.io/blog/posts/mango-writeup/</link>
       <pubDate>Fri, 17 Apr 2020 00:00:00 +0000</pubDate>
       
-      <guid>127.0.0.1/posts/mango-writeup/</guid>
+      <guid>https://plasticuproject.github.io/blog/posts/mango-writeup/</guid>
       <description>Mango is a medium difficulty box where with basic enumeration and some MongoDB NO-SQL Injection we can extract user passwords to log in and get user access. From there we will leverage a classic jjs privilege escalation to get root access and read the root.txt file.
 User We first start off with an nmap scan of the machine IP Address. Then we convert our finished scan to an html file and view it in the browser.</description>
     </item>
