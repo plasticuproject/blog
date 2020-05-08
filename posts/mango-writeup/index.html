@@ -91,7 +91,7 @@
         </h2>
     </header>
     <section id="post-body">
-        <p><figure><img src="/images/mango/mango.png" alt=""></figure></p>
+        <p><figure><img src="/static/images/mango/mango.png" alt=""></figure></p>
 
 <p>Mango is a medium difficulty box where with basic enumeration and some MongoDB NO-SQL Injection we can extract user passwords to log in and get user access. From there we will leverage a classic jjs privilege escalation to get root access and read the root.txt file.</p>
 
@@ -99,34 +99,34 @@
 
 <p>We first start off with an <strong>nmap</strong> scan of the machine IP Address. Then we convert our finished scan to an html file and view it in the browser.</p>
 
-<p><figure><img src="/images/mango/pics/user/1.png" alt=""></figure>
-<figure><img src="/images/mango/pics/user/2.png" alt=""></figure></p>
+<p><figure><img src="/static/images/mango/pics/pics/user/1.png" alt=""></figure>
+<figure><img src="/static/images/mango/pics/pics/user/2.png" alt=""></figure></p>
 
 <p>Here we see there is an <strong>Apache Web Server</strong> running on <strong>port 80</strong> and <strong>port 443</strong>, and a listening <strong>SSH Server</strong> on <strong>port 22</strong>.</p>
 
-<p><figure><img src="/images/mango/pics/user/3.png" alt=""></figure>
-<figure><img src="/images/mango/pics/user/4.png" alt=""></figure></p>
+<p><figure><img src="/static/images/mango/pics/pics/user/3.png" alt=""></figure>
+<figure><img src="/static/images/mango/pics/pics/user/4.png" alt=""></figure></p>
 
 <p>We now add those to our <strong>/etc/hosts</strong> file.</p>
 
-<p><figure><img src="/images/mango/pics/user/5.png" alt=""></figure></p>
+<p><figure><img src="/static/images/mango/pics/pics/user/5.png" alt=""></figure></p>
 
 <p>Next we check out the web pages in a browser. We see the one on <strong>port 443</strong> looks like some type of search engine, and has a user logged in.</p>
 
-<p><figure><img src="/images/mango/pics/user/6.png" alt=""></figure></p>
+<p><figure><img src="/static/images/mango/pics/pics/user/6.png" alt=""></figure></p>
 
 <p>So we have a look around in the few places that we can, which doesn't give us much to go on or do.</p>
 
-<p><figure><img src="/images/mango/pics/user/7.png" alt=""></figure></p>
+<p><figure><img src="/static/images/mango/pics/pics/user/7.png" alt=""></figure></p>
 
 <p>Next we see if there is any valuable information we can use in the <strong>SSL Certificate</strong>. Here we find a registered email address for this server. This could possibly be a <strong>user name</strong>.</p>
 
-<p><figure><img src="/images/mango/pics/user/13.png" alt=""></figure></p>
+<p><figure><img src="/static/images/mango/pics/pics/user/13.png" alt=""></figure></p>
 
 <p>We then check out the web page on <strong>port 80</strong> and find some sort of <strong>login page</strong>. We enter a test username and password, then intercept the request with <strong>Burp Suite</strong> to see what it looks like.</p>
 
-<p><figure><img src="/images/mango/pics/user/10.png" alt=""></figure>
-<figure><img src="/images/mango/pics/user/9.png" alt=""></figure></p>
+<p><figure><img src="/static/images/mango/pics/pics/user/10.png" alt=""></figure>
+<figure><img src="/static/images/mango/pics/pics/user/9.png" alt=""></figure></p>
 
 <p>After a lot of googling and with the assumption that the name &quot;Mango&quot; may refer to &quot;Mongo&quot;, as in <strong>MongoDB</strong>, we find that it may be vulnerable to a <strong>NO_SQL Injection</strong> attack, where we can fish out user passwords from the database. Here are some common <a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/NoSQL%20Injection#mongodb-payloads"><strong>MongoDB Payloads</strong></a>.</p>
 
@@ -134,40 +134,40 @@
 
 <p>We try to guess a few usernames, including <strong>admin</strong> and <strong>mango</strong> and make a few edits to the script to get it working right. We were able to successfully extract the passwords for those two user accounts.</p>
 
-<p><figure><img src="/images/mango/pics/user/12.png" alt=""></figure>
-<figure><img src="/images/mango/pics/user/14.png" alt=""></figure>
-<figure><img src="/images/mango/pics/user/15.png" alt=""></figure></p>
+<p><figure><img src="/static/images/mango/pics/pics/user/12.png" alt=""></figure>
+<figure><img src="/static/images/mango/pics/pics/user/14.png" alt=""></figure>
+<figure><img src="/static/images/mango/pics/pics/user/15.png" alt=""></figure></p>
 
 <p>We then try to log into the web service with the two accounts. With the <strong>admin</strong> account we get this page as a response.</p>
 
-<p><figure><img src="/images/mango/pics/user/16.png" alt=""></figure></p>
+<p><figure><img src="/static/images/mango/pics/pics/user/16.png" alt=""></figure></p>
 
 <p>Next we try to long into the <strong>SSH</strong> server with the <strong>admin</strong> credentials but fail. So we try the <strong>mango</strong> credentials and successfully log into the machine.</p>
 
-<p><figure><img src="/images/mango/pics/user/17.png" alt=""></figure></p>
+<p><figure><img src="/static/images/mango/pics/pics/user/17.png" alt=""></figure></p>
 
 <p>After browsing around a bit we see that there is a <strong>user.txt</strong> file in <strong>/home/admin/</strong>, but we do not have access to read the file as our current user. So we try to <strong>su</strong> to the <strong>admin</strong> user with the credentials we have and are successful. We can now read the contents of <strong>user.txt</strong>.</p>
 
-<p><figure><img src="/images/mango/pics/user/18.png" alt=""></figure></p>
+<p><figure><img src="/static/images/mango/pics/pics/user/18.png" alt=""></figure></p>
 
 <h2 id="root">Root</h2>
 
 <p>To perform more enumeration on this machine, we start a simple python http server and use wget to download <a href="https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS"><strong>linPEAS</strong></a> from our host machine, then run the script.</p>
 
-<p><figure><img src="/images/mango/pics/root/1.png" alt=""></figure>
-<figure><img src="/images/mango/pics/root/3.png" alt=""></figure></p>
+<p><figure><img src="/static/images/mango/pics/pics/root/1.png" alt=""></figure>
+<figure><img src="/static/images/mango/pics/pics/root/3.png" alt=""></figure></p>
 
 <p><strong>linPEAS</strong> tells us that there is a very high probability that we may be able to leverage <strong>jjs</strong> to gain root access on this machine.</p>
 
-<p><figure><img src="/images/mango/pics/root/4.png" alt=""></figure></p>
+<p><figure><img src="/static/images/mango/pics/pics/root/4.png" alt=""></figure></p>
 
 <p>After a bit of googling we see there is a common <a href="https://gtfobins.github.io/gtfobins/jjs/"><strong>privilege escalation vulnerability for jjs</strong></a>.</p>
 
-<p><figure><img src="/images/mango/pics/root/5.png" alt=""></figure></p>
+<p><figure><img src="/static/images/mango/pics/pics/root/5.png" alt=""></figure></p>
 
 <p>We execute this and are able to read the contents of <strong>/root/root.txt</strong></p>
 
-<p><figure><img src="/images/mango/pics/root/6.png" alt=""></figure></p>
+<p><figure><img src="/static/images/mango/pics/pics/root/6.png" alt=""></figure></p>
 
 <p>With this exploit we also have the ability to write and download files with <strong>root privileges</strong>, giving us the option to create our own account or set up <strong>SSH</strong> for the <strong>root</strong> account, giving us full access to the machine indefinitely.</p>
 
