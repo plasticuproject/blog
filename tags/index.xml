@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on plasticuproject&#39;s Blog</title>
+    <link>https://plasticuproject.github.io/blog/tags/</link>
+    <description>Recent content in Tags on plasticuproject&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 17 Apr 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://plasticuproject.github.io/blog/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>HTB</title>
+      <link>https://plasticuproject.github.io/blog/tags/htb/</link>
+      <pubDate>Fri, 17 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://plasticuproject.github.io/blog/tags/htb/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Writeup</title>
+      <link>https://plasticuproject.github.io/blog/tags/writeup/</link>
+      <pubDate>Fri, 17 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://plasticuproject.github.io/blog/tags/writeup/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
