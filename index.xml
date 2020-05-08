@@ -17,8 +17,11 @@
       <pubDate>Fri, 17 Apr 2020 00:00:00 +0000</pubDate>
       
       <guid>https://plasticuproject.github.io/blog/posts/mango-writeup/</guid>
-      <description>Mango is a medium difficulty box where with basic enumeration and some MongoDB NO-SQL Injection we can extract user passwords to log in and get user access. From there we will leverage a classic jjs privilege escalation to get root access and read the root.txt file.
-User We first start off with an nmap scan of the machine IP Address. Then we convert our finished scan to an html file and view it in the browser.</description>
+      <description>Foothold / mango We first start off with an nmap scan of the machine IP Address. Then we convert our finished scan to an html file and view it in the browser.
+ 
+Here we see there is an Apache Web Server running on port 80 and port 443, and a listening SSH Server on port 22.
+ 
+We now add those to our /etc/hosts file.</description>
     </item>
     
   </channel>

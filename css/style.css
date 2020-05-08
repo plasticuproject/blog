@@ -947,3 +947,8 @@ pre>code {
   overflow-x: auto;
   overflow-y: hidden
 }
+
+img[src*='#center'] {
+  display: block;
+  margin: auto;
+}
