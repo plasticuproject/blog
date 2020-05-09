@@ -6,18 +6,33 @@
     <description>Recent content in Posts on plasticuproject&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 17 Apr 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 08 May 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://plasticuproject.github.io/blog/posts/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>HackTheBox Mango Writeup</title>
-      <link>https://plasticuproject.github.io/blog/posts/mango-writeup/</link>
+      <title>HackTheBox Obscurity Write-Up</title>
+      <link>https://plasticuproject.github.io/blog/posts/obscurity-write-up/</link>
+      <pubDate>Fri, 08 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://plasticuproject.github.io/blog/posts/obscurity-write-up/</guid>
+      <description>Foothold / www-data We first start off with a nmap scan of the machine IP Address. Then we convert our finished scan to a html file and view it in the browser.
+ 
+Here we see there is a Web Server running on port 8080, and a listening SSH Server on port 22.
+ 
+As always we will add the address to our /etc/hosts file.
+
+Next we check out the web page being served on port 8080 in a browser.</description>
+    </item>
+    
+    <item>
+      <title>HackTheBox Mango Write-Up</title>
+      <link>https://plasticuproject.github.io/blog/posts/mango-write-up/</link>
       <pubDate>Fri, 17 Apr 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://plasticuproject.github.io/blog/posts/mango-writeup/</guid>
-      <description>Foothold / mango We first start off with an nmap scan of the machine IP Address. Then we convert our finished scan to an html file and view it in the browser.
+      <guid>https://plasticuproject.github.io/blog/posts/mango-write-up/</guid>
+      <description>User / mango We first start off with an nmap scan of the machine IP Address. Then we convert our finished scan to an html file and view it in the browser.
  
 Here we see there is an Apache Web Server running on port 80 and port 443, and a listening SSH Server on port 22.
  

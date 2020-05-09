@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en-us">
+	<head>
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="plasticuproject">
+<meta name="description" content="Self Promoting Blog">
+<meta name="generator" content="Hugo 0.70.0" />
+<title>HackTheBox Obscurity Write-Up</title>
+<link rel="shortcut icon" href="https://plasticuproject.github.io/blog/images/favicon.ico">
+<link rel="stylesheet" href="https://plasticuproject.github.io/blog/css/style.css">
+<link rel="stylesheet" href="https://plasticuproject.github.io/blog/css/highlight.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+
+
+
+<link href="https://plasticuproject.github.io/blog/index.xml" rel="alternate" type="application/rss+xml" title="plasticuproject&#39;s blog" />
+
+
+<meta property="og:title" content="HackTheBox Obscurity Write-Up" />
+<meta property="og:description" content="Obscurity is a medium difficulty box where we will leverage bad server code to inject and run commands, and take advantage of poor cryptography and leftover files to get user access. From there we take advantage of sudo privileges and a poorly executed program to read the root.txt file." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://plasticuproject.github.io/blog/posts/obscurity-write-up/" />
+<meta property="article:published_time" content="2020-05-08T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-05-08T00:00:00+00:00" />
+
+
+<meta itemprop="name" content="HackTheBox Obscurity Write-Up">
+<meta itemprop="description" content="Obscurity is a medium difficulty box where we will leverage bad server code to inject and run commands, and take advantage of poor cryptography and leftover files to get user access. From there we take advantage of sudo privileges and a poorly executed program to read the root.txt file.">
+<meta itemprop="datePublished" content="2020-05-08T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2020-05-08T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="716">
+
+
+
+<meta itemprop="keywords" content="HTB,Write-Up," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="HackTheBox Obscurity Write-Up"/>
+<meta name="twitter:description" content="Obscurity is a medium difficulty box where we will leverage bad server code to inject and run commands, and take advantage of poor cryptography and leftover files to get user access. From there we take advantage of sudo privileges and a poorly executed program to read the root.txt file."/>
+
+
+    </head>
+<body>
+    <nav class="main-nav">
+	
+		<a href='https://plasticuproject.github.io/blog/'>Home</a>
+	
+
+	
+ 		<a href='/blog/about/'>About</a>
+  	
+
+    <a href='https://plasticuproject.github.io/blog//tags'>Tags</a>
+
+	
+		<a href="https://plasticuproject.github.io/blog/index.xml">RSS</a>
+	
+</nav>
+
+    <section id="wrapper">
+        
+        
+<article class="post">
+    <header>
+        <h1>HackTheBox Obscurity Write-Up</h1>
+        <h2 class="subtitle">Obscurity is a medium difficulty box where we will leverage bad server code to inject and run commands, and take advantage of poor cryptography and leftover files to get user access. From there we take advantage of sudo privileges and a poorly executed program to read the root.txt file.</h2>
+        <h2 class="headline">
+        May 8, 2020
+        <br>
+          
+            
+              
+              <a href="https://plasticuproject.github.io/blog/tags/htb">HTB</a>
+            
+               | 
+              <a href="https://plasticuproject.github.io/blog/tags/write-up">Write-Up</a>
+            
+          
+        </h2>
+    </header>
+    <section id="post-body">
+        <p><figure><img src="/blog/images/obscurity/obscurity.png#center" alt=""></figure></p>
+
+<h2 id="foothold--wwwdata">Foothold / www-data</h2>
+
+<p>We first start off with a <strong>nmap</strong> scan of the machine IP Address. Then we convert our finished scan to a html file and view it in the browser.</p>
+
+<p><figure><img src="/blog/images/obscurity/pics/user/1.png" alt=""></figure>
+<figure><img src="/blog/images/obscurity/pics/user/6.png" alt=""></figure></p>
+
+<p>Here we see there is a <strong>Web Server</strong> running on <strong>port 8080</strong>, and a listening <strong>SSH Server</strong> on <strong>port 22</strong>.</p>
+
+<p><figure><img src="/blog/images/obscurity/pics/user/7.png" alt=""></figure>
+<figure><img src="/blog/images/obscurity/pics/user/8.png" alt=""></figure></p>
+
+<p>As always we will add the address to our <strong>/etc/hosts</strong> file.</p>
+
+<p><figure><img src="/blog/images/obscurity/pics/user/9.png" alt=""></figure></p>
+
+<p>Next we check out the web page being served on <strong>port 8080</strong> in a browser. There isn't much there, but it does tell us that the company makes, uses, and distributes custom <strong>cryptographic software</strong>. We see there is possible <strong>username/contact information</strong>. There's also a message to their developers about the web server <strong>source code</strong> file. It tells the <strong>filename</strong>, the <strong>language</strong> it's written in, and that it is in a <strong><em>secret</em> directory</strong>.</p>
+
+<p><figure><img src="/blog/images/obscurity/pics/user/10.png" alt=""></figure>
+<figure><img src="/blog/images/obscurity/pics/user/11.png" alt=""></figure>
+<figure><img src="/blog/images/obscurity/pics/user/12.png" alt=""></figure>
+<figure><img src="/blog/images/obscurity/pics/user/13.png" alt=""></figure></p>
+
+<p>We use <strong>wfuzz</strong> to brute force find this <em>secret</em> directory and locate the server <strong>source code</strong>, which will be aided by the fact that we know the name of the source code file. We are successful and find the file located at <strong>../develop/SuperSecureServer.py</strong>.</p>
+
+<p><figure><img src="/blog/images/obscurity/pics/user/14.png" alt=""></figure></p>
+
+<p>We download the <strong>source code</strong> file.</p>
+
+<p><figure><img src="/blog/images/obscurity/pics/user/15.png" alt=""></figure></p>
+
+<p>Then open and inspect the code, looking for vulnerabilities.</p>
+
+<p><figure><img src="/blog/images/obscurity/pics/user/16.png" alt=""></figure>
+<figure><img src="/blog/images/obscurity/pics/user/17.png" alt=""></figure>
+<figure><img src="/blog/images/obscurity/pics/user/18.png" alt=""></figure>
+<figure><img src="/blog/images/obscurity/pics/user/19.png" alt=""></figure>
+<figure><img src="/blog/images/obscurity/pics/user/20.png" alt=""></figure></p>
+
+<p>Here we can see that it is a somewhat basic <strong>python web server</strong>. The biggest security issue that stands out is the use of the python <strong>exec()</strong> function. We find that it is accepting a string formatted <strong>URL path</strong>, that can be provided by us. We should be able to <strong>escape the string formatting</strong> with <code>';</code>, and <strong>inject some reverse shell python code</strong> that will be executed by the <strong>exec()</strong> function. We will use a payload that we found on <a href="https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md#python">PayloadAllTheThings</a>.</p>
+
+<p><figure><img src="/blog/images/obscurity/pics/user/21.png" alt=""></figure></p>
+
+<p>This is the <strong>reverse shell payload</strong> that we will use, and we <strong>url encode</strong> it as well, getting it ready to send as a <strong>GET Request</strong>.</p>
+
+<p><figure><img src="/blog/images/obscurity/pics/user/22.png" alt=""></figure></p>
+
+<p>We setup a local <strong>netcat listener</strong>.</p>
+
+<p><figure><img src="/blog/images/obscurity/pics/user/23.png" alt=""></figure></p>
+
+<p>Then setup our <strong>GET Request</strong> with our payload in <strong>Burp Suite</strong>, and send the Request.</p>
+
+<p><figure><img src="/blog/images/obscurity/pics/user/24.png" alt=""></figure></p>
+
+<p>We check our <strong>netcat listener</strong> and see that we got a <strong>callback</strong> and now have <strong>shell access as www-data</strong>. We now have a foothold in the system.</p>
+
+<p><figure><img src="/blog/images/obscurity/pics/user/25.png" alt=""></figure></p>
+
+<h2 id="user--robert">User / robert</h2>
+
+<p>After browsing around a bit we see some interesting files in the user <strong>/home/robert/</strong> directory. Here we see there is a <strong>user.txt</strong> file that we do not have permissions to read, as well as a python script called <strong>SuperSecureCrypt.py</strong>, and data files <strong>passwordreminder.txt</strong>, <strong>check.txt</strong>, and <strong>out.txt</strong>, as well as a directory named <strong>BetterSSH</strong> which we will investigate later.</p>
+
+<p><figure><img src="/blog/images/obscurity/pics/user/33.png" alt=""></figure></p>
+
+<p>We <strong>cat the files</strong> to see what they contain.</p>
+
+<p><figure><img src="/blog/images/obscurity/pics/user/27.png" alt=""></figure></p>
+
+<p>Now we look at the source code for <strong>SuperSecureCrypt.py</strong> and try to see what and how these files are used or generated.</p>
+
+<p><figure><img src="/blog/images/obscurity/pics/user/30.png" alt=""></figure>
+<figure><img src="/blog/images/obscurity/pics/user/31.png" alt=""></figure>
+<figure><img src="/blog/images/obscurity/pics/user/32.png" alt=""></figure></p>
+
+<p>Looking at all this, it appears that the contents of <strong>check.txt</strong> was encrypted with a <strong>secret key</strong>, and it's output is in <strong>out.txt</strong>. After inspecting the algorithm used to encrypt, it looks like we should be able to reverse the encryption by simply using the <code>-d</code> switch and feeding the output (<strong>out.txt</strong>) as the input, and use the un-encrypted <strong>check.txt</strong> text as our key. This should output the original key used to encrypt <strong>check.txt</strong>, but repeating to match the character length of the original message.</p>
+
+<p><figure><img src="/blog/images/obscurity/pics/user/35.png" alt=""></figure></p>
+
+<p>With <strong>passwordreminder.txt</strong> being an encrypted file as well, we see if the user used the same key, <strong>alexandrovich</strong>, to encrypt it.</p>
+
+<p><figure><img src="/blog/images/obscurity/pics/user/37.png" alt=""></figure></p>
+
+<p>And this turns out to be the <strong>password</strong> for the account <strong>robert</strong>. So we <strong>SSH</strong> into the account using this password, and read the <strong>user.txt</strong> file to get the flag.</p>
+
+<p><figure><img src="/blog/images/obscurity/pics/user/39.png" alt=""></figure></p>
+
+<h2 id="privilege-escalation--root">Privilege Escalation / root</h2>
+
+<p>Running <strong>sudo -l</strong> under this account shows us we have privileges to run <strong>/usr/bin/python3 /home/robert/BetterSSH/BetterSSH.py</strong> as <strong>sudo</strong> with <strong>no password</strong>.</p>
+
+<p><figure><img src="/blog/images/obscurity/pics/root/3.png" alt=""></figure></p>
+
+<p>We go back into that directory and look at the <strong>source code</strong> for this python program.</p>
+
+<p><figure><img src="/blog/images/obscurity/pics/root/28.png" alt=""></figure>
+<figure><img src="/blog/images/obscurity/pics/root/29.png" alt=""></figure></p>
+
+<p>It looks like this program will ask you for your user credentials and validate them with <strong>sudo</strong> privileges from the <strong>/etc/shadow</strong> file. Once authorized you can take advantage of the hard coded <strong>sudo</strong> command it has by simply sending <code>-u root</code>, then your command, which will be appended to <code>sudo</code> in the highlighted lines above. With full <strong>root privileges</strong> now we can easily read the <strong>/root/root.txt</strong> file.</p>
+
+<p><figure><img src="/blog/images/obscurity/pics/root/5.png" alt=""></figure></p>
+
+<p>With the ability to run any command with <strong>sudo privileges</strong> we could now create our own account or set up <strong>SSH</strong> for the <strong>root</strong> account and have full access to the machine indefinitely.</p>
+
+    </section>
+</article>
+
+
+
+
+
+        
+            <footer id="footer">
+    
+        <div id="social">
+
+	
+	
+    <a class="symbol" href="https://www.github.com/plasticuproject">
+        <i class="fa fa-github"></i>
+    </a>
+    
+    <a class="symbol" href="">
+        <i class="fa fa-twitter"></i>
+    </a>
+    
+
+
+</div>
+
+    
+    <p class="small">
+    
+        © Copyright 2020 plasticuproject
+    
+    </p>
+</footer>
+
+        
+    </section>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://plasticuproject.github.io/blog/js/main.js"></script>
+<script src="https://plasticuproject.github.io/blog/js/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+</body>
+</html>
