@@ -3,8 +3,7 @@ layout: post
 title: "HackTheBox Mango Write-Up"
 categories: Write-Up
 date: 2020-04-17
-header:
-  teaser: /blog/images/mango/mango.png
+image: /blog/images/mango/mango.png
 description: Mango is a medium difficulty box where with basic enumeration and some MongoDB NO-SQL Injection we can extract user passwords to log in and get user access. From there we will leverage a classic jjs privilege escalation to get root access and read the root.txt file.
 tags: [HTB, Write-Up]
 katex: true
