@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "HackTheBox Mango Writeup"
-categories: Writeup
+title: "HackTheBox Mango Write-Up"
+categories: Write-Up
 date: 2020-04-17
 description: Mango is a medium difficulty box where with basic enumeration and some MongoDB NO-SQL Injection we can extract user passwords to log in and get user access. From there we will leverage a classic jjs privilege escalation to get root access and read the root.txt file.
-tags: [HTB, Writeup]
+tags: [HTB, Write-Up]
 katex: true
 markup: "mmark"
 ---
@@ -12,7 +12,7 @@ markup: "mmark"
 ![](/blog/images/mango/mango.png#center)
 
 
-## Foothold / mango
+## User / mango
 
 We first start off with an **nmap** scan of the machine IP Address. Then we convert our finished scan to an html file and view it in the browser.
 

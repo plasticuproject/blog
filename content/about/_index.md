@@ -5,11 +5,14 @@ hidden = true
 menu = "main"
 +++
 
-My name is plasticuproject. This is my self promoting blog.
+I am plasticuproject. I'm a linux, FOSS, python, infosec, and ctf enthusiast. This is my blog of self promotion.
 
 ***
 
 ### Recommended Posts
 
-1. [HackTheBox Mango Writeup]({{< ref "posts/Mango-Writeup" >}})
- - Mango is a medium difficulty box where with basic enumeration and some MongoDB NO-SQL Injection we can extract user passwords to log in and get user access. From there we will leverage a classic jjs privilege escalation to get root access and read the root.txt file.
+1. [HackTheBox Mango Write-Up]({{< ref "posts/Mango-Write-Up" >}})
+    - *Mango is a medium difficulty HackTheBox Machine.*
+
+2. [HackTheBox Obscurity Write-Up]({{< ref "posts/Obscurity-Write-Up" >}})
+    - *Mango is a medium difficulty HackTheBox Machine.*
