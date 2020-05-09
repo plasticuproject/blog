@@ -59,7 +59,7 @@ Then open and inspect the code, looking for vulnerabilities.
 ![](/blog/images/obscurity/pics/user/20.png)
 
 
-Here we can see that it is a somewhat basic **python web server**. The biggest security issue that stands out is the use of the python **exec()** function. We find that it is accepting a string formatted **URL path**, that can be provided by us. We should be able to **escape the string formatting** with `';`, and **inject some reverse shell python code** that will be executed by the **exec()** function. We will use a payload that we found on [PayloadAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md#python).
+Here we can see that it is a somewhat basic **python web server**. The biggest security issue that stands out is the use of the python **exec()** function. We find that it is accepting a string formatted **URL path**, that can be provided by us. We should be able to **escape the string formatting** with **_';_** and **inject some reverse shell python code** that will be executed by the **exec()** function. We will use a payload that we found on [PayloadAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md#python).
 
 ![](/blog/images/obscurity/pics/user/21.png)
 
@@ -103,7 +103,7 @@ Now we look at the source code for **SuperSecureCrypt.py** and try to see what a
 ![](/blog/images/obscurity/pics/user/32.png)
 
 
-Looking at all this, it appears that the contents of **check.txt** was encrypted with a **secret key**, and it's output is in **out.txt**. After inspecting the algorithm used to encrypt, it looks like we should be able to reverse the encryption by simply using the `-d` switch and feeding the output (**out.txt**) as the input, and use the un-encrypted **check.txt** text as our key. This should output the original key used to encrypt **check.txt**, but repeating to match the character length of the original message.
+Looking at all this, it appears that the contents of **check.txt** was encrypted with a **secret key**, and it's output is in **out.txt**. After inspecting the algorithm used to encrypt, it looks like we should be able to reverse the encryption by simply using the **_-d_** switch and feeding the output (**out.txt**) as the input, and use the un-encrypted **check.txt** text as our key. This should output the original key used to encrypt **check.txt**, but repeating to match the character length of the original message.
 
 ![](/blog/images/obscurity/pics/user/35.png)
 
@@ -131,7 +131,7 @@ We go back into that directory and look at the **source code** for this python p
 ![](/blog/images/obscurity/pics/root/29.png)
 
 
-It looks like this program will ask you for your user credentials and validate them with **sudo** privileges from the **/etc/shadow** file. Once authorized you can take advantage of the hard coded **sudo** command it has by simply sending `-u root`, then your command, which will be appended to `sudo` in the highlighted lines above. With full **root privileges** now we can easily read the **/root/root.txt** file.
+It looks like this program will ask you for your user credentials and validate them with **sudo** privileges from the **/etc/shadow** file. Once authorized you can take advantage of the hard coded **sudo** command it has by simply sending **_-u root_**, then your command, which will be appended to **_sudo_** in the highlighted lines above. With full **root privileges** now we can easily read the **/root/root.txt** file.
 
 ![](/blog/images/obscurity/pics/root/5.png)
 
