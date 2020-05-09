@@ -52,9 +52,9 @@ We then check out the web page on **port 80** and find some sort of **login page
 ![](/blog/images/mango/pics/user/9.png)
 
 
-After a lot of googling and with the assumption that the name "Mango" may refer to "Mongo", as in **MongoDB**, we find that it may be vulnerable to a **NO_SQL Injection** attack, where we can fish out user passwords from the database. Here are some common [**MongoDB Payloads**](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/NoSQL%20Injection#mongodb-payloads).
+After a lot of googling and with the assumption that the name "Mango" may refer to "Mongo", as in **MongoDB**, we find that it may be vulnerable to a **NO-SQL Injection** attack, where we can fish out user passwords from the database. Here are some common [MongoDB Payloads](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/NoSQL%20Injection#mongodb-payloads).
 
-We also find a [**script**](https://blog.0daylabs.com/2016/09/05/mongo-db-password-extraction-mmactf-100/) that may help us do this.
+We also find a [script](https://blog.0daylabs.com/2016/09/05/mongo-db-password-extraction-mmactf-100/) that may help us do this.
 
 We try to guess a few usernames, including **admin** and **mango** and make a few edits to the script to get it working right. We were able to successfully extract the passwords for those two user accounts.
 
@@ -80,7 +80,7 @@ After browsing around a bit we see that there is a **user.txt** file in **/home/
 
 ## Privilege Escalation / root
 
-To perform more enumeration on this machine, we start a simple python http server and use wget to download [**linPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS) from our host machine, then run the script.
+To perform more enumeration on this machine, we start a simple python http server and use wget to download [linPEAS](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS) from our host machine, then run the script.
 
 ![](/blog/images/mango/pics/root/1.png)
 ![](/blog/images/mango/pics/root/3.png)
@@ -91,7 +91,7 @@ To perform more enumeration on this machine, we start a simple python http serve
 ![](/blog/images/mango/pics/root/4.png)
 
 
-After a bit of googling we see there is a common [**privilege escalation vulnerability for jjs**](https://gtfobins.github.io/gtfobins/jjs/).
+After a bit of googling we see there is a common [privilege escalation vulnerability for jjs](https://gtfobins.github.io/gtfobins/jjs/).
 
 ![](/blog/images/mango/pics/root/5.png)
 
