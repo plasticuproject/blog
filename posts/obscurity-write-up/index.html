@@ -132,7 +132,7 @@
 <figure><img src="/blog/images/obscurity/pics/user/19.png" alt=""></figure>
 <figure><img src="/blog/images/obscurity/pics/user/20.png" alt=""></figure></p>
 
-<p>Here we can see that it is a somewhat basic <strong>python web server</strong>. The biggest security issue that stands out is the use of the python <strong>exec()</strong> function. We find that it is accepting a string formatted <strong>URL path</strong>, that can be provided by us. We should be able to <strong>escape the string formatting</strong> with <code>';</code>, and <strong>inject some reverse shell python code</strong> that will be executed by the <strong>exec()</strong> function. We will use a payload that we found on <a href="https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md#python">PayloadAllTheThings</a>.</p>
+<p>Here we can see that it is a somewhat basic <strong>python web server</strong>. The biggest security issue that stands out is the use of the python <strong>exec()</strong> function. We find that it is accepting a string formatted <strong>URL path</strong>, that can be provided by us. We should be able to <strong>escape the string formatting</strong> with <strong><em>';</em></strong> and <strong>inject some reverse shell python code</strong> that will be executed by the <strong>exec()</strong> function. We will use a payload that we found on <a href="https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md#python">PayloadAllTheThings</a>.</p>
 
 <p><figure><img src="/blog/images/obscurity/pics/user/21.png" alt=""></figure></p>
 
@@ -168,7 +168,7 @@
 <figure><img src="/blog/images/obscurity/pics/user/31.png" alt=""></figure>
 <figure><img src="/blog/images/obscurity/pics/user/32.png" alt=""></figure></p>
 
-<p>Looking at all this, it appears that the contents of <strong>check.txt</strong> was encrypted with a <strong>secret key</strong>, and it's output is in <strong>out.txt</strong>. After inspecting the algorithm used to encrypt, it looks like we should be able to reverse the encryption by simply using the <code>-d</code> switch and feeding the output (<strong>out.txt</strong>) as the input, and use the un-encrypted <strong>check.txt</strong> text as our key. This should output the original key used to encrypt <strong>check.txt</strong>, but repeating to match the character length of the original message.</p>
+<p>Looking at all this, it appears that the contents of <strong>check.txt</strong> was encrypted with a <strong>secret key</strong>, and it's output is in <strong>out.txt</strong>. After inspecting the algorithm used to encrypt, it looks like we should be able to reverse the encryption by simply using the <strong><em>-d</em></strong> switch and feeding the output (<strong>out.txt</strong>) as the input, and use the un-encrypted <strong>check.txt</strong> text as our key. This should output the original key used to encrypt <strong>check.txt</strong>, but repeating to match the character length of the original message.</p>
 
 <p><figure><img src="/blog/images/obscurity/pics/user/35.png" alt=""></figure></p>
 
@@ -191,7 +191,7 @@
 <p><figure><img src="/blog/images/obscurity/pics/root/28.png" alt=""></figure>
 <figure><img src="/blog/images/obscurity/pics/root/29.png" alt=""></figure></p>
 
-<p>It looks like this program will ask you for your user credentials and validate them with <strong>sudo</strong> privileges from the <strong>/etc/shadow</strong> file. Once authorized you can take advantage of the hard coded <strong>sudo</strong> command it has by simply sending <code>-u root</code>, then your command, which will be appended to <code>sudo</code> in the highlighted lines above. With full <strong>root privileges</strong> now we can easily read the <strong>/root/root.txt</strong> file.</p>
+<p>It looks like this program will ask you for your user credentials and validate them with <strong>sudo</strong> privileges from the <strong>/etc/shadow</strong> file. Once authorized you can take advantage of the hard coded <strong>sudo</strong> command it has by simply sending <strong><em>-u root</em></strong>, then your command, which will be appended to <strong><em>sudo</em></strong> in the highlighted lines above. With full <strong>root privileges</strong> now we can easily read the <strong>/root/root.txt</strong> file.</p>
 
 <p><figure><img src="/blog/images/obscurity/pics/root/5.png" alt=""></figure></p>
 
