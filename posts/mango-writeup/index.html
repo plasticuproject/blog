@@ -126,9 +126,9 @@
 <p><figure><img src="/blog/images/mango/pics/user/10.png" alt=""></figure>
 <figure><img src="/blog/images/mango/pics/user/9.png" alt=""></figure></p>
 
-<p>After a lot of googling and with the assumption that the name &quot;Mango&quot; may refer to &quot;Mongo&quot;, as in <strong>MongoDB</strong>, we find that it may be vulnerable to a <strong>NO_SQL Injection</strong> attack, where we can fish out user passwords from the database. Here are some common <a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/NoSQL%20Injection#mongodb-payloads"><strong>MongoDB Payloads</strong></a>.</p>
+<p>After a lot of googling and with the assumption that the name &quot;Mango&quot; may refer to &quot;Mongo&quot;, as in <strong>MongoDB</strong>, we find that it may be vulnerable to a <strong>NO-SQL Injection</strong> attack, where we can fish out user passwords from the database. Here are some common <a href="https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/NoSQL%20Injection#mongodb-payloads">MongoDB Payloads</a>.</p>
 
-<p>We also find a <a href="https://blog.0daylabs.com/2016/09/05/mongo-db-password-extraction-mmactf-100/"><strong>script</strong></a> that may help us do this.</p>
+<p>We also find a <a href="https://blog.0daylabs.com/2016/09/05/mongo-db-password-extraction-mmactf-100/">script</a> that may help us do this.</p>
 
 <p>We try to guess a few usernames, including <strong>admin</strong> and <strong>mango</strong> and make a few edits to the script to get it working right. We were able to successfully extract the passwords for those two user accounts.</p>
 
@@ -150,7 +150,7 @@
 
 <h2 id="privilege-escalation--root">Privilege Escalation / root</h2>
 
-<p>To perform more enumeration on this machine, we start a simple python http server and use wget to download <a href="https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS"><strong>linPEAS</strong></a> from our host machine, then run the script.</p>
+<p>To perform more enumeration on this machine, we start a simple python http server and use wget to download <a href="https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/linPEAS">linPEAS</a> from our host machine, then run the script.</p>
 
 <p><figure><img src="/blog/images/mango/pics/root/1.png" alt=""></figure>
 <figure><img src="/blog/images/mango/pics/root/3.png" alt=""></figure></p>
@@ -159,7 +159,7 @@
 
 <p><figure><img src="/blog/images/mango/pics/root/4.png" alt=""></figure></p>
 
-<p>After a bit of googling we see there is a common <a href="https://gtfobins.github.io/gtfobins/jjs/"><strong>privilege escalation vulnerability for jjs</strong></a>.</p>
+<p>After a bit of googling we see there is a common <a href="https://gtfobins.github.io/gtfobins/jjs/">privilege escalation vulnerability for jjs</a>.</p>
 
 <p><figure><img src="/blog/images/mango/pics/root/5.png" alt=""></figure></p>
 
