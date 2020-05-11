@@ -10,6 +10,9 @@ googleAnalytics = ""
 disqusShortname = ""
 paginate = 20
 
+[author]
+    name = "plasticuproject"
+
 [params]
 	name = "plasticuproject"
 	description = "Self Promoting Blog"
