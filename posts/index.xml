@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
+    <author>plasticuproject</author>
     <title>Posts on plasticuproject&#39;s blog</title>
     <link>https://plasticuproject.github.io/blog/posts/</link>
     <description>Recent content in Posts on plasticuproject&#39;s blog</description>
@@ -12,6 +13,7 @@
     
     
     <item>
+      <author>plasticuproject</author>
       <title>HackTheBox Obscurity Write-Up</title>
       <link>https://plasticuproject.github.io/blog/posts/obscurity-write-up/</link>
       <pubDate>Fri, 08 May 2020 00:00:00 +0000</pubDate>
@@ -27,6 +29,7 @@ Next we check out the web page being served on port 8080 in a browser.</descript
     </item>
     
     <item>
+      <author>plasticuproject</author>
       <title>HackTheBox Mango Write-Up</title>
       <link>https://plasticuproject.github.io/blog/posts/mango-write-up/</link>
       <pubDate>Fri, 17 Apr 2020 00:00:00 +0000</pubDate>

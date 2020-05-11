@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
+    <author>plasticuproject</author>
     <title>Categories on plasticuproject&#39;s blog</title>
     <link>https://plasticuproject.github.io/blog/categories/</link>
     <description>Recent content in Categories on plasticuproject&#39;s blog</description>
@@ -12,6 +13,7 @@
     
     
     <item>
+      <author>plasticuproject</author>
       <title>Write-Up</title>
       <link>https://plasticuproject.github.io/blog/categories/write-up/</link>
       <pubDate>Fri, 08 May 2020 00:00:00 +0000</pubDate>
