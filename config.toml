@@ -7,7 +7,7 @@ theme = "hugo-cactus-theme"
 # Enter your tracking code to enable Google Analytics
 googleAnalytics = "UA-166142607-1"
 # Disable comments by leaving disqusShortname empty
-disqusShortname = "plasticuproject"
+disqusShortname = "plasticuproject-github-io-blog"
 paginate = 20
 
 [author]
