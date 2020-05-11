@@ -93,6 +93,8 @@
     <section id="post-body">
         <p><figure><img src="/blog/images/obscurity/obscurity.png#center" alt=""></figure></p>
 
+<hr>
+
 <h2 id="foothold--wwwdata">Foothold / www-data</h2>
 
 <p>We first start off with a <strong>nmap</strong> scan of the machine IP Address. Then we convert our finished scan to a html file and view it in the browser.</p>
@@ -152,6 +154,8 @@
 
 <p><figure><img src="/blog/images/obscurity/pics/user/25.png" alt=""></figure></p>
 
+<hr>
+
 <h2 id="user--robert">User / robert</h2>
 
 <p>After browsing around a bit we see some interesting files in the user <strong>/home/robert/</strong> directory. Here we see there is a <strong>user.txt</strong> file that we do not have permissions to read, as well as a python script called <strong>SuperSecureCrypt.py</strong>, and data files <strong>passwordreminder.txt</strong>, <strong>check.txt</strong>, and <strong>out.txt</strong>, as well as a directory named <strong>BetterSSH</strong> which we will investigate later.</p>
@@ -180,6 +184,8 @@
 
 <p><figure><img src="/blog/images/obscurity/pics/user/39.png" alt=""></figure></p>
 
+<hr>
+
 <h2 id="privilege-escalation--root">Privilege Escalation / root</h2>
 
 <p>Running <strong>sudo -l</strong> under this account shows us we have privileges to run <strong>/usr/bin/python3 /home/robert/BetterSSH/BetterSSH.py</strong> as <strong>sudo</strong> with <strong>no password</strong>.</p>
@@ -196,6 +202,8 @@
 <p><figure><img src="/blog/images/obscurity/pics/root/5.png" alt=""></figure></p>
 
 <p>With the ability to run any command with <strong>sudo privileges</strong> we could now create our own account or set up <strong>SSH</strong> for the <strong>root</strong> account and have full access to the machine indefinitely.</p>
+
+<hr>
 
     </section>
 </article>
