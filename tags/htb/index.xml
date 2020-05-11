@@ -19,13 +19,7 @@
       <pubDate>Fri, 08 May 2020 00:00:00 +0000</pubDate>
       
       <guid>https://plasticuproject.github.io/blog/posts/obscurity-write-up/</guid>
-      <description>Foothold / www-data We first start off with a nmap scan of the machine IP Address. Then we convert our finished scan to a html file and view it in the browser.
- 
-Here we see there is a Web Server running on port 8080, and a listening SSH Server on port 22.
- 
-As always we will add the address to our /etc/hosts file.
-
-Next we check out the web page being served on port 8080 in a browser.</description>
+      <description>Obscurity is a medium difficulty box where we will leverage bad server code to inject and run commands, and take advantage of poor cryptography and leftover files to get user access. From there we take advantage of sudo privileges and a poorly executed program to read the root.txt file.</description>
     </item>
     
     <item>
@@ -35,11 +29,7 @@ Next we check out the web page being served on port 8080 in a browser.</descript
       <pubDate>Fri, 17 Apr 2020 00:00:00 +0000</pubDate>
       
       <guid>https://plasticuproject.github.io/blog/posts/mango-write-up/</guid>
-      <description>User / mango We first start off with an nmap scan of the machine IP Address. Then we convert our finished scan to an html file and view it in the browser.
- 
-Here we see there is an Apache Web Server running on port 80 and port 443, and a listening SSH Server on port 22.
- 
-We now add those to our /etc/hosts file.</description>
+      <description>Mango is a medium difficulty box where with basic enumeration and some MongoDB NO-SQL Injection we can extract user passwords to log in and get user access. From there we will leverage a classic jjs privilege escalation to get root access and read the root.txt file.</description>
     </item>
     
   </channel>
