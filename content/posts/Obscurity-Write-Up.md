@@ -12,6 +12,7 @@ markup: "mmark"
 
 ![](/blog/images/obscurity/obscurity.png#center)
 
+***
 
 ## Foothold / www-data
 
@@ -83,6 +84,7 @@ We check our **netcat listener** and see that we got a **callback** and now have
 
 ![](/blog/images/obscurity/pics/user/25.png)
 
+***
 
 ## User / robert
 
@@ -117,6 +119,7 @@ And this turns out to be the **password** for the account **robert**. So we **SS
 
 ![](/blog/images/obscurity/pics/user/39.png)
 
+***
 
 ## Privilege Escalation / root
 
@@ -136,3 +139,7 @@ It looks like this program will ask you for your user credentials and validate t
 ![](/blog/images/obscurity/pics/root/5.png)
 
 With the ability to run any command with **sudo privileges** we could now create our own account or set up **SSH** for the **root** account and have full access to the machine indefinitely.
+
+***
+
+

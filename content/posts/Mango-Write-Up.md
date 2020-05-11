@@ -12,6 +12,7 @@ markup: "mmark"
 
 ![](/blog/images/mango/mango.png#center)
 
+***
 
 ## User / mango
 
@@ -78,6 +79,7 @@ After browsing around a bit we see that there is a **user.txt** file in **/home/
 
 ![](/blog/images/mango/pics/user/18.png)
 
+***
 
 ## Privilege Escalation / root
 
@@ -103,3 +105,8 @@ We execute this and are able to read the contents of **/root/root.txt**
 
 
 With this exploit we also have the ability to write and download files with **root privileges**, giving us the option to create our own account or set up **SSH** for the **root** account, giving us full access to the machine indefinitely.
+
+
+***
+
+
