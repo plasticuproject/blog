@@ -71,7 +71,7 @@ $$n$$ and $$e$$ are used to construct the Public Key, while $$n$$ and $$d$$ are 
 
 ### Constructing Values and Keys in Python
 
-Calculating our values in python will look something like this:
+Calculating our values in Python code will look something like this:
 ```python
 # modular multiplicative inverse
 def mod_inv(a, n):
