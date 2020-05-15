@@ -24,7 +24,7 @@ Let's connect with netcat like it tells us and see what we are given to work wit
 ![Challenge](/blog/images/b00tl3gRSA3/values.png#center)
 
 
-It has returned to us numerical values for $$c$$, $$n$$ and $$e$$. Experience tells us that this is an encrypted ciphertext, RSA Key modulus value, and RSA Key exponent value, respectively. Values $$n$$ and $$e$$ make up the **RSA Public Key** that was used to encrypt a plaintext message $$m$$, and produce $$c$$. We need to break this encryption by calculating a **RSA Private Key** from these values, then use it to decrypt $$c$$. Let's first look at how RSA Keys are generated before trying to crack this.
+It has returned to us numerical values for $$c$$, $$n$$ and $$e$$. Experience tells us that this is an **encrypted ciphertext**, **RSA Key modulus** value, and **RSA Key exponent** value, respectively. Values $$n$$ and $$e$$ make up the **RSA Public Key** that was used to encrypt a plaintext message $$m$$, and produce ciphertext $$c$$. We need to break this encryption by calculating a **RSA Private Key** from these values, then use it to decrypt $$c$$. Let's first look at how RSA Keys are generated before trying to crack this.
 
 
 ---
@@ -38,7 +38,7 @@ It has returned to us numerical values for $$c$$, $$n$$ and $$e$$. Experience te
 
 - $$n = pq$$
 
-To calculate $$n$$ we need to find two random prime numbers, $$p$$ and $$q$$, of similar length and multiply them. The longer the numbers the stronger the encryption, but the trade-off is that it will take more time and/or power to encrypt/decrypt messages:
+To calculate $$n$$ we need to find two random prime numbers, $$p$$ and $$q$$, of similar length and multiply them. The longer the numbers the stronger the encryption, but the trade-off is that it will take more time and/or power to encrypt/decrypt messages.
 
 
 - $$\lambda(n) = (p - 1)(q - 1)$$
@@ -58,12 +58,12 @@ d is the modular [multiplicative inverse](https://en.wikipedia.org/wiki/Multipli
 
 - $$c \equiv m^e \pmod{n}$$
 
-This will encrypt your integer converted message $$m$$ into an RSA encrypted ciphertext $$c$$
+This will encrypt your integer converted message $$m$$ into an RSA encrypted ciphertext $$c$.$
 
 
 - $$c^d \equiv (m^e)^d \equiv m \pmod n$$
 
-This will decrypt the encrypted ciphertext $$c$$ back into it's integer message form $$m$$
+This will decrypt the encrypted ciphertext $$c$$ back into it's integer message form $$m$$.
 
 
 $$n$$ and $$e$$ are used to construct the Public Key, while $$n$$ and $$d$$ are used to create the Private Key.
@@ -73,7 +73,7 @@ $$n$$ and $$e$$ are used to construct the Public Key, while $$n$$ and $$d$$ are 
 
 Calculating our values in python will look something like this:
 ```python
-# Modular multiplicative inverse
+# modular multiplicative inverse
 def mod_inv(a, n):
     t, r = 0, n
     new_t, new_r = 1, a
@@ -106,12 +106,12 @@ d = mod_inv(e, lambda_n)
 ```
 
 We can also use Python libraries to construct Public and Private Keys. Here we will use the [pycrypto](https://pypi.org/project/pycrypto/) library.
-> **Note**: *This library can be insecure and is not recommended for production uses unless you know what you are doing.*
+> **Note**: *This library can be insecure and is not recommended for production use unless you know exactly what you are doing.*
 
 ```python
 from Crypto.PublicKey import RSA
 
-# Modular multiplicative inverse
+# modular multiplicative inverse
 def mod_inv(a, n):
     t, r = 0, n
     new_t, new_r = 1, a
@@ -167,7 +167,7 @@ Which we could then write to files for storage, distribution, and use to encrypt
 
 ## Back To The Challenge
 
-Now that we know how RSA Keys are generated, we can try to crack the Public Key values that we obtained from the server to try to construct the Private key. The first thing we need to do is see if we can factor $$n$$ into it's primes $$p$$ and $$q$$. Normally with strong enough values this would be impossible, but since this is a CTF challenge, we know there will be a vulnerability somewhere in this scheme. To try to factor $$n$$, I will use a site called [Integer factorization calculator](https://www.alpertron.com.ar/ECM.HTM). Using the factoring tool on this site tells us that $$n$$ can be made from the following multiples:
+Now that we know how RSA Keys are generated, we can try to crack the Public Key values that we obtained from the server to try to construct the Private key. The first thing we need to do is see if we can factor $$n$$ into it's primes $$p$$ and $$q$$. Normally with strong enough prime values this would be impossible, but since this is a CTF challenge, we know there will be a vulnerability somewhere in this scheme. To try to factor $$n$$, I will use a web tool called [Integer Factorization Calculator](https://www.alpertron.com.ar/ECM.HTM). Using the factoring tool on this site tells us that $$n$$ can be made from the following multiples:
 
 ```python
 # factors of n
@@ -210,11 +210,11 @@ p34 = 16861924201
 That's way more than two numbers! What is going on here? Let's look again at what the challenge description says:
 > *Why use p and q when I can use more?*
 
-Now this makes sense. They insecurely built their Public Key by using many numbers to compute $$n$$, and because of this we were able to factor $$n$$ into it's constituents. We now have the information we need to build the Private Key values and decrypt $$c$$. We can do this in python, but will will have to make some changes to our code. We will first write some test code to assert that all these integers multiplied will equal our $$n$$ value. Then we will place all the values into a list, and create some logic to derive our $$\lambda(n)$$ from the entire list of integers. Then we can calculate $$d$$, our Private Key Exponent. That code will look like this:
+Now this makes sense. They insecurely built their Keys by using _many_ numbers to compute $$n$$, and because of this we were able to factor $$n$$ into it's constituents. We now have the information we need to build the Private Key values and decrypt $$c$$. We can do this in Python, but will have to make some changes to our code. We will first write some test code to assert that all these integers multiplied will equal our $$n$$ value. Then we will place all the values into a list, and create some logic to derive our $$\lambda(n)$$ from the entire list of integers. Then we can calculate $$d$$, our **Private Key Exponent**. That code will look like this:
 ```python
 from math import gcd
 
-# Modular multiplicative inverse
+# modular multiplicative inverse
 def mod_inv(a, n):
     t, r = 0, n
     new_t, new_r = 1, a
@@ -236,7 +236,7 @@ def calc_lambda_n(ps):
         lcm = lcm*j//gcd(lcm, j)
     return lcm
 
-# Test factorization
+# test factorization
 def test_factor(ps, n):
     q = 1
     for i in ps:
@@ -247,7 +247,7 @@ def test_factor(ps, n):
         b = False
     return b
 
-# Factors of n
+# factors of n
 p1 = 8694307819
 p2 = 8775407717
 p3 = 9026241761
@@ -283,7 +283,7 @@ p32 = 16728205063
 p33 = 16809927443
 p34 = 16861924201
 
-# List of factors
+# list of factors
 ps = [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19, p20, p21, p22, p23, p24, p25, p26, p27, p28, p29, p30, p31, p32, p33, p34]
 
 # verify p1*p2*...p34 = n
@@ -302,11 +302,11 @@ message = pow(c, d, n)
 print(bytes.fromhex(hex(message)[2:]).decode('utf-8'))
 ```
 
-The final python script will look as follows:
+The final Python script will look as follows:
 ```python
 from math import gcd
 
-# Cipher text and public key values
+# cipher text and public key values
 c = 14233215171999431620670742801992653887466654474564774567565482115708994971815998692805257101560625714845217078751863031453530789139353946667912836198369580283828831512520753040759574661583289733067194603349961285220341733595404870252973575776007626137207539918299185290666626201682475925787500697075273517928342450904756899125972158778923306466
 
 n = 17190751765871320929594511788715040293755178677970494040999935752481499432324081420804535569049828358872534054083287610758506232432273611461779363808286315449034509728493030687881521253447668499524454596411931335376554928809260061677941571447357490867956927337940685369932675855590823386769800936470170609619423644569934236531433566627693968207
@@ -314,7 +314,7 @@ n = 1719075176587132092959451178871504029375517867797049404099993575248149943232
 e = 65537
 
 
-# Modular multiplicative inverse
+# modular multiplicative inverse
 def mod_inv(a, n):
     t, r = 0, n
     new_t, new_r = 1, a
@@ -336,7 +336,7 @@ def calc_lambda_n(ps):
         lcm = lcm*j//gcd(lcm, j)
     return lcm
 
-# Test factorization
+# test factorization
 def test_factor(ps, n):
     q = 1
     for i in ps:
@@ -347,7 +347,7 @@ def test_factor(ps, n):
         b = False
     return b
 
-# Factors of n
+# factors of n
 p1 = 8694307819
 p2 = 8775407717
 p3 = 9026241761
@@ -383,7 +383,7 @@ p32 = 16728205063
 p33 = 16809927443
 p34 = 16861924201
 
-# List of primes
+# list of primes
 ps = [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19, p20, p21, p22, p23, p24, p25, p26, p27, p28, p29, p30, p31, p32, p33, p34]
 
 # verify p1*p2*...p34 = n
@@ -407,11 +407,11 @@ And this will print out the resulting decrypted message:
 picoCTF{too_many_fact0rs_0744041}
 ```
 
-We enter the flag and are notified that our solution is correct:
+We enter the flag and are notified that our solution is correct.
 ![solved](/blog/images/b00tl3gRSA3/solved.png#center)
 
 
-This was a fun challenge demonstrating how to use a basic RSA encryption method for un-padded messages. This is not a very real world example, as it is unlikely you will ever see key exponents made with more than 2 values, and real messages are rarely un-padded, but this was a great way to get your feet wet with basic principles of RSA Encryption.
+This was a fun challenge demonstrating how to use a basic RSA encryption method for un-padded messages. This is not a very real world example, as it is unlikely you will ever see $$n$$ computed with more than two values, and real messages are rarely un-padded, but this was a great way to get your feet wet with basic principles of RSA Encryption.
 
 ---
 
