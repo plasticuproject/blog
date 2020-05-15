@@ -58,7 +58,7 @@ d is the modular [multiplicative inverse](https://en.wikipedia.org/wiki/Multipli
 
 - $$c \equiv m^e \pmod{n}$$
 
-This will encrypt your integer converted message $$m$$ into an RSA encrypted ciphertext $$c$.$
+This will encrypt your integer converted message $$m$$ into an RSA encrypted ciphertext $$c$$.
 
 
 - $$c^d \equiv (m^e)^d \equiv m \pmod n$$
