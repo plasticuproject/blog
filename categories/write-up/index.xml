@@ -7,10 +7,20 @@
     <description>Recent content in Write-Up on plasticuproject&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 08 May 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 15 May 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://plasticuproject.github.io/blog/categories/write-up/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <author>plasticuproject</author>
+      <title>b00tl3gRSA3 Write-Up</title>
+      <link>https://plasticuproject.github.io/blog/posts/b00tl3grsa3-write-up/</link>
+      <pubDate>Fri, 15 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://plasticuproject.github.io/blog/posts/b00tl3grsa3-write-up/</guid>
+      <description>b00tl3gRSA3 is a picoCTF 2019 cryptography challenge where we have to decrypt a message given just the RSA Public Key constituents.</description>
+    </item>
     
     <item>
       <author>plasticuproject</author>

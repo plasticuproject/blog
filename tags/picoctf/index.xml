@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <author>plasticuproject</author>
+    <title>picoCTF on plasticuproject&#39;s blog</title>
+    <link>https://plasticuproject.github.io/blog/tags/picoctf/</link>
+    <description>Recent content in picoCTF on plasticuproject&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 15 May 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://plasticuproject.github.io/blog/tags/picoctf/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <author>plasticuproject</author>
+      <title>b00tl3gRSA3 Write-Up</title>
+      <link>https://plasticuproject.github.io/blog/posts/b00tl3grsa3-write-up/</link>
+      <pubDate>Fri, 15 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://plasticuproject.github.io/blog/posts/b00tl3grsa3-write-up/</guid>
+      <description>b00tl3gRSA3 is a picoCTF 2019 cryptography challenge where we have to decrypt a message given just the RSA Public Key constituents.</description>
+    </item>
+    
+  </channel>
+</rss>

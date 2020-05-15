@@ -3,18 +3,58 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://plasticuproject.github.io/blog/about/</loc>
-    <lastmod>2020-05-08T13:41:50-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://plasticuproject.github.io/blog/</loc>
-    <lastmod>2020-05-08T13:41:50-04:00</lastmod>
+    <loc>https://plasticuproject.github.io/blog/posts/b00tl3grsa3-write-up/</loc>
+    <lastmod>2020-05-15T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://plasticuproject.github.io/blog/categories/</loc>
-    <lastmod>2020-05-08T00:00:00+00:00</lastmod>
+    <lastmod>2020-05-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://plasticuproject.github.io/blog/tags/cryptography/</loc>
+    <lastmod>2020-05-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://plasticuproject.github.io/blog/tags/picoctf/</loc>
+    <lastmod>2020-05-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://plasticuproject.github.io/blog/</loc>
+    <lastmod>2020-05-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://plasticuproject.github.io/blog/posts/</loc>
+    <lastmod>2020-05-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://plasticuproject.github.io/blog/tags/python/</loc>
+    <lastmod>2020-05-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://plasticuproject.github.io/blog/tags/</loc>
+    <lastmod>2020-05-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://plasticuproject.github.io/blog/tags/write-up/</loc>
+    <lastmod>2020-05-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://plasticuproject.github.io/blog/categories/write-up/</loc>
+    <lastmod>2020-05-15T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://plasticuproject.github.io/blog/about/</loc>
+    <lastmod>2020-05-08T13:41:50-04:00</lastmod>
   </url>
   
   <url>
@@ -24,26 +64,6 @@
   
   <url>
     <loc>https://plasticuproject.github.io/blog/tags/htb/</loc>
-    <lastmod>2020-05-08T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://plasticuproject.github.io/blog/posts/</loc>
-    <lastmod>2020-05-08T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://plasticuproject.github.io/blog/tags/</loc>
-    <lastmod>2020-05-08T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://plasticuproject.github.io/blog/tags/write-up/</loc>
-    <lastmod>2020-05-08T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://plasticuproject.github.io/blog/categories/write-up/</loc>
     <lastmod>2020-05-08T00:00:00+00:00</lastmod>
   </url>
   
