@@ -11,8 +11,8 @@ I am plasticuproject. I'm a linux, FOSS, python, infosec, and ctf enthusiast. Th
 
 ### Recommended Posts
 
-1. [HackTheBox Mango Write-Up]({{< ref "posts/Mango-Write-Up" >}})
+1. [HackTheBox Obscurity Write-Up]({{< ref "posts/Obscurity-Write-Up" >}})
     - *Mango is a medium difficulty HackTheBox Machine.*
 
-2. [HackTheBox Obscurity Write-Up]({{< ref "posts/Obscurity-Write-Up" >}})
-    - *Mango is a medium difficulty HackTheBox Machine.*
+2. [b00tl3gRSA3 Write-Up]({{< ref "posts/b00tl3gRSA3-Write-Up" >}})
+    - *b00tl3gRSA3 is a picoCTF 2019 cryptography challenge.*
