@@ -24,7 +24,7 @@ Let's connect with netcat like it tells us and see what we are given to work wit
 ![Challenge](/blog/images/b00tl3gRSA3/values.png#center)
 
 
-It has returned to us numerical values for $$c$$, $$n$$ and $$e$$. Experience tells us that this is an **encrypted ciphertext**, **RSA Key modulus** value, and **RSA Key exponent** value, respectively. Values $$n$$ and $$e$$ make up the **RSA Public Key** that was used to encrypt a plaintext message $$m$$, and produce ciphertext $$c$$. We need to break this encryption by calculating a **RSA Private Key** from these values, then use it to decrypt $$c$$. Let's first look at how RSA Keys are generated before trying to crack this.
+It has returned to us numerical values for $$c$$, $$n$$ and $$e$$. Experience tells us that this is an **encrypted ciphertext**, **RSA Key Modulus** value, and **RSA Key Exponent** value, respectively. Values $$n$$ and $$e$$ make up the **RSA Public Key** that was used to encrypt a plaintext message $$m$$, and produce ciphertext $$c$$. We need to break this encryption by calculating a **RSA Private Key** from these values, then use it to decrypt $$c$$. Let's first look at how RSA Keys are generated before trying to crack this.
 
 
 ---
@@ -38,7 +38,7 @@ It has returned to us numerical values for $$c$$, $$n$$ and $$e$$. Experience te
 
 - $$n = pq$$
 
-To calculate $$n$$ we need to find two random prime numbers, $$p$$ and $$q$$, of similar length and multiply them. The longer the numbers the stronger the encryption, but the trade-off is that it will take more time and/or power to encrypt/decrypt messages.
+To calculate $$n$$ we need to find two random prime numbers, $$p$$ and $$q$$, of similar length and multiply them. The longer the numbers the stronger the encryption, but the trade-off is that it will take more time and/or power to encrypt or decrypt messages.
 
 
 - $$\lambda(n) = (p - 1)(q - 1)$$
@@ -53,7 +53,7 @@ We next choose an exponent, $$e$$. This number should be greater than $$1$$, les
 
 - $$d \equiv e^{-1} \pmod{\lambda(n)}$$
 
-d is the modular [multiplicative inverse](https://en.wikipedia.org/wiki/Multiplicative_inverse) of $$e$$ modulus $$ \lambda(n)$$. $$d$$ is the **Private Key Exponent** and should never be shared.
+$$d$$ is the modular [multiplicative inverse](https://en.wikipedia.org/wiki/Multiplicative_inverse) of $$e$$ modulus $$ \lambda(n)$$. $$d$$ is the **Private Key Exponent** and should never be shared.
 
 
 - $$c \equiv m^e \pmod{n}$$
@@ -160,14 +160,14 @@ MB4wDQYJKoZIhvcNAQEBBQADDQAwCgIDLX1TAgMBAAE=
 -----END PUBLIC KEY-----
 ```
 
-Which we could then write to files for storage, distribution, and use to encrypt/decrypt messages.
+We can now write these to files for storage, distribution, and use to encrypt or decrypt messages.
 
 ---
 
 
 ## Back To The Challenge
 
-Now that we know how RSA Keys are generated, we can try to crack the Public Key values that we obtained from the server to try to construct the Private key. The first thing we need to do is see if we can factor $$n$$ into it's primes $$p$$ and $$q$$. Normally with strong enough prime values this would be impossible, but since this is a CTF challenge, we know there will be a vulnerability somewhere in this scheme. To try to factor $$n$$, I will use a web tool called [Integer Factorization Calculator](https://www.alpertron.com.ar/ECM.HTM). Using the factoring tool on this site tells us that $$n$$ can be made from the following multiples:
+Now that we know how RSA Keys are generated, we can try to crack the Public Key values that we obtained from the server and construct the Private key. The first thing we need to do is try to factor $$n$$ into it's primes $$p$$ and $$q$$. With strong enough prime values this would be impossible, but since this is a CTF challenge we know there will be a vulnerability somewhere in this scheme. To factor $$n$$, I will use a web tool called [Integer Factorization Calculator](https://www.alpertron.com.ar/ECM.HTM). Using the factoring tool on this site tells us that $$n$$ can be made from the following multiples:
 
 ```python
 # factors of n
@@ -312,7 +312,6 @@ c = 1423321517199943162067074280199265388746665447456477456756548211570899497181
 n = 17190751765871320929594511788715040293755178677970494040999935752481499432324081420804535569049828358872534054083287610758506232432273611461779363808286315449034509728493030687881521253447668499524454596411931335376554928809260061677941571447357490867956927337940685369932675855590823386769800936470170609619423644569934236531433566627693968207
 
 e = 65537
-
 
 # modular multiplicative inverse
 def mod_inv(a, n):
