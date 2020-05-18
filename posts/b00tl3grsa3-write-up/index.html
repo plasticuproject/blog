@@ -41,7 +41,7 @@
 <meta itemprop="description" content="b00tl3gRSA3 is a picoCTF 2019 cryptography challenge where we have to decrypt a message given just the RSA Public Key constituents.">
 <meta itemprop="datePublished" content="2020-05-15T00:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2020-05-15T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="1847">
+<meta itemprop="wordCount" content="1844">
 
 
 
@@ -109,7 +109,7 @@
 
 <p><figure><img src="/blog/images/b00tl3gRSA3/values.png#center" alt="Challenge"></figure></p>
 
-<p>It has returned to us numerical values for <span  class="math">\(c\)</span>, <span  class="math">\(n\)</span> and <span  class="math">\(e\)</span>. Experience tells us that this is an <strong>encrypted ciphertext</strong>, <strong>RSA Key modulus</strong> value, and <strong>RSA Key exponent</strong> value, respectively. Values <span  class="math">\(n\)</span> and <span  class="math">\(e\)</span> make up the <strong>RSA Public Key</strong> that was used to encrypt a plaintext message <span  class="math">\(m\)</span>, and produce ciphertext <span  class="math">\(c\)</span>. We need to break this encryption by calculating a <strong>RSA Private Key</strong> from these values, then use it to decrypt <span  class="math">\(c\)</span>. Let's first look at how RSA Keys are generated before trying to crack this.</p>
+<p>It has returned to us numerical values for <span  class="math">\(c\)</span>, <span  class="math">\(n\)</span> and <span  class="math">\(e\)</span>. Experience tells us that this is an <strong>encrypted ciphertext</strong>, <strong>RSA Key Modulus</strong> value, and <strong>RSA Key Exponent</strong> value, respectively. Values <span  class="math">\(n\)</span> and <span  class="math">\(e\)</span> make up the <strong>RSA Public Key</strong> that was used to encrypt a plaintext message <span  class="math">\(m\)</span>, and produce ciphertext <span  class="math">\(c\)</span>. We need to break this encryption by calculating a <strong>RSA Private Key</strong> from these values, then use it to decrypt <span  class="math">\(c\)</span>. Let's first look at how RSA Keys are generated before trying to crack this.</p>
 
 <hr>
 
@@ -123,7 +123,7 @@
 <li><span  class="math">\(n = pq\)</span></li>
 </ul>
 
-<p>To calculate <span  class="math">\(n\)</span> we need to find two random prime numbers, <span  class="math">\(p\)</span> and <span  class="math">\(q\)</span>, of similar length and multiply them. The longer the numbers the stronger the encryption, but the trade-off is that it will take more time and/or power to encrypt/decrypt messages.</p>
+<p>To calculate <span  class="math">\(n\)</span> we need to find two random prime numbers, <span  class="math">\(p\)</span> and <span  class="math">\(q\)</span>, of similar length and multiply them. The longer the numbers the stronger the encryption, but the trade-off is that it will take more time and/or power to encrypt or decrypt messages.</p>
 
 <ul>
 <li><span  class="math">\(\lambda(n) = (p - 1)(q - 1)\)</span></li>
@@ -141,7 +141,7 @@
 <li><span  class="math">\(d \equiv e^{-1} \pmod{\lambda(n)}\)</span></li>
 </ul>
 
-<p>d is the modular <a href="https://en.wikipedia.org/wiki/Multiplicative_inverse">multiplicative inverse</a> of <span  class="math">\(e\)</span> modulus <span  class="math">\( \lambda(n)\)</span>. <span  class="math">\(d\)</span> is the <strong>Private Key Exponent</strong> and should never be shared.</p>
+<p><span  class="math">\(d\)</span> is the modular <a href="https://en.wikipedia.org/wiki/Multiplicative_inverse">multiplicative inverse</a> of <span  class="math">\(e\)</span> modulus <span  class="math">\( \lambda(n)\)</span>. <span  class="math">\(d\)</span> is the <strong>Private Key Exponent</strong> and should never be shared.</p>
 
 <ul>
 <li><span  class="math">\(c \equiv m^e \pmod{n}\)</span></li>
@@ -241,13 +241,13 @@ MCUCAQACAy19UwIDAQABAgMBmJECAge1AgIF5wIBTQICAZMCAgZK
 -----BEGIN PUBLIC KEY-----
 MB4wDQYJKoZIhvcNAQEBBQADDQAwCgIDLX1TAgMBAAE=
 -----END PUBLIC KEY-----</code></pre>
-<p>Which we could then write to files for storage, distribution, and use to encrypt/decrypt messages.</p>
+<p>We can now write these to files for storage, distribution, and use to encrypt or decrypt messages.</p>
 
 <hr>
 
 <h2 id="back-to-the-challenge">Back To The Challenge</h2>
 
-<p>Now that we know how RSA Keys are generated, we can try to crack the Public Key values that we obtained from the server to try to construct the Private key. The first thing we need to do is see if we can factor <span  class="math">\(n\)</span> into it's primes <span  class="math">\(p\)</span> and <span  class="math">\(q\)</span>. Normally with strong enough prime values this would be impossible, but since this is a CTF challenge, we know there will be a vulnerability somewhere in this scheme. To try to factor <span  class="math">\(n\)</span>, I will use a web tool called <a href="https://www.alpertron.com.ar/ECM.HTM">Integer Factorization Calculator</a>. Using the factoring tool on this site tells us that <span  class="math">\(n\)</span> can be made from the following multiples:</p>
+<p>Now that we know how RSA Keys are generated, we can try to crack the Public Key values that we obtained from the server and construct the Private key. The first thing we need to do is try to factor <span  class="math">\(n\)</span> into it's primes <span  class="math">\(p\)</span> and <span  class="math">\(q\)</span>. With strong enough prime values this would be impossible, but since this is a CTF challenge we know there will be a vulnerability somewhere in this scheme. To factor <span  class="math">\(n\)</span>, I will use a web tool called <a href="https://www.alpertron.com.ar/ECM.HTM">Integer Factorization Calculator</a>. Using the factoring tool on this site tells us that <span  class="math">\(n\)</span> can be made from the following multiples:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># factors of n</span>
 p1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">8694307819</span>
 p2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">8775407717</span>
@@ -384,7 +384,6 @@ c <span style="color:#f92672">=</span> <span style="color:#ae81ff">1423321517199
 n <span style="color:#f92672">=</span> <span style="color:#ae81ff">17190751765871320929594511788715040293755178677970494040999935752481499432324081420804535569049828358872534054083287610758506232432273611461779363808286315449034509728493030687881521253447668499524454596411931335376554928809260061677941571447357490867956927337940685369932675855590823386769800936470170609619423644569934236531433566627693968207</span>
 
 e <span style="color:#f92672">=</span> <span style="color:#ae81ff">65537</span>
-
 
 <span style="color:#75715e"># modular multiplicative inverse</span>
 <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">mod_inv</span>(a, n):
