@@ -12,7 +12,7 @@ markup: "mmark"
 
 ![CyberSecLabs](/blog/images/shares/pics/CyberSecLabs.png#center)
 
-***
+---
 
 ## User / amir
 
@@ -55,7 +55,7 @@ We will export this file, and save it to another operating system where we have 
 ![](/blog/images/shares/pics/amir/13_a_ssh2john.png)
 ![](/blog/images/shares/pics/amir/13_b_john.png)
 
-We have successfully cracked **user amir**'s SSH Key password, which is **hello6**. Now that we have the key and password, we should be able to SSH into the machine as user **amir**. The only thing stopping us is that we did not find an open, listening SSH service on our initial port scan. Our original scan was limited in the number of ports it scanned. We will run another **nmap** scan, this time scanning **all TCP ports**. If this SSH server is running on a **non-standard port**, we should be able to find it.
+We have successfully cracked user **amir**'s SSH Key password, which is **hello6**. Now that we have the key and password, we should be able to SSH into the machine as user amir. The only thing stopping us is that we did not find an open, listening SSH service on our initial port scan. Our original scan was limited in the number of ports it scanned. We will run another **nmap** scan, this time scanning **all TCP ports**. If this SSH server is running on a **non-standard port**, we should be able to find it.
 
 ![](/blog/images/shares/pics/amir/14.png)
 
@@ -63,15 +63,15 @@ We find there are a number of non-standard ports open. We try to **SSH connect**
 
 ![](/blog/images/shares/pics/amir/15.png)
 
-***
+---
 
 ## User / amy
 
-There is no flag file inside of amir's home directory, but we find that there is another user directory on this machine, user **amy**. We do not have permissions as amir to ready files in amy's directory. We run **sudo -l** to see if and what sudo privileges our current user may have.
+There is no flag file inside of amir's home directory, but we find that there is another user directory on this machine, user **amy**. We do not have permissions as amir to read files in amy's directory. We run **sudo -l** to see if and what sudo privileges our current user may have.
 
 ![](/blog/images/shares/pics/amy/1.png)
 
-It appears that we have **sudo** privileges to execute **/usr/bin/python3** with **amy's permissions**, without having to supply a password. We can take advantage of this by running that command to start a **python interactive session**, and **importing os.system()**. Now we basically have **shell access as amy** through this python session and can list the files in their home directory, where we find **access.txt**. We print the contents of the file and are rewarded with the machine's first flag.
+It appears that we have sudo privileges to execute **/usr/bin/python3** with amy's permissions, without having to supply a password. We can take advantage of this by running that command to start a **python interactive session**, and **importing os.system()**. Now we basically have **shell access as amy** through this python session and can list the files in their home directory, where we find **access.txt**. We print the contents of the file and are rewarded with the machine's first flag.
 
 ![](/blog/images/shares/pics/amy/2.png)
 
@@ -89,7 +89,7 @@ We now have shell access to the machine with user **amy**.
 
 ![](/blog/images/shares/pics/amy/7.png)
 
-We generate a **SSH key pair** on our host machine and add the **Public Key** to **/home/amy/.ssh/authorized_keys**, which we have created. This will give us the ability to **SSH connect to the machine as user amy**.
+We generate a **SSH key pair** on our host machine and add the **Public Key** to **/home/amy/.ssh/authorized_keys**, which we have created. This will give us the ability to SSH connect to the machine as user amy.
 
 ![](/blog/images/shares/pics/amy/8.png)
 ![](/blog/images/shares/pics/amy/9.png)
@@ -99,11 +99,11 @@ We now have **SSH access** as user **amy**.
 
 ![](/blog/images/shares/pics/amy/11.png)
 
-***
+---
 
 ## Privilege Escalation / root
 
-Now we run **sudo -l** as **amy** and see if we have any sudo privileges under their account.
+Now we run **sudo -l** as amy and see if we have any sudo privileges under their account.
 
 ![](/blog/images/shares/pics/root/1.png)
 
@@ -117,4 +117,4 @@ With **unrestricted root access** we can now find and read the other flag file, 
 
 This was a very simple yet fun linux machine that I very much enjoyed rooting. Most of the actions we were required to perform were just basic linux user maneuvering, with some simple enumeration and SSH cracking and connecting. This a great box for someone just getting started with linux penetration testing.
 
-***
+---
