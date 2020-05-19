@@ -136,7 +136,7 @@
 <figure><img src="/blog/images/shares/pics/amir/13_a_ssh2john.png" alt=""></figure>
 <figure><img src="/blog/images/shares/pics/amir/13_b_john.png" alt=""></figure></p>
 
-<p>We have successfully cracked <strong>user amir</strong>'s SSH Key password, which is <strong>hello6</strong>. Now that we have the key and password, we should be able to SSH into the machine as user <strong>amir</strong>. The only thing stopping us is that we did not find an open, listening SSH service on our initial port scan. Our original scan was limited in the number of ports it scanned. We will run another <strong>nmap</strong> scan, this time scanning <strong>all TCP ports</strong>. If this SSH server is running on a <strong>non-standard port</strong>, we should be able to find it.</p>
+<p>We have successfully cracked user <strong>amir</strong>'s SSH Key password, which is <strong>hello6</strong>. Now that we have the key and password, we should be able to SSH into the machine as user amir. The only thing stopping us is that we did not find an open, listening SSH service on our initial port scan. Our original scan was limited in the number of ports it scanned. We will run another <strong>nmap</strong> scan, this time scanning <strong>all TCP ports</strong>. If this SSH server is running on a <strong>non-standard port</strong>, we should be able to find it.</p>
 
 <p><figure><img src="/blog/images/shares/pics/amir/14.png" alt=""></figure></p>
 
@@ -148,11 +148,11 @@
 
 <h2 id="user--amy">User / amy</h2>
 
-<p>There is no flag file inside of amir's home directory, but we find that there is another user directory on this machine, user <strong>amy</strong>. We do not have permissions as amir to ready files in amy's directory. We run <strong>sudo -l</strong> to see if and what sudo privileges our current user may have.</p>
+<p>There is no flag file inside of amir's home directory, but we find that there is another user directory on this machine, user <strong>amy</strong>. We do not have permissions as amir to read files in amy's directory. We run <strong>sudo -l</strong> to see if and what sudo privileges our current user may have.</p>
 
 <p><figure><img src="/blog/images/shares/pics/amy/1.png" alt=""></figure></p>
 
-<p>It appears that we have <strong>sudo</strong> privileges to execute <strong>/usr/bin/python3</strong> with <strong>amy's permissions</strong>, without having to supply a password. We can take advantage of this by running that command to start a <strong>python interactive session</strong>, and <strong>importing os.system()</strong>. Now we basically have <strong>shell access as amy</strong> through this python session and can list the files in their home directory, where we find <strong>access.txt</strong>. We print the contents of the file and are rewarded with the machine's first flag.</p>
+<p>It appears that we have sudo privileges to execute <strong>/usr/bin/python3</strong> with amy's permissions, without having to supply a password. We can take advantage of this by running that command to start a <strong>python interactive session</strong>, and <strong>importing os.system()</strong>. Now we basically have <strong>shell access as amy</strong> through this python session and can list the files in their home directory, where we find <strong>access.txt</strong>. We print the contents of the file and are rewarded with the machine's first flag.</p>
 
 <p><figure><img src="/blog/images/shares/pics/amy/2.png" alt=""></figure></p>
 
@@ -170,7 +170,7 @@
 
 <p><figure><img src="/blog/images/shares/pics/amy/7.png" alt=""></figure></p>
 
-<p>We generate a <strong>SSH key pair</strong> on our host machine and add the <strong>Public Key</strong> to <strong>/home/amy/.ssh/authorized_keys</strong>, which we have created. This will give us the ability to <strong>SSH connect to the machine as user amy</strong>.</p>
+<p>We generate a <strong>SSH key pair</strong> on our host machine and add the <strong>Public Key</strong> to <strong>/home/amy/.ssh/authorized_keys</strong>, which we have created. This will give us the ability to SSH connect to the machine as user amy.</p>
 
 <p><figure><img src="/blog/images/shares/pics/amy/8.png" alt=""></figure>
 <figure><img src="/blog/images/shares/pics/amy/9.png" alt=""></figure>
@@ -184,7 +184,7 @@
 
 <h2 id="privilege-escalation--root">Privilege Escalation / root</h2>
 
-<p>Now we run <strong>sudo -l</strong> as <strong>amy</strong> and see if we have any sudo privileges under their account.</p>
+<p>Now we run <strong>sudo -l</strong> as amy and see if we have any sudo privileges under their account.</p>
 
 <p><figure><img src="/blog/images/shares/pics/root/1.png" alt=""></figure></p>
 
