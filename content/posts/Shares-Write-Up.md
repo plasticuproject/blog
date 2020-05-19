@@ -115,6 +115,6 @@ With **unrestricted root access** we can now find and read the other flag file, 
 
 ![](/blog/images/shares/pics/root/3.png)
 
-This was a very simple yet fun linux machine that I very much enjoyed rooting. Most of the actions we were required to perform were just basic linux user maneuvering, with some simple enumeration and SSH cracking and connecting. This a great box for someone just getting starting with linux penetration testing.
+This was a very simple yet fun linux machine that I very much enjoyed rooting. Most of the actions we were required to perform were just basic linux user maneuvering, with some simple enumeration and SSH cracking and connecting. This a great box for someone just getting started with linux penetration testing.
 
 ***
