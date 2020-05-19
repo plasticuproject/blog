@@ -184,7 +184,7 @@ n <span style="color:#f92672">=</span> p <span style="color:#f92672">*</span> q
 <span style="color:#75715e"># public exponent</span>
 e <span style="color:#f92672">=</span> <span style="color:#ae81ff">65537</span>
 
-<span style="color:#75715e"># Carmichaels&#39;s Totient of n</span>
+<span style="color:#75715e"># Carmichaels&#39;s totient of n</span>
 lambda_n <span style="color:#f92672">=</span> ((p <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">*</span> (q <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>))
 
 <span style="color:#75715e"># calculate private key exponent</span>
@@ -220,7 +220,7 @@ n <span style="color:#f92672">=</span> p <span style="color:#f92672">*</span> q
 <span style="color:#75715e"># public exponent</span>
 e <span style="color:#f92672">=</span> <span style="color:#ae81ff">65537</span>
 
-<span style="color:#75715e"># Carmichaels&#39;s Totient of n</span>
+<span style="color:#75715e"># Carmichaels&#39;s totient of n</span>
 lambda_n <span style="color:#f92672">=</span> ((p <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">*</span> (q <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>))
 
 <span style="color:#75715e"># calculate private key exponent</span>
@@ -230,7 +230,7 @@ d <span style="color:#f92672">=</span> mod_inv(e, lambda_n)
 key_params <span style="color:#f92672">=</span> (n, e, d, p, q)
 key <span style="color:#f92672">=</span> RSA<span style="color:#f92672">.</span>construct(key_params)
 
-<span style="color:#75715e"># print Public and Private Key</span>
+<span style="color:#75715e"># print Private and Public Key</span>
 <span style="color:#66d9ef">print</span>(key<span style="color:#f92672">.</span>exportKey()<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span>)
 <span style="color:#66d9ef">print</span>(key<span style="color:#f92672">.</span>publickey()<span style="color:#f92672">.</span>exportKey()<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span>)</code></pre></div>
 <p>This will produce the output:</p>
@@ -367,7 +367,7 @@ ps <span style="color:#f92672">=</span> [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10
 <span style="color:#75715e"># verify p1*p2*...p34 = n</span>
 <span style="color:#66d9ef">assert</span>(test_factor(ps, n))
 
-<span style="color:#75715e"># Carmichaels&#39;s Totient of n</span>
+<span style="color:#75715e"># Carmichaels&#39;s totient of n</span>
 lambda_n <span style="color:#f92672">=</span> (calc_lambda_n(ps))
 
 <span style="color:#75715e"># calculate private key exponent</span>
@@ -460,7 +460,7 @@ ps <span style="color:#f92672">=</span> [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10
 <span style="color:#75715e"># verify p1*p2*...p34 = n</span>
 <span style="color:#66d9ef">assert</span>(test_factor(ps, n))
 
-<span style="color:#75715e"># Carmichaels&#39;s Totient of n</span>
+<span style="color:#75715e"># Carmichaels&#39;s totient of n</span>
 lambda_n <span style="color:#f92672">=</span> (calc_lambda_n(ps))
 
 <span style="color:#75715e"># calculate private key exponent</span>

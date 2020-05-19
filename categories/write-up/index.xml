@@ -7,10 +7,20 @@
     <description>Recent content in Write-Up on plasticuproject&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 15 May 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 19 May 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://plasticuproject.github.io/blog/categories/write-up/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <author>plasticuproject</author>
+      <title>CyberSecLabs Shares Write-Up</title>
+      <link>https://plasticuproject.github.io/blog/posts/shares-write-up/</link>
+      <pubDate>Tue, 19 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://plasticuproject.github.io/blog/posts/shares-write-up/</guid>
+      <description>Shares is an easy difficulty linux box where we will discover and mount a Network File System, export and crack SSH keys, leverage sudo privileges to run python as another user, and use an SSH shell escape method to obtain root access.</description>
+    </item>
     
     <item>
       <author>plasticuproject</author>
