@@ -80,7 +80,7 @@ Now we would like to get an actual shell, preferably through SSH, as opposed to 
 ![](/blog/images/shares/pics/amy/3.png)
 ![PentestMonkey](/blog/images/shares/pics/amy/4.png)
 
-We run **ifconf** on our host machine to get it's network IP address, and use that in our **reverse shell payload** so we can call back to our **netcat** listener.
+We run **ifconfig** on our host machine to get it's network IP address, and use that in our **reverse shell payload** so we can call back to our **netcat** listener.
 
 ![](/blog/images/shares/pics/amy/5.png)
 ![](/blog/images/shares/pics/amy/6.png)
