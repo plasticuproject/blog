@@ -32,7 +32,7 @@ After browsing for a few minutes we see it looks like a basic online shop for pe
 
 ![](/blog/images/shares/pics/amir/7.png)
 
-To further enumerate the **NFS (Network File System)** we will run the nmap script [nfs-ls](https://nmap.org/nsedoc/scripts/nfs-ls.html). This attempts to get useful information about files from NFS exports. We will also run **showmount** so see what file systems we could possibly mount and get access to.
+To further enumerate the **NFS (Network File System)** we will run the nmap script [nfs-ls](https://nmap.org/nsedoc/scripts/nfs-ls.html). This attempts to get useful information about files from NFS exports. We will also run **showmount** to see what file systems we could possibly mount and get access to.
 
 ![](/blog/images/shares/pics/amir/8.png)
 ![](/blog/images/shares/pics/amir/9.png)
@@ -55,11 +55,11 @@ We will export this file, and save it to another operating system where we have 
 ![](/blog/images/shares/pics/amir/13_a_ssh2john.png)
 ![](/blog/images/shares/pics/amir/13_b_john.png)
 
-We have successfully cracked **user amir**'s SSH Key password, which is **hello6**. Now that we have the key and password, we should be able to SSH into the machine as user amir. The only thing stopping us is that we did not find an open, listening SSH service on our initial port scan. Our original scan was limited in the number of ports it scanned. We will run another **nmap** scan, this time scanning **all TCP ports**. If this SSH server is running on a **non-standard port**, we should be able to find it.
+We have successfully cracked **user amir**'s SSH Key password, which is **hello6**. Now that we have the key and password, we should be able to SSH into the machine as user **amir**. The only thing stopping us is that we did not find an open, listening SSH service on our initial port scan. Our original scan was limited in the number of ports it scanned. We will run another **nmap** scan, this time scanning **all TCP ports**. If this SSH server is running on a **non-standard port**, we should be able to find it.
 
 ![](/blog/images/shares/pics/amir/14.png)
 
-We find there are a number of non-standard ports open. We try to **SSH connect** to them with our known username, password, and key file, and find that a **SSH server** is listening on **port 27853**. See successfully have **shell access** as user **amir**.
+We find there are a number of non-standard ports open. We try to **SSH connect** to them with our known username, password, and key file, and find that a **SSH server** is listening on **port 27853**. We successfully have **shell access** as user **amir**.
 
 ![](/blog/images/shares/pics/amir/15.png)
 
@@ -75,7 +75,7 @@ It appears that we have **sudo** privileges to execute **/usr/bin/python3** with
 
 ![](/blog/images/shares/pics/amy/2.png)
 
-Now we would like to get an actual shell preferably through SSH, as opposed to just being able to run commands in python. To do this we set up a **netcat TCP listener** on port 6666 on our host machine and ran some **reverse shell code** in our python session. The code we used can be found at [pentestmonkey](http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet).
+Now we would like to get an actual shell, preferably through SSH, as opposed to just being able to run commands in python. To do this we set up a **netcat TCP listener** on port 6666 on our host machine and run some **reverse shell code** in our python session. The code we used can be found at [pentestmonkey](http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet).
 
 ![](/blog/images/shares/pics/amy/3.png)
 ![PentestMonkey](/blog/images/shares/pics/amy/4.png)
