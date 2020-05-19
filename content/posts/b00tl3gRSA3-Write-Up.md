@@ -97,7 +97,7 @@ n = p * q
 # public exponent
 e = 65537
 
-# Carmichaels's Totient of n
+# Carmichaels's totient of n
 lambda_n = ((p - 1) * (q - 1))
 
 # calculate private key exponent
@@ -135,7 +135,7 @@ n = p * q
 # public exponent
 e = 65537
 
-# Carmichaels's Totient of n
+# Carmichaels's totient of n
 lambda_n = ((p - 1) * (q - 1))
 
 # calculate private key exponent
@@ -145,7 +145,7 @@ d = mod_inv(e, lambda_n)
 key_params = (n, e, d, p, q)
 key = RSA.construct(key_params)
 
-# print Public and Private Key
+# print Private and Public Key
 print(key.exportKey().decode('utf-8') + '\n')
 print(key.publickey().exportKey().decode('utf-8') + '\n')
 ```
@@ -289,7 +289,7 @@ ps = [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17
 # verify p1*p2*...p34 = n
 assert(test_factor(ps, n))
 
-# Carmichaels's Totient of n
+# Carmichaels's totient of n
 lambda_n = (calc_lambda_n(ps))
 
 # calculate private key exponent
@@ -388,7 +388,7 @@ ps = [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17
 # verify p1*p2*...p34 = n
 assert(test_factor(ps, n))
 
-# Carmichaels's Totient of n
+# Carmichaels's totient of n
 lambda_n = (calc_lambda_n(ps))
 
 # calculate private key exponent
