@@ -113,7 +113,7 @@
 
 <p><figure><img src="/blog/images/shares/pics/amir/7.png" alt=""></figure></p>
 
-<p>To further enumerate the <strong>NFS (Network File System)</strong> we will run the nmap script <a href="https://nmap.org/nsedoc/scripts/nfs-ls.html">nfs-ls</a>. This attempts to get useful information about files from NFS exports. We will also run <strong>showmount</strong> so see what file systems we could possibly mount and get access to.</p>
+<p>To further enumerate the <strong>NFS (Network File System)</strong> we will run the nmap script <a href="https://nmap.org/nsedoc/scripts/nfs-ls.html">nfs-ls</a>. This attempts to get useful information about files from NFS exports. We will also run <strong>showmount</strong> to see what file systems we could possibly mount and get access to.</p>
 
 <p><figure><img src="/blog/images/shares/pics/amir/8.png" alt=""></figure>
 <figure><img src="/blog/images/shares/pics/amir/9.png" alt=""></figure></p>
@@ -136,11 +136,11 @@
 <figure><img src="/blog/images/shares/pics/amir/13_a_ssh2john.png" alt=""></figure>
 <figure><img src="/blog/images/shares/pics/amir/13_b_john.png" alt=""></figure></p>
 
-<p>We have successfully cracked <strong>user amir</strong>'s SSH Key password, which is <strong>hello6</strong>. Now that we have the key and password, we should be able to SSH into the machine as user amir. The only thing stopping us is that we did not find an open, listening SSH service on our initial port scan. Our original scan was limited in the number of ports it scanned. We will run another <strong>nmap</strong> scan, this time scanning <strong>all TCP ports</strong>. If this SSH server is running on a <strong>non-standard port</strong>, we should be able to find it.</p>
+<p>We have successfully cracked <strong>user amir</strong>'s SSH Key password, which is <strong>hello6</strong>. Now that we have the key and password, we should be able to SSH into the machine as user <strong>amir</strong>. The only thing stopping us is that we did not find an open, listening SSH service on our initial port scan. Our original scan was limited in the number of ports it scanned. We will run another <strong>nmap</strong> scan, this time scanning <strong>all TCP ports</strong>. If this SSH server is running on a <strong>non-standard port</strong>, we should be able to find it.</p>
 
 <p><figure><img src="/blog/images/shares/pics/amir/14.png" alt=""></figure></p>
 
-<p>We find there are a number of non-standard ports open. We try to <strong>SSH connect</strong> to them with our known username, password, and key file, and find that a <strong>SSH server</strong> is listening on <strong>port 27853</strong>. See successfully have <strong>shell access</strong> as user <strong>amir</strong>.</p>
+<p>We find there are a number of non-standard ports open. We try to <strong>SSH connect</strong> to them with our known username, password, and key file, and find that a <strong>SSH server</strong> is listening on <strong>port 27853</strong>. We successfully have <strong>shell access</strong> as user <strong>amir</strong>.</p>
 
 <p><figure><img src="/blog/images/shares/pics/amir/15.png" alt=""></figure></p>
 
@@ -156,7 +156,7 @@
 
 <p><figure><img src="/blog/images/shares/pics/amy/2.png" alt=""></figure></p>
 
-<p>Now we would like to get an actual shell preferably through SSH, as opposed to just being able to run commands in python. To do this we set up a <strong>netcat TCP listener</strong> on port 6666 on our host machine and ran some <strong>reverse shell code</strong> in our python session. The code we used can be found at <a href="http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet">pentestmonkey</a>.</p>
+<p>Now we would like to get an actual shell, preferably through SSH, as opposed to just being able to run commands in python. To do this we set up a <strong>netcat TCP listener</strong> on port 6666 on our host machine and run some <strong>reverse shell code</strong> in our python session. The code we used can be found at <a href="http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet">pentestmonkey</a>.</p>
 
 <p><figure><img src="/blog/images/shares/pics/amy/3.png" alt=""></figure>
 <figure><img src="/blog/images/shares/pics/amy/4.png" alt="PentestMonkey"></figure></p>
