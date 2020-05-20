@@ -107,7 +107,7 @@ Now we run **sudo -l** as amy and see if we have any sudo privileges under their
 
 ![](/blog/images/shares/pics/root/1.png)
 
-Here we see we have to ability to run **/usr/bin/ssh** with root privileges without being required to supply a password. [GTFOBINS](https://gtfobins.github.io/gtfobins/ssh/) shows us there is a  **shell escape** method we can use to get a **root shell**.
+Here we see we have the ability to run **/usr/bin/ssh** with root privileges, via sudo,  without being required to supply a password. [GTFOBINS](https://gtfobins.github.io/gtfobins/ssh/) shows us there is a  **shell escape** method we can use to get a **root shell**.
 
 ![GTFOBINS](/blog/images/shares/pics/root/2.png)
 
