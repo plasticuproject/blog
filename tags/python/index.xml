@@ -7,10 +7,20 @@
     <description>Recent content in Python on plasticuproject&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 15 May 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 22 May 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://plasticuproject.github.io/blog/tags/python/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <author>plasticuproject</author>
+      <title>CyberSecLabs Plastic Preservation Write-Up</title>
+      <link>https://plasticuproject.github.io/blog/posts/plastic-preservation-write-up/</link>
+      <pubDate>Fri, 22 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://plasticuproject.github.io/blog/posts/plastic-preservation-write-up/</guid>
+      <description>Plastic Preservation is a CyberSecLabs challenge that I created, where we have to defeat an encryption function written in python.</description>
+    </item>
     
     <item>
       <author>plasticuproject</author>

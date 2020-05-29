@@ -7,16 +7,26 @@
     <description>Recent content in Tags on plasticuproject&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 19 May 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 22 May 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://plasticuproject.github.io/blog/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <author>plasticuproject</author>
+      <title>Cryptography</title>
+      <link>https://plasticuproject.github.io/blog/tags/cryptography/</link>
+      <pubDate>Fri, 22 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://plasticuproject.github.io/blog/tags/cryptography/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <author>plasticuproject</author>
       <title>CyberSecLabs</title>
       <link>https://plasticuproject.github.io/blog/tags/cyberseclabs/</link>
-      <pubDate>Tue, 19 May 2020 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 22 May 2020 00:00:00 +0000</pubDate>
       
       <guid>https://plasticuproject.github.io/blog/tags/cyberseclabs/</guid>
       <description></description>
@@ -24,21 +34,21 @@
     
     <item>
       <author>plasticuproject</author>
-      <title>Write-Up</title>
-      <link>https://plasticuproject.github.io/blog/tags/write-up/</link>
-      <pubDate>Tue, 19 May 2020 00:00:00 +0000</pubDate>
+      <title>Python</title>
+      <link>https://plasticuproject.github.io/blog/tags/python/</link>
+      <pubDate>Fri, 22 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://plasticuproject.github.io/blog/tags/write-up/</guid>
+      <guid>https://plasticuproject.github.io/blog/tags/python/</guid>
       <description></description>
     </item>
     
     <item>
       <author>plasticuproject</author>
-      <title>Cryptography</title>
-      <link>https://plasticuproject.github.io/blog/tags/cryptography/</link>
-      <pubDate>Fri, 15 May 2020 00:00:00 +0000</pubDate>
+      <title>Write-Up</title>
+      <link>https://plasticuproject.github.io/blog/tags/write-up/</link>
+      <pubDate>Fri, 22 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://plasticuproject.github.io/blog/tags/cryptography/</guid>
+      <guid>https://plasticuproject.github.io/blog/tags/write-up/</guid>
       <description></description>
     </item>
     
@@ -49,16 +59,6 @@
       <pubDate>Fri, 15 May 2020 00:00:00 +0000</pubDate>
       
       <guid>https://plasticuproject.github.io/blog/tags/picoctf/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <author>plasticuproject</author>
-      <title>Python</title>
-      <link>https://plasticuproject.github.io/blog/tags/python/</link>
-      <pubDate>Fri, 15 May 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://plasticuproject.github.io/blog/tags/python/</guid>
       <description></description>
     </item>
     

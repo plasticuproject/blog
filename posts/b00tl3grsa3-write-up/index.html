@@ -185,7 +185,7 @@ n <span style="color:#f92672">=</span> p <span style="color:#f92672">*</span> q
 e <span style="color:#f92672">=</span> <span style="color:#ae81ff">65537</span>
 
 <span style="color:#75715e"># Carmichaels&#39;s totient of n</span>
-lambda_n <span style="color:#f92672">=</span> ((p <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">*</span> (q <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>))
+lambda_n <span style="color:#f92672">=</span> (p <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">*</span> (q <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>)
 
 <span style="color:#75715e"># calculate private key exponent</span>
 d <span style="color:#f92672">=</span> mod_inv(e, lambda_n)</code></pre></div>
@@ -221,7 +221,7 @@ n <span style="color:#f92672">=</span> p <span style="color:#f92672">*</span> q
 e <span style="color:#f92672">=</span> <span style="color:#ae81ff">65537</span>
 
 <span style="color:#75715e"># Carmichaels&#39;s totient of n</span>
-lambda_n <span style="color:#f92672">=</span> ((p <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">*</span> (q <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>))
+lambda_n <span style="color:#f92672">=</span> (p <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">*</span> (q <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>)
 
 <span style="color:#75715e"># calculate private key exponent</span>
 d <span style="color:#f92672">=</span> mod_inv(e, lambda_n)
@@ -368,7 +368,7 @@ ps <span style="color:#f92672">=</span> [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10
 <span style="color:#66d9ef">assert</span>(test_factor(ps, n))
 
 <span style="color:#75715e"># Carmichaels&#39;s totient of n</span>
-lambda_n <span style="color:#f92672">=</span> (calc_lambda_n(ps))
+lambda_n <span style="color:#f92672">=</span> calc_lambda_n(ps)
 
 <span style="color:#75715e"># calculate private key exponent</span>
 d <span style="color:#f92672">=</span> mod_inv(e, lambda_n)</code></pre></div>
@@ -461,7 +461,7 @@ ps <span style="color:#f92672">=</span> [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10
 <span style="color:#66d9ef">assert</span>(test_factor(ps, n))
 
 <span style="color:#75715e"># Carmichaels&#39;s totient of n</span>
-lambda_n <span style="color:#f92672">=</span> (calc_lambda_n(ps))
+lambda_n <span style="color:#f92672">=</span> calc_lambda_n(ps)
 
 <span style="color:#75715e"># calculate private key exponent</span>
 d <span style="color:#f92672">=</span> mod_inv(e, lambda_n)
@@ -534,7 +534,7 @@ message <span style="color:#f92672">=</span> pow(c, d, n)
         <i class="fa fa-github"></i>
     </a>
     
-    <a class="symbol" href="https://www.linkedin.com/in/plasticuproject-b41a6b126/">
+    <a class="symbol" href="https://www.linkedin.com/in/plasticuproject-b41a6b126">
         <i class="fa fa-linkedin"></i>
     </a>
     
