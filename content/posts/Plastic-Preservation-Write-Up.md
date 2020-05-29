@@ -2,7 +2,7 @@
 layout: post
 title: "CyberSecLabs Plastic Preservation Write-Up"
 categories: Write-Up
-date: 2020-05-22
+date: 2020-05-29
 image: /blog/images/shares/pics/CyberSecLabs.png
 description: Plastic Preservation is a CyberSecLabs challenge that I created, where we have to defeat an encryption function written in python.
 tags: [CyberSecLabs, Write-Up, Python, Cryptography]
