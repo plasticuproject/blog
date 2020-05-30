@@ -220,7 +220,7 @@ for line in lines[1:-1]:
     # place the fourth item, the debug value, into debug list
     debugs.append(int(line.split()[3]))
 ```
-Now we will write our function to reverse the encryption. We will do this buy feeding it our base-64 encrypted password, converting it back to an integer, and performing the encryption function logic to it in reverse using the values in our **debug** list. When we calculate each character we will save that to a list, building the original password backwards. When we are done we will reverse the order of this list, and we should have the original password that was fed into **password_encrypter.py** that produced the base-64 string in **encrypted.txt**. We will print that password and quit the program. Our decryption function looks as follows:
+Now we will write our function to reverse the encryption. We will do this by feeding it our base-64 encrypted password, converting it back to an integer, and performing the encryption function logic to it in reverse using the values in our **debug** list. When we calculate each character we will save that to a list, building the original password backwards. When we are done we will reverse the order of this list, and we should have the original password that was fed into **password_encrypter.py** that produced the base-64 string in **encrypted.txt**. We will print that password and quit the program. Our decryption function looks as follows:
 ```python
 # decryption function
 def decrypt(passwd, debugs):
@@ -305,7 +305,7 @@ We can now read **flag.txt** and solve the challenge.
 
 ![flag](/blog/images/plastic_preservation/flag.png)
 
-I designed this challenge to where you really need to understand and know what the python code is doing to be able to reverse the encryption. It is also a good example of how you can rebuild anything if there is total information preservation.
+I designed this challenge in a way where you would really need to understand what the python code is doing in order to reverse the encryption. It is also a good example of how you can rebuild anything if there is total information preservation.
 
 ---
 
