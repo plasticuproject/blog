@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "b00tl3gRSA3 Write-Up"
+title: "picoCTF 2019 b00tl3gRSA3 Write-Up"
 categories: Write-Up
 date: 2020-05-15
 image: /blog/images/b00tl3gRSA3/picoctf_logo.png

@@ -4,7 +4,7 @@ title: "CyberSecLabs Plastic Preservation Write-Up"
 categories: Write-Up
 date: 2020-05-29
 image: /blog/images/shares/pics/CyberSecLabs.png
-description: Plastic Preservation is a CyberSecLabs challenge that I created, where we have to defeat an encryption function written in python.
+description: Plastic Preservation is a CyberSecLabs challenge I created where we defeat an encryption function written in python.
 tags: [CyberSecLabs, Write-Up, Python, Cryptography]
 katex: true
 markup: "mmark"
@@ -100,7 +100,7 @@ def x():
 if __name__ == '__main__':
     x()
 ```
-Next let's try to guess what some of these functions do, and what these variables are, give them proper names, and add some comments to help us understand what this code is doing:
+Next let's try to guess what some of these functions do and what these variables are, then give them proper names. We will add some comments to help us understand what this code is doing:
 ```python
 #!/usr/bin/env python3
 
@@ -117,10 +117,10 @@ def log_to_file(log_value):
 # encrypts string
 def encrypt(input_string):
 
-    # seed value
+    # offset
     b = 14695981039346656037
 
-    # secret value
+    # prime value
     c = 1099511628211
 
     # for each character in input_string
@@ -129,10 +129,10 @@ def encrypt(input_string):
         # writes new b value to '.log' file
         log_to_file(str(b))                          # <- #REMOVE#
 
-        # performs XOR and MULTIPLY on b and string value and saves to new b
+        # performs XOR on b and string value, MULTIPLIES with prime value and saves to new b
         b = b ^ ord(str(i)) * c
 
-    # XOR b with this number after final character math
+    # XOR b with this value after final character logic
     b ^= 1152921504606846975
 
     # convert result to hexadecimal 
@@ -311,7 +311,7 @@ I designed this challenge in a way where you would really need to understand wha
 
 ## Supplemental Information
 
-The logic I used in the creation of this challenge for the "encryption" is a variation of a [FNV-1a](https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function) non-cryptographic hashing function that I found while reviewing the source code for a popular video game written in C#:
+The logic I used in this challenge for the "encryption" is a variation of a [FNV-1a](https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function) non-cryptographic hashing function that I learned of while reviewing source code for a popular video game written in C#: <sup id="cite_note-1">[[1]](#cite_ref-1)</sup>
 ```c
 public static ulong Hash(string input)
     {
@@ -322,16 +322,28 @@ public static ulong Hash(string input)
             return num;
     }
 ```
-This function was used in the game code to hash asset names, presumably to obfuscate them. Looking at this original function you will notice it uses an **AND** operator as it's final [Bitwise Operation](https://en.wikipedia.org/wiki/Bitwise_operation#AND), instead of the **XOR** that I used in the challenge function. This would have prevented us from reversing the hash. The **AND** operation is a [Logical Conjunction](https://en.wikipedia.org/wiki/Logical_conjunction) bitwise operation. Looking at the [Truth Table](https://en.wikipedia.org/wiki/Truth_table#Logical_conjunction_(AND)) for this operation, you can see that it is not always possible to reconstruct $$p$$, given $$q$$ and $$p\&q$$.
+This function was used in the game code to hash asset names. Looking at this original function you will notice it uses an _AND_ operator as it's final [Bitwise Operation](https://en.wikipedia.org/wiki/Bitwise_operation). This is used for [Bitmasking](https://en.wikipedia.org/wiki/Mask_(computing)#Hash_tables) and controls the length of the output hash. This would have discarded bits and prevented us from being able to reverse the hash. I replaced the _AND_ operation with an _XOR_ operation in the challenge function. This allowed us to reverse the hash due to it's [Associative Property](https://en.wikipedia.org/wiki/Associative_property#Definition). The _AND_ operation is a [Logical Conjunction](https://en.wikipedia.org/wiki/Logical_conjunction) bitwise operation. Looking at the Truth Table for this operation you can see that it is not always possible to reconstruct $$p$$, given $$q$$ and $$p\&q$$. <sup id="cite_note-2">[[2]](#cite_ref-2)</sup>
 
 > _Note: This image uses the "**^**" character in place of an "**&**", but it still represents an **AND** operation._
 
 ![truth_table](/blog/images/plastic_preservation/logical_conjunction.png#center)
 
-If we substitute **_T_** with **_1_**,  and **_F_** with **_0_** we get bitwise operations:
+If we substitute _T_ with _1_, and _F_ with _0_ we get bitwise operations.
 
 ![bitwise](/blog/images/plastic_preservation/bitwise.png#center)
 
-As you can see, we cannot simply work the operation in reverse to reproduce the first value. The **AND** operation is [destructive](https://stackoverflow.com/questions/2566225/how-to-reverse-bitwise-and-in-c#2566235) - it throws information away. In order to alter this function in a way to make it reversible for the challenge I had to remove the logical **AND**, and replace it with a non-destructive **XOR** operation to retain total information preservation, hence the name given to this challenge.
+As you can see, we cannot simply compute the operation in reverse to reproduce the first value - it does not have an  Associative Property. The _AND_ operation is [destructive](https://stackoverflow.com/questions/2566225/how-to-reverse-bitwise-and-in-c#2566235) - it throws information away. Let's compare this to the Truth Table for the [Exclusive Disjunction](https://en.wikipedia.org/wiki/Exclusive_or) _XOR_ operation that we replaced it with, which has the Associative Property. <sup id="cite_note-3">[[3]](#cite_ref-3)</sup>
+
+![truth_table](/blog/images/plastic_preservation/exclusive_disjunction.png#center)
+
+It is clear that every operation can be computed both forward and backward. In order to make this function reversible for the challenge I had to remove the logical _AND_, and replace it with a non-destructive _XOR_ operation to retain total information preservation, hence the name given to this challenge.
+
+---
+
+#### References:
+
+1. <sup id="cite_ref-1">[\^](#cite_note-1)</sup> Landon, C. N. ["FNV Hash"](http://www.isthe.com/chongo/tech/comp/fnv/index.html#FNV-1a)
+2. <sup id="cite_ref-2">[\^](#cite_note-2)</sup> Wikipedia. ["Truth Table; Logical Conjunction"](https://en.wikipedia.org/wiki/Truth_table#Logical_conjunction_(AND))
+3. <sup id="cite_ref-3">[\^](#cite_note-3)</sup> Wikipedia. ["Truth Table; Exclusive Disjunction"](https://en.wikipedia.org/wiki/Truth_table#Exclusive_disjunction)
 
 ---
