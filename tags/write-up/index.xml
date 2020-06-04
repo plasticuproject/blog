@@ -19,7 +19,7 @@
       <pubDate>Fri, 29 May 2020 00:00:00 +0000</pubDate>
       
       <guid>https://plasticuproject.github.io/blog/posts/plastic-preservation-write-up/</guid>
-      <description>Plastic Preservation is a CyberSecLabs challenge that I created, where we have to defeat an encryption function written in python.</description>
+      <description>Plastic Preservation is a CyberSecLabs challenge I created where we defeat an encryption function written in python.</description>
     </item>
     
     <item>
@@ -34,7 +34,7 @@
     
     <item>
       <author>plasticuproject</author>
-      <title>b00tl3gRSA3 Write-Up</title>
+      <title>picoCTF 2019 b00tl3gRSA3 Write-Up</title>
       <link>https://plasticuproject.github.io/blog/posts/b00tl3grsa3-write-up/</link>
       <pubDate>Fri, 15 May 2020 00:00:00 +0000</pubDate>
       

@@ -30,7 +30,7 @@
 
 
 <meta property="og:title" content="CyberSecLabs Plastic Preservation Write-Up" />
-<meta property="og:description" content="Plastic Preservation is a CyberSecLabs challenge that I created, where we have to defeat an encryption function written in python." />
+<meta property="og:description" content="Plastic Preservation is a CyberSecLabs challenge I created where we defeat an encryption function written in python." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://plasticuproject.github.io/blog/posts/plastic-preservation-write-up/" />
 <meta property="article:published_time" content="2020-05-29T00:00:00+00:00" />
@@ -38,17 +38,17 @@
 
 
 <meta itemprop="name" content="CyberSecLabs Plastic Preservation Write-Up">
-<meta itemprop="description" content="Plastic Preservation is a CyberSecLabs challenge that I created, where we have to defeat an encryption function written in python.">
+<meta itemprop="description" content="Plastic Preservation is a CyberSecLabs challenge I created where we defeat an encryption function written in python.">
 <meta itemprop="datePublished" content="2020-05-29T00:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2020-05-29T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="1682">
+<meta itemprop="wordCount" content="1771">
 
 
 
 <meta itemprop="keywords" content="CyberSecLabs,Write-Up,Python,Cryptography," />
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="CyberSecLabs Plastic Preservation Write-Up"/>
-<meta name="twitter:description" content="Plastic Preservation is a CyberSecLabs challenge that I created, where we have to defeat an encryption function written in python."/>
+<meta name="twitter:description" content="Plastic Preservation is a CyberSecLabs challenge I created where we defeat an encryption function written in python."/>
 
 
     </head>
@@ -75,7 +75,7 @@
 <article class="post">
     <header>
         <h1>CyberSecLabs Plastic Preservation Write-Up</h1>
-        <h2 class="subtitle">Plastic Preservation is a CyberSecLabs challenge that I created, where we have to defeat an encryption function written in python.</h2>
+        <h2 class="subtitle">Plastic Preservation is a CyberSecLabs challenge I created where we defeat an encryption function written in python.</h2>
         <h2 class="headline">
         May 29, 2020
         <br>
@@ -180,7 +180,7 @@ c40d1f1b7bdd6012</code></pre></div>
 
 <span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
     x()</code></pre></div>
-<p>Next let's try to guess what some of these functions do, and what these variables are, give them proper names, and add some comments to help us understand what this code is doing:</p>
+<p>Next let's try to guess what some of these functions do and what these variables are, then give them proper names. We will add some comments to help us understand what this code is doing:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#!/usr/bin/env python3</span>
 
 <span style="color:#f92672">import</span> base64
@@ -196,10 +196,10 @@ c40d1f1b7bdd6012</code></pre></div>
 <span style="color:#75715e"># encrypts string</span>
 <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">encrypt</span>(input_string):
 
-    <span style="color:#75715e"># seed value</span>
+    <span style="color:#75715e"># offset</span>
     b <span style="color:#f92672">=</span> <span style="color:#ae81ff">14695981039346656037</span>
 
-    <span style="color:#75715e"># secret value</span>
+    <span style="color:#75715e"># prime value</span>
     c <span style="color:#f92672">=</span> <span style="color:#ae81ff">1099511628211</span>
 
     <span style="color:#75715e"># for each character in input_string</span>
@@ -208,10 +208,10 @@ c40d1f1b7bdd6012</code></pre></div>
         <span style="color:#75715e"># writes new b value to &#39;.log&#39; file</span>
         log_to_file(str(b))                          <span style="color:#75715e"># &lt;- #REMOVE#</span>
 
-        <span style="color:#75715e"># performs XOR and MULTIPLY on b and string value and saves to new b</span>
+        <span style="color:#75715e"># performs XOR on b and string value, MULTIPLIES with prime value and saves to new b</span>
         b <span style="color:#f92672">=</span> b <span style="color:#f92672">^</span> ord(str(i)) <span style="color:#f92672">*</span> c
 
-    <span style="color:#75715e"># XOR b with this number after final character math</span>
+    <span style="color:#75715e"># XOR b with this value after final character logic</span>
     b <span style="color:#f92672">^=</span> <span style="color:#ae81ff">1152921504606846975</span>
 
     <span style="color:#75715e"># convert result to hexadecimal </span>
@@ -377,7 +377,7 @@ debugs <span style="color:#f92672">=</span> []
 
 <h2 id="supplemental-information">Supplemental Information</h2>
 
-<p>The logic I used in the creation of this challenge for the &quot;encryption&quot; is a variation of a <a href="https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function">FNV-1a</a> non-cryptographic hashing function that I found while reviewing the source code for a popular video game written in C#:</p>
+<p>The logic I used in this challenge for the &quot;encryption&quot; is a variation of a <a href="https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function">FNV-1a</a> non-cryptographic hashing function that I learned of while reviewing source code for a popular video game written in C#: <sup id="cite_note-1"><a href="#cite_ref-1">[1]</a></sup></p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">public <span style="color:#66d9ef">static</span> ulong <span style="color:#a6e22e">Hash</span>(string input)
     {
             ulong num <span style="color:#f92672">=</span> <span style="color:#ae81ff">14695981039346656037</span>;
@@ -386,7 +386,7 @@ debugs <span style="color:#f92672">=</span> []
             num <span style="color:#f92672">&amp;=</span> <span style="color:#ae81ff">0xFFFFFFFFFFFFFFF</span>;
             <span style="color:#66d9ef">return</span> num;
     }</code></pre></div>
-<p>This function was used in the game code to hash asset names, presumably to obfuscate them. Looking at this original function you will notice it uses an <strong>AND</strong> operator as it's final <a href="https://en.wikipedia.org/wiki/Bitwise_operation#AND">Bitwise Operation</a>, instead of the <strong>XOR</strong> that I used in the challenge function. This would have prevented us from reversing the hash. The <strong>AND</strong> operation is a <a href="https://en.wikipedia.org/wiki/Logical_conjunction">Logical Conjunction</a> bitwise operation. Looking at the <a href="https://en.wikipedia.org/wiki/Truth_table#Logical_conjunction_(AND)">Truth Table</a> for this operation, you can see that it is not always possible to reconstruct <span  class="math">\(p\)</span>, given <span  class="math">\(q\)</span> and <span  class="math">\(p\&q\)</span>.</p>
+<p>This function was used in the game code to hash asset names. Looking at this original function you will notice it uses an <em>AND</em> operator as it's final <a href="https://en.wikipedia.org/wiki/Bitwise_operation">Bitwise Operation</a>. This is used for <a href="https://en.wikipedia.org/wiki/Mask_(computing)#Hash_tables">Bitmasking</a> and controls the length of the output hash. This would have discarded bits and prevented us from being able to reverse the hash. I replaced the <em>AND</em> operation with an <em>XOR</em> operation in the challenge function. This allowed us to reverse the hash due to it's <a href="https://en.wikipedia.org/wiki/Associative_property#Definition">Associative Property</a>. The <em>AND</em> operation is a <a href="https://en.wikipedia.org/wiki/Logical_conjunction">Logical Conjunction</a> bitwise operation. Looking at the Truth Table for this operation you can see that it is not always possible to reconstruct <span  class="math">\(p\)</span>, given <span  class="math">\(q\)</span> and <span  class="math">\(p\&q\)</span>. <sup id="cite_note-2"><a href="#cite_ref-2">[2]</a></sup></p>
 
 <blockquote>
 <p><em>Note: This image uses the &quot;<strong>^</strong>&quot; character in place of an &quot;<strong>&amp;</strong>&quot;, but it still represents an <strong>AND</strong> operation.</em></p>
@@ -394,11 +394,25 @@ debugs <span style="color:#f92672">=</span> []
 
 <p><figure><img src="/blog/images/plastic_preservation/logical_conjunction.png#center" alt="truth_table"></figure></p>
 
-<p>If we substitute <strong><em>T</em></strong> with <strong><em>1</em></strong>,  and <strong><em>F</em></strong> with <strong><em>0</em></strong> we get bitwise operations:</p>
+<p>If we substitute <em>T</em> with <em>1</em>, and <em>F</em> with <em>0</em> we get bitwise operations.</p>
 
 <p><figure><img src="/blog/images/plastic_preservation/bitwise.png#center" alt="bitwise"></figure></p>
 
-<p>As you can see, we cannot simply work the operation in reverse to reproduce the first value. The <strong>AND</strong> operation is <a href="https://stackoverflow.com/questions/2566225/how-to-reverse-bitwise-and-in-c#2566235">destructive</a> - it throws information away. In order to alter this function in a way to make it reversible for the challenge I had to remove the logical <strong>AND</strong>, and replace it with a non-destructive <strong>XOR</strong> operation to retain total information preservation, hence the name given to this challenge.</p>
+<p>As you can see, we cannot simply compute the operation in reverse to reproduce the first value - it does not have an  Associative Property. The <em>AND</em> operation is <a href="https://stackoverflow.com/questions/2566225/how-to-reverse-bitwise-and-in-c#2566235">destructive</a> - it throws information away. Let's compare this to the Truth Table for the <a href="https://en.wikipedia.org/wiki/Exclusive_or">Exclusive Disjunction</a> <em>XOR</em> operation that we replaced it with, which has the Associative Property. <sup id="cite_note-3"><a href="#cite_ref-3">[3]</a></sup></p>
+
+<p><figure><img src="/blog/images/plastic_preservation/exclusive_disjunction.png#center" alt="truth_table"></figure></p>
+
+<p>It is clear that every operation can be computed both forward and backward. In order to make this function reversible for the challenge I had to remove the logical <em>AND</em>, and replace it with a non-destructive <em>XOR</em> operation to retain total information preservation, hence the name given to this challenge.</p>
+
+<hr>
+
+<h4 id="references">References:</h4>
+
+<ol>
+<li><sup id="cite_ref-1"><a href="#cite_note-1">^</a></sup> Landon, C. N. <a href="http://www.isthe.com/chongo/tech/comp/fnv/index.html#FNV-1a">&quot;FNV Hash&quot;</a></li>
+<li><sup id="cite_ref-2"><a href="#cite_note-2">^</a></sup> Wikipedia. <a href="https://en.wikipedia.org/wiki/Truth_table#Logical_conjunction_(AND)">&quot;Truth Table; Logical Conjunction&quot;</a></li>
+<li><sup id="cite_ref-3"><a href="#cite_note-3">^</a></sup> Wikipedia. <a href="https://en.wikipedia.org/wiki/Truth_table#Exclusive_disjunction">&quot;Truth Table; Exclusive Disjunction&quot;</a></li>
+</ol>
 
 <hr>
 
