@@ -228,10 +228,10 @@ def decrypt(passwd, debugs):
     # where we store characters
     solve = []
 
-    # seed value
+    # offset
     b = 14695981039346656037
 
-    # secret value
+    # prime value
     c = 1099511628211
 
     # convert password back to integer

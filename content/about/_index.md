@@ -11,6 +11,9 @@ I am plasticuproject. I'm a linux, foss, python, infosec, and ctf enthusiast. Th
 
 ### Recommended Posts
 
+1. [CyberSecLabs Plastic Preservation Write-Up]({{< ref "posts/Plastic-Preservation-Write-Up" >}})
+    - *Plastic Preservation is a CyberSecLabs cryptography challenge.*
+
 1. [HackTheBox Obscurity Write-Up]({{< ref "posts/Obscurity-Write-Up" >}})
     - *Mango is a medium difficulty HackTheBox Machine.*
 
