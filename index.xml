@@ -7,10 +7,20 @@
     <description>Recent content on plasticuproject&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 29 May 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 19 Jun 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://plasticuproject.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <author>plasticuproject</author>
+      <title>CyberSecLabs Office Write-Up</title>
+      <link>https://plasticuproject.github.io/blog/posts/office-write-up/</link>
+      <pubDate>Fri, 19 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://plasticuproject.github.io/blog/posts/office-write-up/</guid>
+      <description>Office is a hard difficulty linux machine where we need to stop Dwight&#39;s &#34;Accountability Booster&#34; (Doomsday Device) by gaining admin access to a content management system and root access to a server via a system configuration tool vulnerability.</description>
+    </item>
     
     <item>
       <author>plasticuproject</author>
