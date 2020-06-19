@@ -246,7 +246,7 @@ def decrypt(passwd, debugs):
     # reverse debug list
     debugs = debugs[::-1]
 
-    # append seed value to debug list
+    # append offset value to debug list
     debugs.append(b)
 
     # loop through debug list and perform reverse encryption logic
