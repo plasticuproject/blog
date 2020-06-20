@@ -39,11 +39,11 @@ Oh just another day at the Dunder Mifflin Office! It looks like Dwight has initi
 
 ![](/blog/images/office/pics/user/11.png)
 
-Also when we take a look at the HTTPS server, we see it is just a default Apache landing page.
+Also when we take a look at the HTTPS server we see it is just a default Apache landing page.
 
 ![](/blog/images/office/pics/user/12.png)
 
-The SSL certificate also has **dwight@office.csl** as a listed email address. This may be a username we can try to use for the login.
+The SSL certificate also has **dwight@office.csl** as a listed email address. This may be a username we can try to use for the log-in.
 
 ![](/blog/images/office/pics/user/14.png#center)
 
@@ -52,7 +52,7 @@ Next let's try some directory fuzzing for our web servers. Not much turns up for
 ![](/blog/images/office/pics/user/15.png)
 ![](/blog/images/office/pics/user/16.png)
 
-Let's take a look at the **forum** endpoint as see if we can find anymore useful information.
+Let's take a look at the **forum** endpoint and see if we can find anymore useful information.
 
 ![](/blog/images/office/pics/user/17.png)
 ![](/blog/images/office/pics/user/18.png)
@@ -65,7 +65,7 @@ We get an _Access Denied_ on the Login page, but the **Chat Logs** page does sho
 
 ![](/blog/images/office/pics/user/20.png)
 
-It appears to load and print out all of the chat messages we just read, from a **Text File**. So the web server is loading the contents of a local file using the **?file=** parameter. This looks like a great place to try a [Directory Traversal](https://www.acunetix.com/websitesecurity/directory-traversal/) exploit. Maybe we can get the server to print out the contents of a useful file.
+It appears to load and print out all of the chat messages we just read from a **Text File**. The web server is loading the contents of a local file using the **?file=** parameter. This looks like a great place to try a [Directory Traversal](https://www.acunetix.com/websitesecurity/directory-traversal/) exploit. Maybe we can get the server to print out the contents of a useful file.
 ![](/blog/images/office/pics/user/21.png)
 
 Let's run **wfuzz** with the **LFI-Jhaddix.txt** wordlist found in the [SecLists Github Repository](https://github.com/danielmiessler/SecLists), trying each phrase as a filename in the URL parameter and see if we can find any useful files on the machine.
@@ -73,7 +73,7 @@ Let's run **wfuzz** with the **LFI-Jhaddix.txt** wordlist found in the [SecLists
 ![](/blog/images/office/pics/user/22.png)
 ![](/blog/images/office/pics/user/23.png)
 
-There seems to be a problem. It looks like wfuzz is returning a _200 OK HTTP Response Code_ on every filename that we try. That's not very useful as we won't know which files are really there or not. Luckily we can see that each response has a different amount of returned content, and can filter requests that are not useful to us based on the amount of data received. Looking at our output, it looks like anything with a line length of 27 may not actually be returning a valid file. Let's filter out any requests that return that number of lines and see what we have.
+There seems to be a problem. It looks like wfuzz is returning a _200 OK HTTP Response Code_ on every filename that we try. That's not very useful as we won't know which files are really there or not. Luckily we can see that each response has a different amount of returned content and we can filter these based on the amount of data received. Looking at our output, it looks like anything with a line length of 27 may not actually be returning a valid file. Let's filter out any responses that return that number of lines and see what we have.
 
 ![](/blog/images/office/pics/user/24.png)
 ![](/blog/images/office/pics/user/25.png)
@@ -86,7 +86,7 @@ It contained a username/password hash combination for **dwight**! I will copy th
 
 ![](/blog/images/office/pics/user/27.png)
 
-And we were successful. We should now have log-in credentials for the WordPress login portal.
+And we were successful. We should now have log-in credentials for the WordPress log-in portal.
 
 ![](/blog/images/office/pics/user/28.png)
 
@@ -99,7 +99,7 @@ First we use the **ifconfig** command to find out what our network IP address is
 
 ![](/blog/images/office/pics/user/31.png)
 
-Now we find a [PHP Reverse Shell Script](https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php) and add our IP address to it, as well as a port number that we will set up a **netcat** listener on, for our script to call back to. Here we have renamed the script to **a.php**.
+Now we find a [PHP Reverse Shell Script](https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php) and add our IP address to it, as well as a port number that we will set up a **netcat** listener on for our script to call back to. Here we have renamed the script to **a.php**.
 
 ![](/blog/images/office/pics/user/32.png)
 
@@ -125,7 +125,7 @@ When we run **sudo -l** we see that the **sudoers** file is configured to give o
 
 ![](/blog/images/office/pics/user/39.png)
 
-To get **ssh** login access to dwight on this machine, let's create a ssh key-pair on our host machine with **ssh-keygen**.
+To get **ssh** log-in access to dwight on this machine, let's create a ssh key-pair on our host machine with **ssh-keygen**.
 
 ![](/blog/images/office/pics/user/40.png)
 
@@ -145,7 +145,7 @@ After browsing around the machine for a few minutes we find a file called **webm
 
 ![](/blog/images/office/pics/root/1.png)
 
-Looking at this file, we can see the version number and port that this application is supposed to be running on.
+Looking at this file we can see the version number and port that this application is supposed to be running on.
 
 ![](/blog/images/office/pics/root/2.png)
 
@@ -166,15 +166,15 @@ It most definitely does have known vulnerabilities. Let's use ssh to forward thi
 ![](/blog/images/office/pics/root/6.png)
 ![](/blog/images/office/pics/root/7.png)
 
-And here we have the **Log-in Portal** for the service. Is this the portal that Jim was talking about trying to find a password for? I'm not sure brute force guessing passwords is the best way to approach this, since it has some commonly known vulnerabilities. Let's start up a _Metasploit Framework Console_ with the **msfconsole** command on our host machine and search for exploit scripts for this service. We will try the **webmin_backdoor** exploit, as it seems that we do not need to be authenticated to successfully use this exploit.
+And here we have the **Log-in Portal** for the service. Is this the portal that Jim was talking about trying to find a password for? I'm not sure brute force guessing passwords is the best way to approach this, since it has some commonly known vulnerabilities. Let's start up the _Metasploit Framework Console_ with the **msfconsole** command on our host machine and search for exploit scripts for this service. We will try the **webmin_backdoor** exploit, as it seems that we do not need to be authenticated to successfully use this exploit.
 
 ![](/blog/images/office/pics/root/8.png)
 
-We look at the options for the exploit and set the remote machine's address to our localhost address that we are forwarding the service too, then set our listening address to our host machine's network address.
+We look at the options for the exploit and set the remote machine's address to our localhost address that we are forwarding the service to, then set our listening address to our host machine's network address.
 
 ![](/blog/images/office/pics/root/9.png)
 
-Next we cross our fingers and run the exploit. Success! The exploit ran and called back to the listener, giving us an open session.
+Next we cross our fingers and run the exploit. Success! The exploit ran and called back to the listener giving us an open session.
 
 ![](/blog/images/office/pics/root/10.png)
 
@@ -182,6 +182,6 @@ We now have a shell prompt with **root** level privileges and can print the flag
 
 ![](/blog/images/office/pics/root/11.png)
 
-Now that we have root access to the machine, it would be trivial to stop Dwight's "Doomsday Device", or set up persistent access and do anything else we wanted to do. I will thank the creator for this very fun, creative challenge. I thoroughly enjoyed it.
+Now that we have root access to the machine it would be trivial to stop Dwight's "Doomsday Device", or set up persistent access and do anything else we wanted to do. I will thank the creator for this very fun, creative challenge. I thoroughly enjoyed it.
 
 ---
