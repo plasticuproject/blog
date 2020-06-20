@@ -41,7 +41,7 @@
 <meta itemprop="description" content="Office is a hard difficulty linux machine where we need to stop Dwight&#39;s &#34;Accountability Booster&#34; (Doomsday Device) by gaining admin access to a content management system and root access to a server via a system configuration tool vulnerability.">
 <meta itemprop="datePublished" content="2020-06-19T00:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2020-06-19T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="1293">
+<meta itemprop="wordCount" content="1287">
 
 
 
@@ -120,11 +120,11 @@
 
 <p><figure><img src="/blog/images/office/pics/user/11.png" alt=""></figure></p>
 
-<p>Also when we take a look at the HTTPS server, we see it is just a default Apache landing page.</p>
+<p>Also when we take a look at the HTTPS server we see it is just a default Apache landing page.</p>
 
 <p><figure><img src="/blog/images/office/pics/user/12.png" alt=""></figure></p>
 
-<p>The SSL certificate also has <strong>dwight@office.csl</strong> as a listed email address. This may be a username we can try to use for the login.</p>
+<p>The SSL certificate also has <strong>dwight@office.csl</strong> as a listed email address. This may be a username we can try to use for the log-in.</p>
 
 <p><figure><img src="/blog/images/office/pics/user/14.png#center" alt=""></figure></p>
 
@@ -133,7 +133,7 @@
 <p><figure><img src="/blog/images/office/pics/user/15.png" alt=""></figure>
 <figure><img src="/blog/images/office/pics/user/16.png" alt=""></figure></p>
 
-<p>Let's take a look at the <strong>forum</strong> endpoint as see if we can find anymore useful information.</p>
+<p>Let's take a look at the <strong>forum</strong> endpoint and see if we can find anymore useful information.</p>
 
 <p><figure><img src="/blog/images/office/pics/user/17.png" alt=""></figure>
 <figure><img src="/blog/images/office/pics/user/18.png" alt=""></figure></p>
@@ -146,7 +146,7 @@
 
 <p><figure><img src="/blog/images/office/pics/user/20.png" alt=""></figure></p>
 
-<p>It appears to load and print out all of the chat messages we just read, from a <strong>Text File</strong>. So the web server is loading the contents of a local file using the <strong>?file=</strong> parameter. This looks like a great place to try a <a href="https://www.acunetix.com/websitesecurity/directory-traversal/">Directory Traversal</a> exploit. Maybe we can get the server to print out the contents of a useful file.
+<p>It appears to load and print out all of the chat messages we just read from a <strong>Text File</strong>. The web server is loading the contents of a local file using the <strong>?file=</strong> parameter. This looks like a great place to try a <a href="https://www.acunetix.com/websitesecurity/directory-traversal/">Directory Traversal</a> exploit. Maybe we can get the server to print out the contents of a useful file.
 <figure><img src="/blog/images/office/pics/user/21.png" alt=""></figure></p>
 
 <p>Let's run <strong>wfuzz</strong> with the <strong>LFI-Jhaddix.txt</strong> wordlist found in the <a href="https://github.com/danielmiessler/SecLists">SecLists Github Repository</a>, trying each phrase as a filename in the URL parameter and see if we can find any useful files on the machine.</p>
@@ -154,7 +154,7 @@
 <p><figure><img src="/blog/images/office/pics/user/22.png" alt=""></figure>
 <figure><img src="/blog/images/office/pics/user/23.png" alt=""></figure></p>
 
-<p>There seems to be a problem. It looks like wfuzz is returning a <em>200 OK HTTP Response Code</em> on every filename that we try. That's not very useful as we won't know which files are really there or not. Luckily we can see that each response has a different amount of returned content, and can filter requests that are not useful to us based on the amount of data received. Looking at our output, it looks like anything with a line length of 27 may not actually be returning a valid file. Let's filter out any requests that return that number of lines and see what we have.</p>
+<p>There seems to be a problem. It looks like wfuzz is returning a <em>200 OK HTTP Response Code</em> on every filename that we try. That's not very useful as we won't know which files are really there or not. Luckily we can see that each response has a different amount of returned content and we can filter these based on the amount of data received. Looking at our output, it looks like anything with a line length of 27 may not actually be returning a valid file. Let's filter out any responses that return that number of lines and see what we have.</p>
 
 <p><figure><img src="/blog/images/office/pics/user/24.png" alt=""></figure>
 <figure><img src="/blog/images/office/pics/user/25.png" alt=""></figure></p>
@@ -167,7 +167,7 @@
 
 <p><figure><img src="/blog/images/office/pics/user/27.png" alt=""></figure></p>
 
-<p>And we were successful. We should now have log-in credentials for the WordPress login portal.</p>
+<p>And we were successful. We should now have log-in credentials for the WordPress log-in portal.</p>
 
 <p><figure><img src="/blog/images/office/pics/user/28.png" alt=""></figure></p>
 
@@ -180,7 +180,7 @@
 
 <p><figure><img src="/blog/images/office/pics/user/31.png" alt=""></figure></p>
 
-<p>Now we find a <a href="https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php">PHP Reverse Shell Script</a> and add our IP address to it, as well as a port number that we will set up a <strong>netcat</strong> listener on, for our script to call back to. Here we have renamed the script to <strong>a.php</strong>.</p>
+<p>Now we find a <a href="https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php">PHP Reverse Shell Script</a> and add our IP address to it, as well as a port number that we will set up a <strong>netcat</strong> listener on for our script to call back to. Here we have renamed the script to <strong>a.php</strong>.</p>
 
 <p><figure><img src="/blog/images/office/pics/user/32.png" alt=""></figure></p>
 
@@ -206,7 +206,7 @@
 
 <p><figure><img src="/blog/images/office/pics/user/39.png" alt=""></figure></p>
 
-<p>To get <strong>ssh</strong> login access to dwight on this machine, let's create a ssh key-pair on our host machine with <strong>ssh-keygen</strong>.</p>
+<p>To get <strong>ssh</strong> log-in access to dwight on this machine, let's create a ssh key-pair on our host machine with <strong>ssh-keygen</strong>.</p>
 
 <p><figure><img src="/blog/images/office/pics/user/40.png" alt=""></figure></p>
 
@@ -226,7 +226,7 @@
 
 <p><figure><img src="/blog/images/office/pics/root/1.png" alt=""></figure></p>
 
-<p>Looking at this file, we can see the version number and port that this application is supposed to be running on.</p>
+<p>Looking at this file we can see the version number and port that this application is supposed to be running on.</p>
 
 <p><figure><img src="/blog/images/office/pics/root/2.png" alt=""></figure></p>
 
@@ -247,15 +247,15 @@
 <p><figure><img src="/blog/images/office/pics/root/6.png" alt=""></figure>
 <figure><img src="/blog/images/office/pics/root/7.png" alt=""></figure></p>
 
-<p>And here we have the <strong>Log-in Portal</strong> for the service. Is this the portal that Jim was talking about trying to find a password for? I'm not sure brute force guessing passwords is the best way to approach this, since it has some commonly known vulnerabilities. Let's start up a <em>Metasploit Framework Console</em> with the <strong>msfconsole</strong> command on our host machine and search for exploit scripts for this service. We will try the <strong>webmin_backdoor</strong> exploit, as it seems that we do not need to be authenticated to successfully use this exploit.</p>
+<p>And here we have the <strong>Log-in Portal</strong> for the service. Is this the portal that Jim was talking about trying to find a password for? I'm not sure brute force guessing passwords is the best way to approach this, since it has some commonly known vulnerabilities. Let's start up the <em>Metasploit Framework Console</em> with the <strong>msfconsole</strong> command on our host machine and search for exploit scripts for this service. We will try the <strong>webmin_backdoor</strong> exploit, as it seems that we do not need to be authenticated to successfully use this exploit.</p>
 
 <p><figure><img src="/blog/images/office/pics/root/8.png" alt=""></figure></p>
 
-<p>We look at the options for the exploit and set the remote machine's address to our localhost address that we are forwarding the service too, then set our listening address to our host machine's network address.</p>
+<p>We look at the options for the exploit and set the remote machine's address to our localhost address that we are forwarding the service to, then set our listening address to our host machine's network address.</p>
 
 <p><figure><img src="/blog/images/office/pics/root/9.png" alt=""></figure></p>
 
-<p>Next we cross our fingers and run the exploit. Success! The exploit ran and called back to the listener, giving us an open session.</p>
+<p>Next we cross our fingers and run the exploit. Success! The exploit ran and called back to the listener giving us an open session.</p>
 
 <p><figure><img src="/blog/images/office/pics/root/10.png" alt=""></figure></p>
 
@@ -263,7 +263,7 @@
 
 <p><figure><img src="/blog/images/office/pics/root/11.png" alt=""></figure></p>
 
-<p>Now that we have root access to the machine, it would be trivial to stop Dwight's &quot;Doomsday Device&quot;, or set up persistent access and do anything else we wanted to do. I will thank the creator for this very fun, creative challenge. I thoroughly enjoyed it.</p>
+<p>Now that we have root access to the machine it would be trivial to stop Dwight's &quot;Doomsday Device&quot;, or set up persistent access and do anything else we wanted to do. I will thank the creator for this very fun, creative challenge. I thoroughly enjoyed it.</p>
 
 <hr>
 
