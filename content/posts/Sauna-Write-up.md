@@ -2,7 +2,7 @@
 layout: post
 title: "HackTheBox Sauna Write-Up"
 categories: Write-Up
-date: 2020-07-16
+date: 2020-07-18
 image: /blog/images/sauna/sauna.png
 description: Sauna is an easy difficulty Windows machine where we exploit weaknesses in an Active Directory environment.
 tags: [HTB, Write-Up]
