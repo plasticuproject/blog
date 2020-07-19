@@ -38,7 +38,7 @@ Here we can see that there is a user named **Hugo Smith** and the **Domain Contr
 
 ![](/blog/images/sauna/pics/user/13.png)
 
-Trying different username formats for the users that we found, we try to use perform [AS-REP Roasting](https://www.hackingarticles.in/as-rep-roasting/) with [impacket-GetNPUsers.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/GetNPUsers.py), which will try to retrieve a user's **Kerberos AS-REP Password Hash** if that user has **_“Do not use Kerberos pre-authentication”_** set on their account.
+Trying different username formats for the users that we found, we try to perform [AS-REP Roasting](https://www.hackingarticles.in/as-rep-roasting/) with [impacket-GetNPUsers.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/GetNPUsers.py), which will try to retrieve a user's **Kerberos AS-REP Password Hash** if that user has **_“Do not use Kerberos pre-authentication”_** set on their account.
 
 ![](/blog/images/sauna/pics/user/14.png)
 
