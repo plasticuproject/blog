@@ -52,7 +52,7 @@ paginate = 20
 
 # Add additional social link entries underneath
 [social]
-    linkedin = "https://www.linkedin.com/in/plasticuproject-b41a6b126"
+    code     = "https://pypi.org/user/plasticuproject"
     cube     = "https://www.hackthebox.eu/profile/32882"
     key      = "https://cryptohack.org/user/snuggles"
     github   = "https://www.github.com/plasticuproject"
