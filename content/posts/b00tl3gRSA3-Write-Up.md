@@ -284,7 +284,8 @@ p33 = 16809927443
 p34 = 16861924201
 
 # list of factors
-ps = [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19, p20, p21, p22, p23, p24, p25, p26, p27, p28, p29, p30, p31, p32, p33, p34]
+ps = []
+[ps.append(globals()['p' + str(i)]) for i in range(1, 35)]
 
 # verify p1*p2*...p34 = n
 assert(test_factor(ps, n))
@@ -382,8 +383,9 @@ p32 = 16728205063
 p33 = 16809927443
 p34 = 16861924201
 
-# list of primes
-ps = [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19, p20, p21, p22, p23, p24, p25, p26, p27, p28, p29, p30, p31, p32, p33, p34]
+# list of factors
+ps = []
+[ps.append(globals()['p' + str(i)]) for i in range(1, 35)]
 
 # verify p1*p2*...p34 = n
 assert(test_factor(ps, n))
