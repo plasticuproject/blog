@@ -41,7 +41,7 @@
 <meta itemprop="description" content="b00tl3gRSA3 is a picoCTF 2019 cryptography challenge where we have to decrypt a message given just the RSA Public Key constituents.">
 <meta itemprop="datePublished" content="2020-05-15T00:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2020-05-15T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="1844">
+<meta itemprop="wordCount" content="1794">
 
 
 
@@ -362,7 +362,8 @@ p33 <span style="color:#f92672">=</span> <span style="color:#ae81ff">16809927443
 p34 <span style="color:#f92672">=</span> <span style="color:#ae81ff">16861924201</span>
 
 <span style="color:#75715e"># list of factors</span>
-ps <span style="color:#f92672">=</span> [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19, p20, p21, p22, p23, p24, p25, p26, p27, p28, p29, p30, p31, p32, p33, p34]
+ps <span style="color:#f92672">=</span> []
+[ps<span style="color:#f92672">.</span>append(globals()[<span style="color:#e6db74">&#39;p&#39;</span> <span style="color:#f92672">+</span> str(i)]) <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">35</span>)]
 
 <span style="color:#75715e"># verify p1*p2*...p34 = n</span>
 <span style="color:#66d9ef">assert</span>(test_factor(ps, n))
@@ -454,8 +455,9 @@ p32 <span style="color:#f92672">=</span> <span style="color:#ae81ff">16728205063
 p33 <span style="color:#f92672">=</span> <span style="color:#ae81ff">16809927443</span>
 p34 <span style="color:#f92672">=</span> <span style="color:#ae81ff">16861924201</span>
 
-<span style="color:#75715e"># list of primes</span>
-ps <span style="color:#f92672">=</span> [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16, p17, p18, p19, p20, p21, p22, p23, p24, p25, p26, p27, p28, p29, p30, p31, p32, p33, p34]
+<span style="color:#75715e"># list of factors</span>
+ps <span style="color:#f92672">=</span> []
+[ps<span style="color:#f92672">.</span>append(globals()[<span style="color:#e6db74">&#39;p&#39;</span> <span style="color:#f92672">+</span> str(i)]) <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">35</span>)]
 
 <span style="color:#75715e"># verify p1*p2*...p34 = n</span>
 <span style="color:#66d9ef">assert</span>(test_factor(ps, n))
