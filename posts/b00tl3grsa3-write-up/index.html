@@ -97,17 +97,17 @@
         </h2>
     </header>
     <section id="post-body">
-        <p><figure><img src="/blog/images/b00tl3gRSA3/picoctf_logo.png#center" alt=""></figure></p>
+        <p><figure><img src="/images/b00tl3gRSA3/picoctf_logo.png#center" alt=""></figure></p>
 
 <hr>
 
 <h2 id="the-challenge">The Challenge</h2>
 
-<p><figure><img src="/blog/images/b00tl3gRSA3/challenge.png#center" alt="Challenge"></figure></p>
+<p><figure><img src="/images/b00tl3gRSA3/challenge.png#center" alt="Challenge"></figure></p>
 
 <p>Let's connect with netcat like it tells us and see what we are given to work with.</p>
 
-<p><figure><img src="/blog/images/b00tl3gRSA3/values.png#center" alt="Challenge"></figure></p>
+<p><figure><img src="/images/b00tl3gRSA3/values.png#center" alt="Challenge"></figure></p>
 
 <p>It has returned to us numerical values for <span  class="math">\(c\)</span>, <span  class="math">\(n\)</span> and <span  class="math">\(e\)</span>. Experience tells us that this is an <strong>encrypted ciphertext</strong>, <strong>RSA Key Modulus</strong> value, and <strong>RSA Key Exponent</strong> value, respectively. Values <span  class="math">\(n\)</span> and <span  class="math">\(e\)</span> make up the <strong>RSA Public Key</strong> that was used to encrypt a plaintext message <span  class="math">\(m\)</span>, and produce ciphertext <span  class="math">\(c\)</span>. We need to break this encryption by calculating a <strong>RSA Private Key</strong> from these values, then use it to decrypt <span  class="math">\(c\)</span>. Let's first look at how RSA Keys are generated before trying to crack this.</p>
 
@@ -476,7 +476,7 @@ message <span style="color:#f92672">=</span> pow(c, d, n)
 <p>And this will print out the resulting decrypted message:</p>
 <pre><code>picoCTF{too_many_fact0rs_0744041}</code></pre>
 <p>We enter the flag and are notified that our solution is correct.
-<figure><img src="/blog/images/b00tl3gRSA3/solved.png#center" alt="solved"></figure></p>
+<figure><img src="/images/b00tl3gRSA3/solved.png#center" alt="solved"></figure></p>
 
 <p>This was a fun challenge demonstrating how to use a basic RSA encryption method for un-padded messages. This is not a very real world example, as it is unlikely you will ever see <span  class="math">\(n\)</span> computed with more than two values, and real messages are rarely un-padded, but this was a great way to get your feet wet with basic principles of RSA Encryption.</p>
 

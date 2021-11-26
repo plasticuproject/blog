@@ -91,7 +91,7 @@
         </h2>
     </header>
     <section id="post-body">
-        <p><figure><img src="/blog/images/office/pics/CyberSecLabs.png#center" alt="CyberSecLabs"></figure></p>
+        <p><figure><img src="/images/office/pics/CyberSecLabs.png#center" alt="CyberSecLabs"></figure></p>
 
 <hr>
 
@@ -99,124 +99,124 @@
 
 <p>First we will run an <strong>nmap</strong> scan of the machine IP address, export our results to an HTML file, and view it in Firefox-ESR.</p>
 
-<p><figure><img src="/blog/images/office/pics/user/1.png" alt="nmap"></figure>
-<figure><img src="/blog/images/office/pics/user/2.png" alt="xsltproc"></figure>
-<figure><img src="/blog/images/office/pics/user/3.png" alt=""></figure>
-<figure><img src="/blog/images/office/pics/user/4.png" alt=""></figure></p>
+<p><figure><img src="/images/office/pics/user/1.png" alt="nmap"></figure>
+<figure><img src="/images/office/pics/user/2.png" alt="xsltproc"></figure>
+<figure><img src="/images/office/pics/user/3.png" alt=""></figure>
+<figure><img src="/images/office/pics/user/4.png" alt=""></figure></p>
 
 <p>We see there is a <strong>HTTP Web Server</strong> running on <strong>Port 80</strong>, a <strong>HTTPS Web Server</strong> on <strong>Port 443</strong>, and a listening <strong>SSH Server</strong> on <strong>Port 22</strong>. Let's add the IP address and hostname to our <strong>/etc/hosts</strong> file.</p>
 
-<p><figure><img src="/blog/images/office/pics/user/5.png" alt=""></figure></p>
+<p><figure><img src="/images/office/pics/user/5.png" alt=""></figure></p>
 
 <p>Next let's take a look at the website on port 80.</p>
 
-<p><figure><img src="/blog/images/office/pics/user/6.png" alt=""></figure>
-<figure><img src="/blog/images/office/pics/user/7.png" alt=""></figure>
-<figure><img src="/blog/images/office/pics/user/8.png" alt=""></figure>
-<figure><img src="/blog/images/office/pics/user/9.png" alt=""></figure>
-<figure><img src="/blog/images/office/pics/user/10.png" alt=""></figure></p>
+<p><figure><img src="/images/office/pics/user/6.png" alt=""></figure>
+<figure><img src="/images/office/pics/user/7.png" alt=""></figure>
+<figure><img src="/images/office/pics/user/8.png" alt=""></figure>
+<figure><img src="/images/office/pics/user/9.png" alt=""></figure>
+<figure><img src="/images/office/pics/user/10.png" alt=""></figure></p>
 
 <p>Oh just another day at the Dunder Mifflin Office! It looks like Dwight has initiated some sort of &quot;Doomsday Device&quot; and is using a <strong>WordPress</strong> site and <strong>Forum</strong> to tell everyone in the office about it. We will soon see if there is any way we can get user credentials or bypass authentication.</p>
 
-<p><figure><img src="/blog/images/office/pics/user/11.png" alt=""></figure></p>
+<p><figure><img src="/images/office/pics/user/11.png" alt=""></figure></p>
 
 <p>Also when we take a look at the HTTPS server we see it is just a default Apache landing page.</p>
 
-<p><figure><img src="/blog/images/office/pics/user/12.png" alt=""></figure></p>
+<p><figure><img src="/images/office/pics/user/12.png" alt=""></figure></p>
 
 <p>The SSL certificate also has <strong>dwight@office.csl</strong> as a listed email address. This may be a username we can try to use for the log-in.</p>
 
-<p><figure><img src="/blog/images/office/pics/user/14.png#center" alt=""></figure></p>
+<p><figure><img src="/images/office/pics/user/14.png#center" alt=""></figure></p>
 
 <p>Next let's try some directory fuzzing for our web servers. Not much turns up for the server on port 80, but the secure web server does have some interesting endpoints.</p>
 
-<p><figure><img src="/blog/images/office/pics/user/15.png" alt=""></figure>
-<figure><img src="/blog/images/office/pics/user/16.png" alt=""></figure></p>
+<p><figure><img src="/images/office/pics/user/15.png" alt=""></figure>
+<figure><img src="/images/office/pics/user/16.png" alt=""></figure></p>
 
 <p>Let's take a look at the <strong>forum</strong> endpoint and see if we can find anymore useful information.</p>
 
-<p><figure><img src="/blog/images/office/pics/user/17.png" alt=""></figure>
-<figure><img src="/blog/images/office/pics/user/18.png" alt=""></figure></p>
+<p><figure><img src="/images/office/pics/user/17.png" alt=""></figure>
+<figure><img src="/images/office/pics/user/18.png" alt=""></figure></p>
 
 <p>Looks like everyone in office is concerned about the Accountability Booster, each trying to find a way to deal with it. Some are even trying to brute force a log-in portal that was forwarded to Jim's local machine. We haven't found any such portal yet, but it's good to have an idea what to maybe look for later. Let's keep enumerating this site and check out what's on the <strong>Login</strong> and <strong>Chat Logs</strong> page.</p>
 
-<p><figure><img src="/blog/images/office/pics/user/19.png" alt=""></figure></p>
+<p><figure><img src="/images/office/pics/user/19.png" alt=""></figure></p>
 
 <p>We get an <em>Access Denied</em> on the Login page, but the <strong>Chat Logs</strong> page does show us something interesting.</p>
 
-<p><figure><img src="/blog/images/office/pics/user/20.png" alt=""></figure></p>
+<p><figure><img src="/images/office/pics/user/20.png" alt=""></figure></p>
 
 <p>It appears to load and print out all of the chat messages we just read from a <strong>Text File</strong>. The web server is loading the contents of a local file using the <strong>?file=</strong> parameter. This looks like a great place to try a <a href="https://www.acunetix.com/websitesecurity/directory-traversal/">Directory Traversal</a> exploit. Maybe we can get the server to print out the contents of a useful file.
-<figure><img src="/blog/images/office/pics/user/21.png" alt=""></figure></p>
+<figure><img src="/images/office/pics/user/21.png" alt=""></figure></p>
 
 <p>Let's run <strong>wfuzz</strong> with the <strong>LFI-Jhaddix.txt</strong> wordlist found in the <a href="https://github.com/danielmiessler/SecLists">SecLists Github Repository</a>, trying each phrase as a filename in the URL parameter and see if we can find any useful files on the machine.</p>
 
-<p><figure><img src="/blog/images/office/pics/user/22.png" alt=""></figure>
-<figure><img src="/blog/images/office/pics/user/23.png" alt=""></figure></p>
+<p><figure><img src="/images/office/pics/user/22.png" alt=""></figure>
+<figure><img src="/images/office/pics/user/23.png" alt=""></figure></p>
 
 <p>There seems to be a problem. It looks like wfuzz is returning a <em>200 OK HTTP Response Code</em> on every filename that we try. That's not very useful as we won't know which files are really there or not. Luckily we can see that each response has a different amount of returned content and we can filter these based on the amount of data received. Looking at our output, it looks like anything with a line length of 27 may not actually be returning a valid file. Let's filter out any responses that return that number of lines and see what we have.</p>
 
-<p><figure><img src="/blog/images/office/pics/user/24.png" alt=""></figure>
-<figure><img src="/blog/images/office/pics/user/25.png" alt=""></figure></p>
+<p><figure><img src="/images/office/pics/user/24.png" alt=""></figure>
+<figure><img src="/images/office/pics/user/25.png" alt=""></figure></p>
 
 <p>That's better. The first thing that catches my eye is <strong>../.htpasswd</strong>, which is a flat-file used to store usernames and passwords for basic authentication of HTTP users. Let's use that file as a parameter and see what it returns.</p>
 
-<p><figure><img src="/blog/images/office/pics/user/26.png" alt=""></figure></p>
+<p><figure><img src="/images/office/pics/user/26.png" alt=""></figure></p>
 
 <p>It contained a username/password hash combination for <strong>dwight</strong>! I will copy this hash over to another computer that has the hash cracker <a href="https://github.com/magnumripper/JohnTheRipper">JohnTheRipper</a> installed and we will try to brute force crack this hash with the default wordlist.</p>
 
-<p><figure><img src="/blog/images/office/pics/user/27.png" alt=""></figure></p>
+<p><figure><img src="/images/office/pics/user/27.png" alt=""></figure></p>
 
 <p>And we were successful. We should now have log-in credentials for the WordPress log-in portal.</p>
 
-<p><figure><img src="/blog/images/office/pics/user/28.png" alt=""></figure></p>
+<p><figure><img src="/images/office/pics/user/28.png" alt=""></figure></p>
 
 <p>We are now successfully logged into the <strong>WordPress Admin Dashboard</strong>, and it looks like we have the ability to upload files. We will use this to get shell access to the machine with a <a href="https://www.acunetix.com/blog/articles/local-file-inclusion-lfi/">Local File Inclusion</a> exploit, which will allow us to run the code in our uploaded file on the machine hosting the web server.</p>
 
-<p><figure><img src="/blog/images/office/pics/user/29.png" alt=""></figure>
-<figure><img src="/blog/images/office/pics/user/30.png" alt=""></figure></p>
+<p><figure><img src="/images/office/pics/user/29.png" alt=""></figure>
+<figure><img src="/images/office/pics/user/30.png" alt=""></figure></p>
 
 <p>First we use the <strong>ifconfig</strong> command to find out what our network IP address is.</p>
 
-<p><figure><img src="/blog/images/office/pics/user/31.png" alt=""></figure></p>
+<p><figure><img src="/images/office/pics/user/31.png" alt=""></figure></p>
 
 <p>Now we find a <a href="https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php">PHP Reverse Shell Script</a> and add our IP address to it, as well as a port number that we will set up a <strong>netcat</strong> listener on for our script to call back to. Here we have renamed the script to <strong>a.php</strong>.</p>
 
-<p><figure><img src="/blog/images/office/pics/user/32.png" alt=""></figure></p>
+<p><figure><img src="/images/office/pics/user/32.png" alt=""></figure></p>
 
 <p>We start our netcat listener, and upload our reverse shell script.</p>
 
-<p><figure><img src="/blog/images/office/pics/user/33.png" alt=""></figure>
-<figure><img src="/blog/images/office/pics/user/34.png" alt=""></figure>
-<figure><img src="/blog/images/office/pics/user/35.png" alt=""></figure></p>
+<p><figure><img src="/images/office/pics/user/33.png" alt=""></figure>
+<figure><img src="/images/office/pics/user/34.png" alt=""></figure>
+<figure><img src="/images/office/pics/user/35.png" alt=""></figure></p>
 
 <p>To run our script we just append the filename to the web server URL.</p>
 
-<p><figure><img src="/blog/images/office/pics/user/36.png" alt=""></figure></p>
+<p><figure><img src="/images/office/pics/user/36.png" alt=""></figure></p>
 
 <p>And when we check our listener, we see that we received a callback and now have shell access to the machine.</p>
 
-<p><figure><img src="/blog/images/office/pics/user/37.png" alt=""></figure></p>
+<p><figure><img src="/images/office/pics/user/37.png" alt=""></figure></p>
 
 <p>We run the <strong>whoami</strong> command and see that we have access as user <strong>www-data</strong>, and with a little bit of poking around we find the flag file <strong>/home/dwight/access.txt</strong> and print out the contents.</p>
 
-<p><figure><img src="/blog/images/office/pics/user/38.png" alt=""></figure></p>
+<p><figure><img src="/images/office/pics/user/38.png" alt=""></figure></p>
 
 <p>When we run <strong>sudo -l</strong> we see that the <strong>sudoers</strong> file is configured to give our current user the ability to run the command <strong>/bin/bash</strong> with user <strong>dwight</strong> privileges, and is configured to do so without requiring a password using the <strong>sudo</strong> command. So running <strong>sudo -u dwight /bin/bash</strong> will effectively give us a <strong>bash shell prompt</strong> with dwight's privilege settings. After doing this we find dwight's <strong>.ssh</strong> directory and see that it is empty.</p>
 
-<p><figure><img src="/blog/images/office/pics/user/39.png" alt=""></figure></p>
+<p><figure><img src="/images/office/pics/user/39.png" alt=""></figure></p>
 
 <p>To get <strong>ssh</strong> log-in access to dwight on this machine, let's create a ssh key-pair on our host machine with <strong>ssh-keygen</strong>.</p>
 
-<p><figure><img src="/blog/images/office/pics/user/40.png" alt=""></figure></p>
+<p><figure><img src="/images/office/pics/user/40.png" alt=""></figure></p>
 
 <p>Then copy the <strong>public key</strong> that we created and paste it onto <strong>/home/dwight/.ssh/authorized_keys</strong> on the remote machine.</p>
 
-<p><figure><img src="/blog/images/office/pics/user/41.png" alt=""></figure></p>
+<p><figure><img src="/images/office/pics/user/41.png" alt=""></figure></p>
 
 <p>We now have <strong>ssh</strong> access to dwight on the remote machine with our private key file.</p>
 
-<p><figure><img src="/blog/images/office/pics/user/42.png" alt=""></figure></p>
+<p><figure><img src="/images/office/pics/user/42.png" alt=""></figure></p>
 
 <hr>
 
@@ -224,44 +224,44 @@
 
 <p>After browsing around the machine for a few minutes we find a file called <strong>webmin-setup.out</strong>.</p>
 
-<p><figure><img src="/blog/images/office/pics/root/1.png" alt=""></figure></p>
+<p><figure><img src="/images/office/pics/root/1.png" alt=""></figure></p>
 
 <p>Looking at this file we can see the version number and port that this application is supposed to be running on.</p>
 
-<p><figure><img src="/blog/images/office/pics/root/2.png" alt=""></figure></p>
+<p><figure><img src="/images/office/pics/root/2.png" alt=""></figure></p>
 
 <p>Let's use <strong>netstat</strong> to see if there is actually anything running on this port.</p>
 
-<p><figure><img src="/blog/images/office/pics/root/3.png" alt=""></figure></p>
+<p><figure><img src="/images/office/pics/root/3.png" alt=""></figure></p>
 
 <p>We find that there is an application using this port, so it is most likely this <strong>Webmin</strong>. But what exactly is Webmin?</p>
 
-<p><figure><img src="/blog/images/office/pics/root/4.png" alt=""></figure></p>
+<p><figure><img src="/images/office/pics/root/4.png" alt=""></figure></p>
 
 <p><a href="https://en.wikipedia.org/wiki/Webmin">Wikipedia</a> tells us that it is a web based system configuration tool for linux. Let's do a little bit of searching and see if the version of this software that is installed has any publicly known vulnerabilities.</p>
 
-<p><figure><img src="/blog/images/office/pics/root/5.png" alt=""></figure></p>
+<p><figure><img src="/images/office/pics/root/5.png" alt=""></figure></p>
 
 <p>It most definitely does have known vulnerabilities. Let's use ssh to forward this service port over to our local machine and take a look at it in our browser.</p>
 
-<p><figure><img src="/blog/images/office/pics/root/6.png" alt=""></figure>
-<figure><img src="/blog/images/office/pics/root/7.png" alt=""></figure></p>
+<p><figure><img src="/images/office/pics/root/6.png" alt=""></figure>
+<figure><img src="/images/office/pics/root/7.png" alt=""></figure></p>
 
 <p>And here we have the <strong>Log-in Portal</strong> for the service. Is this the portal that Jim was talking about trying to find a password for? I'm not sure brute force guessing passwords is the best way to approach this, since it has some commonly known vulnerabilities. Let's start up the <em>Metasploit Framework Console</em> with the <strong>msfconsole</strong> command on our host machine and search for exploit scripts for this service. We will try the <strong>webmin_backdoor</strong> exploit, as it seems that we do not need to be authenticated to successfully use this exploit.</p>
 
-<p><figure><img src="/blog/images/office/pics/root/8.png" alt=""></figure></p>
+<p><figure><img src="/images/office/pics/root/8.png" alt=""></figure></p>
 
 <p>We look at the options for the exploit and set the remote machine's address to our localhost address that we are forwarding the service to, then set our listening address to our host machine's network address.</p>
 
-<p><figure><img src="/blog/images/office/pics/root/9.png" alt=""></figure></p>
+<p><figure><img src="/images/office/pics/root/9.png" alt=""></figure></p>
 
 <p>Next we cross our fingers and run the exploit. Success! The exploit ran and called back to the listener giving us an open session.</p>
 
-<p><figure><img src="/blog/images/office/pics/root/10.png" alt=""></figure></p>
+<p><figure><img src="/images/office/pics/root/10.png" alt=""></figure></p>
 
 <p>We now have a shell prompt with <strong>root</strong> level privileges and can print the flag file <strong>/root/system.txt</strong></p>
 
-<p><figure><img src="/blog/images/office/pics/root/11.png" alt=""></figure></p>
+<p><figure><img src="/images/office/pics/root/11.png" alt=""></figure></p>
 
 <p>Now that we have root access to the machine it would be trivial to stop Dwight's &quot;Doomsday Device&quot;, or set up persistent access and do anything else we wanted to do. I will thank the creator for this very fun, creative challenge. I thoroughly enjoyed it.</p>
 
