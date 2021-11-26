@@ -3,82 +3,82 @@
   <channel>
     <author>plasticuproject</author>
     <title>plasticuproject&#39;s blog</title>
-    <link>http://plasticuproject.com/</link>
+    <link>https://plasticuproject.com/</link>
     <description>Recent content on plasticuproject&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 18 Jul 2020 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://plasticuproject.com/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://plasticuproject.com/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <author>plasticuproject</author>
       <title>HackTheBox Sauna Write-Up</title>
-      <link>http://plasticuproject.com/posts/sauna-write-up/</link>
+      <link>https://plasticuproject.com/posts/sauna-write-up/</link>
       <pubDate>Sat, 18 Jul 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://plasticuproject.com/posts/sauna-write-up/</guid>
+      <guid>https://plasticuproject.com/posts/sauna-write-up/</guid>
       <description>Sauna is an easy difficulty Windows machine where we exploit weaknesses in an Active Directory environment.</description>
     </item>
     
     <item>
       <author>plasticuproject</author>
       <title>CyberSecLabs Office Write-Up</title>
-      <link>http://plasticuproject.com/posts/office-write-up/</link>
+      <link>https://plasticuproject.com/posts/office-write-up/</link>
       <pubDate>Fri, 19 Jun 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://plasticuproject.com/posts/office-write-up/</guid>
+      <guid>https://plasticuproject.com/posts/office-write-up/</guid>
       <description>Office is a hard difficulty linux machine where we need to stop Dwight&#39;s &#34;Accountability Booster&#34; (Doomsday Device) by gaining admin access to a content management system and root access to a server via a system configuration tool vulnerability.</description>
     </item>
     
     <item>
       <author>plasticuproject</author>
       <title>CyberSecLabs Plastic Preservation Write-Up</title>
-      <link>http://plasticuproject.com/posts/plastic-preservation-write-up/</link>
+      <link>https://plasticuproject.com/posts/plastic-preservation-write-up/</link>
       <pubDate>Fri, 29 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://plasticuproject.com/posts/plastic-preservation-write-up/</guid>
+      <guid>https://plasticuproject.com/posts/plastic-preservation-write-up/</guid>
       <description>Plastic Preservation is a CyberSecLabs challenge I created where we defeat an encryption function written in python.</description>
     </item>
     
     <item>
       <author>plasticuproject</author>
       <title>CyberSecLabs Shares Write-Up</title>
-      <link>http://plasticuproject.com/posts/shares-write-up/</link>
+      <link>https://plasticuproject.com/posts/shares-write-up/</link>
       <pubDate>Tue, 19 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://plasticuproject.com/posts/shares-write-up/</guid>
+      <guid>https://plasticuproject.com/posts/shares-write-up/</guid>
       <description>Shares is an easy difficulty linux box where we will discover and mount a Network File System, export and crack SSH keys, leverage sudo privileges to run python as another user, and use a SSH shell escape method to obtain root access.</description>
     </item>
     
     <item>
       <author>plasticuproject</author>
       <title>picoCTF 2019 b00tl3gRSA3 Write-Up</title>
-      <link>http://plasticuproject.com/posts/b00tl3grsa3-write-up/</link>
+      <link>https://plasticuproject.com/posts/b00tl3grsa3-write-up/</link>
       <pubDate>Fri, 15 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://plasticuproject.com/posts/b00tl3grsa3-write-up/</guid>
+      <guid>https://plasticuproject.com/posts/b00tl3grsa3-write-up/</guid>
       <description>b00tl3gRSA3 is a picoCTF 2019 cryptography challenge where we have to decrypt a message given just the RSA Public Key constituents.</description>
     </item>
     
     <item>
       <author>plasticuproject</author>
       <title>HackTheBox Obscurity Write-Up</title>
-      <link>http://plasticuproject.com/posts/obscurity-write-up/</link>
+      <link>https://plasticuproject.com/posts/obscurity-write-up/</link>
       <pubDate>Fri, 08 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://plasticuproject.com/posts/obscurity-write-up/</guid>
+      <guid>https://plasticuproject.com/posts/obscurity-write-up/</guid>
       <description>Obscurity is a medium difficulty box where we will leverage bad server code to inject and run commands, and take advantage of poor cryptography and leftover files to get user access. From there we take advantage of sudo privileges and a poorly executed program to read the root.txt file.</description>
     </item>
     
     <item>
       <author>plasticuproject</author>
       <title>HackTheBox Mango Write-Up</title>
-      <link>http://plasticuproject.com/posts/mango-write-up/</link>
+      <link>https://plasticuproject.com/posts/mango-write-up/</link>
       <pubDate>Fri, 17 Apr 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://plasticuproject.com/posts/mango-write-up/</guid>
+      <guid>https://plasticuproject.com/posts/mango-write-up/</guid>
       <description>Mango is a medium difficulty box where with basic enumeration and some MongoDB NO-SQL Injection we can extract user passwords to log in and get user access. From there we will leverage a classic jjs privilege escalation to get root access and read the root.txt file.</description>
     </item>
     
