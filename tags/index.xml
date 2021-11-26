@@ -3,72 +3,72 @@
   <channel>
     <author>plasticuproject</author>
     <title>Tags on plasticuproject&#39;s blog</title>
-    <link>http://plasticuproject.com/tags/</link>
+    <link>https://plasticuproject.github.io/blog/tags/</link>
     <description>Recent content in Tags on plasticuproject&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 18 Jul 2020 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="http://plasticuproject.com/tags/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://plasticuproject.github.io/blog/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <author>plasticuproject</author>
       <title>HTB</title>
-      <link>http://plasticuproject.com/tags/htb/</link>
+      <link>https://plasticuproject.github.io/blog/tags/htb/</link>
       <pubDate>Sat, 18 Jul 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://plasticuproject.com/tags/htb/</guid>
+      <guid>https://plasticuproject.github.io/blog/tags/htb/</guid>
       <description></description>
     </item>
     
     <item>
       <author>plasticuproject</author>
       <title>Write-Up</title>
-      <link>http://plasticuproject.com/tags/write-up/</link>
+      <link>https://plasticuproject.github.io/blog/tags/write-up/</link>
       <pubDate>Sat, 18 Jul 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://plasticuproject.com/tags/write-up/</guid>
+      <guid>https://plasticuproject.github.io/blog/tags/write-up/</guid>
       <description></description>
     </item>
     
     <item>
       <author>plasticuproject</author>
       <title>CyberSecLabs</title>
-      <link>http://plasticuproject.com/tags/cyberseclabs/</link>
+      <link>https://plasticuproject.github.io/blog/tags/cyberseclabs/</link>
       <pubDate>Fri, 19 Jun 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://plasticuproject.com/tags/cyberseclabs/</guid>
+      <guid>https://plasticuproject.github.io/blog/tags/cyberseclabs/</guid>
       <description></description>
     </item>
     
     <item>
       <author>plasticuproject</author>
       <title>Cryptography</title>
-      <link>http://plasticuproject.com/tags/cryptography/</link>
+      <link>https://plasticuproject.github.io/blog/tags/cryptography/</link>
       <pubDate>Fri, 29 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://plasticuproject.com/tags/cryptography/</guid>
+      <guid>https://plasticuproject.github.io/blog/tags/cryptography/</guid>
       <description></description>
     </item>
     
     <item>
       <author>plasticuproject</author>
       <title>Python</title>
-      <link>http://plasticuproject.com/tags/python/</link>
+      <link>https://plasticuproject.github.io/blog/tags/python/</link>
       <pubDate>Fri, 29 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://plasticuproject.com/tags/python/</guid>
+      <guid>https://plasticuproject.github.io/blog/tags/python/</guid>
       <description></description>
     </item>
     
     <item>
       <author>plasticuproject</author>
       <title>picoCTF</title>
-      <link>http://plasticuproject.com/tags/picoctf/</link>
+      <link>https://plasticuproject.github.io/blog/tags/picoctf/</link>
       <pubDate>Fri, 15 May 2020 00:00:00 +0000</pubDate>
       
-      <guid>http://plasticuproject.com/tags/picoctf/</guid>
+      <guid>https://plasticuproject.github.io/blog/tags/picoctf/</guid>
       <description></description>
     </item>
     
