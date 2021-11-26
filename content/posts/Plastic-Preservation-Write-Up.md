@@ -3,14 +3,14 @@ layout: post
 title: "CyberSecLabs Plastic Preservation Write-Up"
 categories: Write-Up
 date: 2020-05-29
-image: /blog/images/shares/pics/CyberSecLabs.png
+image: /images/shares/pics/CyberSecLabs.png
 description: Plastic Preservation is a CyberSecLabs challenge I created where we defeat an encryption function written in python.
 tags: [CyberSecLabs, Write-Up, Python, Cryptography]
 katex: true
 markup: "mmark"
 ---
 
-![CyberSecLabs](/blog/images/shares/pics/CyberSecLabs.png#center)
+![CyberSecLabs](/images/shares/pics/CyberSecLabs.png#center)
 
 ---
 ## The Challenge
@@ -299,11 +299,11 @@ PASSWORD: y0u_kn0w_y0ur_py7h0n_w3ll
 ```
 We now have the original password that was fed into **password_encrypter.py** and can use it to unlock **flag.txt.zip**.
 
-![password](/blog/images/plastic_preservation/password.png)
+![password](/images/plastic_preservation/password.png)
 
 We can now read **flag.txt** and solve the challenge.
 
-![flag](/blog/images/plastic_preservation/flag.png)
+![flag](/images/plastic_preservation/flag.png)
 
 I designed this challenge in a way where you would really need to understand what the python code is doing in order to reverse the encryption. It is also a good example of how you can rebuild anything if there is total information preservation.
 
@@ -326,15 +326,15 @@ This function was used in the game code to hash asset names. Looking at this ori
 
 > _Note: This image uses the "**^**" character in place of an "**&**", but it still represents an **AND** operation._
 
-![truth_table](/blog/images/plastic_preservation/logical_conjunction.png#center)
+![truth_table](/images/plastic_preservation/logical_conjunction.png#center)
 
 If we substitute _T_ with _1_, and _F_ with _0_ we get bitwise operations.
 
-![bitwise](/blog/images/plastic_preservation/bitwise.png#center)
+![bitwise](/images/plastic_preservation/bitwise.png#center)
 
 As you can see, we cannot simply compute the operation in reverse to reproduce the first value - it does not have an  Associative Property. The _AND_ operation is [destructive](https://stackoverflow.com/questions/2566225/how-to-reverse-bitwise-and-in-c#2566235) - it throws information away. Let's compare this to the Truth Table for the [Exclusive Disjunction](https://en.wikipedia.org/wiki/Exclusive_or) _XOR_ operation that we replaced it with, which has the Associative Property. <sup id="cite_note-3">[[3]](#cite_ref-3)</sup>
 
-![truth_table](/blog/images/plastic_preservation/exclusive_disjunction.png#center)
+![truth_table](/images/plastic_preservation/exclusive_disjunction.png#center)
 
 It is clear that every operation can be computed both forward and backward. In order to make this function reversible for the challenge I had to remove the logical _AND_, and replace it with a non-destructive _XOR_ operation to retain total information preservation, hence the name given to this challenge.
 

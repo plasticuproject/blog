@@ -3,25 +3,25 @@ layout: post
 title: "picoCTF 2019 b00tl3gRSA3 Write-Up"
 categories: Write-Up
 date: 2020-05-15
-image: /blog/images/b00tl3gRSA3/picoctf_logo.png
+image: /images/b00tl3gRSA3/picoctf_logo.png
 description: b00tl3gRSA3 is a picoCTF 2019 cryptography challenge where we have to decrypt a message given just the RSA Public Key constituents.
 tags: [picoCTF, Write-Up, Python, Cryptography]
 katex: true
 markup: "mmark"
 ---
 
-![](/blog/images/b00tl3gRSA3/picoctf_logo.png#center)
+![](/images/b00tl3gRSA3/picoctf_logo.png#center)
 
 ---
 
 ## The Challenge
 
-![Challenge](/blog/images/b00tl3gRSA3/challenge.png#center)
+![Challenge](/images/b00tl3gRSA3/challenge.png#center)
 
 
 Let's connect with netcat like it tells us and see what we are given to work with.
 
-![Challenge](/blog/images/b00tl3gRSA3/values.png#center)
+![Challenge](/images/b00tl3gRSA3/values.png#center)
 
 
 It has returned to us numerical values for $$c$$, $$n$$ and $$e$$. Experience tells us that this is an **encrypted ciphertext**, **RSA Key Modulus** value, and **RSA Key Exponent** value, respectively. Values $$n$$ and $$e$$ make up the **RSA Public Key** that was used to encrypt a plaintext message $$m$$, and produce ciphertext $$c$$. We need to break this encryption by calculating a **RSA Private Key** from these values, then use it to decrypt $$c$$. Let's first look at how RSA Keys are generated before trying to crack this.
@@ -409,7 +409,7 @@ picoCTF{too_many_fact0rs_0744041}
 ```
 
 We enter the flag and are notified that our solution is correct.
-![solved](/blog/images/b00tl3gRSA3/solved.png#center)
+![solved](/images/b00tl3gRSA3/solved.png#center)
 
 
 This was a fun challenge demonstrating how to use a basic RSA encryption method for un-padded messages. This is not a very real world example, as it is unlikely you will ever see $$n$$ computed with more than two values, and real messages are rarely un-padded, but this was a great way to get your feet wet with basic principles of RSA Encryption.
