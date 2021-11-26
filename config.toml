@@ -1,5 +1,5 @@
 # Site settings
-baseurl = "https://plasticuproject.github.io/blog/"
+baseurl = "plasticuproject.com"
 themesDir = "themes"
 languageCode = "en-us"
 title = "plasticuproject's blog"
