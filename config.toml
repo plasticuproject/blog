@@ -53,7 +53,7 @@ paginate = 20
 # Add additional social link entries underneath
 [social]
     code     = "https://pypi.org/user/plasticuproject"
-    cube     = "https://www.hackthebox.eu/profile/32882"
+    cube     = "https://www.hackthebox.com/profile/32882"
     key      = "https://cryptohack.org/user/snuggles"
     github   = "https://www.github.com/plasticuproject"
     envelope = "https://gchq.github.io/CyberChef/#recipe=From_Base64('A-Za-z0-9%2B/%3D',true)&input=Y0d4aGMzUnBZM1Z3Y205cVpXTjBRSEJ0TG0xbA"
