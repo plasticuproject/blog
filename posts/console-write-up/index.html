@@ -41,7 +41,7 @@
 <meta itemprop="description" content="Console is a medium difficulty web challenge where we will install a php-console browser extension, review the related source code and use what we learn to perform an offline dictionary attack on a salted hash to obtain authentication for server-side control.">
 <meta itemprop="datePublished" content="2021-12-05T00:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2021-12-05T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="937">
+<meta itemprop="wordCount" content="929">
 
 
 
@@ -110,7 +110,7 @@
 
 <p><figure><img src="/images/console/pics/3.png#center" alt=""></figure></p>
 
-<p>I actually have no idea what this is, and had to do a bit of web searching to find two related github repositories, a server library, <a href="https://github.com/barbushin/php-console">php-console</a>, and a Chrome browser extension, <a href="https://github.com/barbushin/php-console-extension">php-console-extension</a>. The browser extension is no longer available in the Chrome store, so we have to manually download the source zip from github, unpack it, and load the extension into Chromium.</p>
+<p>I had no idea what this is, and had to do a bit of web searching to find two related github repositories; a server library, <a href="https://github.com/barbushin/php-console">php-console</a>, and a Chrome browser extension, <a href="https://github.com/barbushin/php-console-extension">php-console-extension</a>. The browser extension is no longer available in the Chrome store, so we have to manually download the source zip from github, unpack it, and load the extension into Chromium.</p>
 
 <p><figure><img src="/images/console/pics/4.png#center" alt=""></figure></p>
 
@@ -128,7 +128,7 @@
 
 <h2 id="reviewing-the-source-code">Reviewing The Source Code</h2>
 
-<p>At this point we <em>could</em> try to just bruteforce/dictionary attack the password live over the network with some simple scripting, but that is dangerous and could lead to failure, or even worse getting caught and/or IP banned. A better idea is to take a look at the source code for the server library, since it is open source, and see if we can leverage any information to help us authenticate or bypass authentication altogether. Here on the <a href="https://github.com/barbushin/php-console/wiki/PHP-Console-server-features">server-features</a> page we can see some of the features of the library, as well as how it authenticates clients. We see it says it uses SHA-256 password hashing along with the client IP address to create an Auth token.</p>
+<p>At this point we <em>could</em> try to just bruteforce/dictionary attack the password live over the network with some simple scripting, but that is dangerous and could lead to failure, or even worse getting caught and/or IP banned. A better idea is to take a look at the source code for the server library, since it is open source, and see if we can leverage any information to help us authenticate or bypass authentication altogether. The <a href="https://github.com/barbushin/php-console/wiki/PHP-Console-server-features">server-features</a> page lists some of the library features as well as how it authenticates clients. It lets us know that the client Auth token is hashed with SHA-256 and the client IP address.</p>
 
 <p><figure><img src="/images/console/pics/14.png#center" alt=""></figure></p>
 
@@ -301,11 +301,11 @@
 
 <p><figure><img src="/images/console/pics/12.png#center" alt=""></figure></p>
 
-<p>When we log in we successfully authenticate and obtain the challenge flag in a debug alert box!</p>
+<p>The password is valid, allowing us to successfully authenticate and obtain the challlenge flag in a debug alert box!</p>
 
 <p><figure><img src="/images/console/pics/13.png#center" alt=""></figure></p>
 
-<p>We now have access to all the server side features of the <strong>PHP Console</strong>!</p>
+<p>We now have access to all the server-side features of the <strong>PHP Console</strong>!</p>
 
 <hr>
 
