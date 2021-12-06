@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en-us">
+	<head>
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="plasticuproject">
+<meta name="description" content="Self Promoting Blog">
+<meta name="generator" content="Hugo 0.70.0" />
+<title>HackTheBox Console Write-Up</title>
+<link rel="shortcut icon" href="https://plasticuproject.com/images/favicon.ico">
+<link rel="stylesheet" href="https://plasticuproject.com/css/style.css">
+<link rel="stylesheet" href="https://plasticuproject.com/css/highlight.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+
+
+
+<link href="https://plasticuproject.com/index.xml" rel="alternate" type="application/rss+xml" title="plasticuproject&#39;s blog" />
+
+
+<meta property="og:title" content="HackTheBox Console Write-Up" />
+<meta property="og:description" content="Console is a medium difficulty web challenge where we will install a php-console browser extension, review the related source code and use what we learn to perform an offline dictionary attack on a salted hash to obtain authentication for server-side control." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://plasticuproject.com/posts/console-write-up/" />
+<meta property="article:published_time" content="2021-12-05T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-12-05T00:00:00+00:00" />
+
+
+<meta itemprop="name" content="HackTheBox Console Write-Up">
+<meta itemprop="description" content="Console is a medium difficulty web challenge where we will install a php-console browser extension, review the related source code and use what we learn to perform an offline dictionary attack on a salted hash to obtain authentication for server-side control.">
+<meta itemprop="datePublished" content="2021-12-05T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2021-12-05T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="937">
+
+
+
+<meta itemprop="keywords" content="HTB,Write-Up,Web," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="HackTheBox Console Write-Up"/>
+<meta name="twitter:description" content="Console is a medium difficulty web challenge where we will install a php-console browser extension, review the related source code and use what we learn to perform an offline dictionary attack on a salted hash to obtain authentication for server-side control."/>
+
+
+    </head>
+<body>
+    <nav class="main-nav">
+	
+		<a href='https://plasticuproject.com'>Home</a>
+	
+
+	
+ 		<a href='/about/'>About</a>
+  	
+
+    <a href='https://plasticuproject.com/tags'>Tags</a>
+
+	
+		<a href="https://plasticuproject.com/index.xml">RSS</a>
+	
+</nav>
+
+    <section id="wrapper">
+        
+        
+<article class="post">
+    <header>
+        <h1>HackTheBox Console Write-Up</h1>
+        <h2 class="subtitle">Console is a medium difficulty web challenge where we will install a php-console browser extension, review the related source code and use what we learn to perform an offline dictionary attack on a salted hash to obtain authentication for server-side control.</h2>
+        <h2 class="headline">
+        December 5, 2021
+        <br>
+          
+            
+              
+              <a href="https://plasticuproject.com/tags/htb">HTB</a>
+            
+               | 
+              <a href="https://plasticuproject.com/tags/write-up">Write-Up</a>
+            
+               | 
+              <a href="https://plasticuproject.com/tags/web">Web</a>
+            
+          
+        </h2>
+    </header>
+    <section id="post-body">
+        <p><figure><img src="/images/console/Hack-The-Box-logo.png#center" alt=""></figure></p>
+
+<hr>
+
+<h2 id="getting-started">Getting Started</h2>
+
+<p><figure><img src="/images/console/pics/1.png#center" alt=""></figure></p>
+
+<p>After launching the challenge instance we are instructed to connect to <strong>167.99.202.131:31939</strong>. Since the challenge description hint is <strong><em>Could you please check the console of your Chrome?</em></strong>, we will connect to this address in a Chromium browser, because I refuse to use actual Chrome ;-). Once we connect we are greeted with a standard looking <strong>phpinfo()</strong> page.</p>
+
+<p><figure><img src="/images/console/pics/2.png#center" alt=""></figure></p>
+
+<p>Everything seems pretty standard except the line instructing us to load <strong>php-console</strong> in order to be prompted for a password.</p>
+
+<p><figure><img src="/images/console/pics/3.png#center" alt=""></figure></p>
+
+<p>I actually have no idea what this is, and had to do a bit of web searching to find two related github repositories, a server library, <a href="https://github.com/barbushin/php-console">php-console</a>, and a Chrome browser extension, <a href="https://github.com/barbushin/php-console-extension">php-console-extension</a>. The browser extension is no longer available in the Chrome store, so we have to manually download the source zip from github, unpack it, and load the extension into Chromium.</p>
+
+<p><figure><img src="/images/console/pics/4.png#center" alt=""></figure></p>
+
+<p><figure><img src="/images/console/pics/5.png#center" alt=""></figure></p>
+
+<p>Once loaded we revisited the page and used the new <strong>PHP Console</strong> browser extension.</p>
+
+<p><figure><img src="/images/console/pics/6.png#center" alt=""></figure></p>
+
+<p>We are then prompted to enter a password for authorization to the server.</p>
+
+<p><figure><img src="/images/console/pics/7.png#center" alt=""></figure></p>
+
+<hr>
+
+<h2 id="reviewing-the-source-code">Reviewing The Source Code</h2>
+
+<p>At this point we <em>could</em> try to just bruteforce/dictionary attack the password live over the network with some simple scripting, but that is dangerous and could lead to failure, or even worse getting caught and/or IP banned. A better idea is to take a look at the source code for the server library, since it is open source, and see if we can leverage any information to help us authenticate or bypass authentication altogether. Here on the <a href="https://github.com/barbushin/php-console/wiki/PHP-Console-server-features">server-features</a> page we can see some of the features of the library, as well as how it authenticates clients. We see it says it uses SHA-256 password hashing along with the client IP address to create an Auth token.</p>
+
+<p><figure><img src="/images/console/pics/14.png#center" alt=""></figure></p>
+
+<p>Let's take a look at <a href="https://github.com/barbushin/php-console/blob/master/src/PhpConsole/Auth.php">Auth.php</a> in the server library and see exactly how this hashing scheme works.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#75715e">&lt;?php</span>
+
+<span style="color:#66d9ef">namespace</span> <span style="color:#a6e22e">PhpConsole</span>;
+
+<span style="color:#e6db74">/**
+</span><span style="color:#e6db74"> * PHP Console client authorization credentials &amp; validation class
+</span><span style="color:#e6db74"> *
+</span><span style="color:#e6db74"> * @package PhpConsole
+</span><span style="color:#e6db74"> * @version 3.1
+</span><span style="color:#e6db74"> * @link http://consle.com
+</span><span style="color:#e6db74"> * @author Sergey Barbushin http://linkedin.com/in/barbushin
+</span><span style="color:#e6db74"> * @copyright © Sergey Barbushin, 2011-2013. All rights reserved.
+</span><span style="color:#e6db74"> * @license http://www.opensource.org/licenses/BSD-3-Clause &#34;The BSD 3-Clause License&#34;
+</span><span style="color:#e6db74"> * @codeCoverageIgnore
+</span><span style="color:#e6db74"> */</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Auth</span> {
+
+	<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">PASSWORD_HASH_SALT</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;NeverChangeIt:)&#39;</span>;
+
+	<span style="color:#66d9ef">protected</span> $publicKeyByIp;
+	<span style="color:#66d9ef">protected</span> $passwordHash;
+
+	<span style="color:#e6db74">/**
+</span><span style="color:#e6db74">	 * @param string $password Common password for all clients
+</span><span style="color:#e6db74">	 * @param bool $publicKeyByIp Set public key depending on client IP
+</span><span style="color:#e6db74">	 */</span>
+	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> __construct($password, $publicKeyByIp <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>) {
+		$this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">publicKeyByIp</span> <span style="color:#f92672">=</span> $publicKeyByIp;
+		$this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">passwordHash</span> <span style="color:#f92672">=</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getPasswordHash</span>($password);
+	}
+
+	<span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">hash</span>($string) {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">hash</span>(<span style="color:#e6db74">&#39;sha256&#39;</span>, $string);
+	}
+
+	<span style="color:#e6db74">/**
+</span><span style="color:#e6db74">	 * Get password hash like on client
+</span><span style="color:#e6db74">	 * @param $password
+</span><span style="color:#e6db74">	 * @return string
+</span><span style="color:#e6db74">	 */</span>
+	<span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getPasswordHash</span>($password) {
+		<span style="color:#66d9ef">return</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">hash</span>($password <span style="color:#f92672">.</span> <span style="color:#a6e22e">self</span><span style="color:#f92672">::</span><span style="color:#a6e22e">PASSWORD_HASH_SALT</span>);
+	}
+
+	<span style="color:#e6db74">/**
+</span><span style="color:#e6db74">	 * Get authorization result data for client
+</span><span style="color:#e6db74">	 * @codeCoverageIgnore
+</span><span style="color:#e6db74">	 * @param ClientAuth|null $clientAuth
+</span><span style="color:#e6db74">	 * @return ServerAuthStatus
+</span><span style="color:#e6db74">	 */</span>
+	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getServerAuthStatus</span>(<span style="color:#a6e22e">ClientAuth</span> $clientAuth <span style="color:#f92672">=</span> <span style="color:#66d9ef">null</span>) {
+		$serverAuthStatus <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">ServerAuthStatus</span>();
+		$serverAuthStatus<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">publicKey</span> <span style="color:#f92672">=</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getPublicKey</span>();
+		$serverAuthStatus<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">isSuccess</span> <span style="color:#f92672">=</span> $clientAuth <span style="color:#f92672">&amp;&amp;</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">isValidAuth</span>($clientAuth);
+		<span style="color:#66d9ef">return</span> $serverAuthStatus;
+	}
+
+	<span style="color:#e6db74">/**
+</span><span style="color:#e6db74">	 * Check if client authorization data is valid
+</span><span style="color:#e6db74">	 * @codeCoverageIgnore
+</span><span style="color:#e6db74">	 * @param ClientAuth $clientAuth
+</span><span style="color:#e6db74">	 * @return bool
+</span><span style="color:#e6db74">	 */</span>
+	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">isValidAuth</span>(<span style="color:#a6e22e">ClientAuth</span> $clientAuth) {
+		<span style="color:#66d9ef">return</span> $clientAuth<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">publicKey</span> <span style="color:#f92672">===</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getPublicKey</span>() <span style="color:#f92672">&amp;&amp;</span> $clientAuth<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">token</span> <span style="color:#f92672">===</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getToken</span>();
+	}
+
+	<span style="color:#e6db74">/**
+</span><span style="color:#e6db74">	 * Get client unique identification
+</span><span style="color:#e6db74">	 * @return string
+</span><span style="color:#e6db74">	 */</span>
+	<span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getClientUid</span>() {
+		$clientUid <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;&#39;</span>;
+		<span style="color:#66d9ef">if</span>($this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">publicKeyByIp</span>) {
+			<span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">isset</span>($_SERVER[<span style="color:#e6db74">&#39;REMOTE_ADDR&#39;</span>])) {
+				$clientUid <span style="color:#f92672">.=</span> $_SERVER[<span style="color:#e6db74">&#39;REMOTE_ADDR&#39;</span>];
+			}
+			<span style="color:#66d9ef">if</span>(<span style="color:#a6e22e">isset</span>($_SERVER[<span style="color:#e6db74">&#39;HTTP_X_FORWARDED_FOR&#39;</span>])) {
+				$clientUid <span style="color:#f92672">.=</span> $_SERVER[<span style="color:#e6db74">&#39;HTTP_X_FORWARDED_FOR&#39;</span>];
+			}
+		}
+		<span style="color:#66d9ef">return</span> $clientUid;
+	}
+
+	<span style="color:#e6db74">/**
+</span><span style="color:#e6db74">	 * Get authorization session public key for current client
+</span><span style="color:#e6db74">	 * @return string
+</span><span style="color:#e6db74">	 */</span>
+	<span style="color:#66d9ef">protected</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getPublicKey</span>() {
+		<span style="color:#66d9ef">return</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">hash</span>($this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getClientUid</span>() <span style="color:#f92672">.</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">passwordHash</span>);
+	}
+
+	<span style="color:#e6db74">/**
+</span><span style="color:#e6db74">	 * Get string signature for current password &amp; public key
+</span><span style="color:#e6db74">	 * @param $string
+</span><span style="color:#e6db74">	 * @return string
+</span><span style="color:#e6db74">	 */</span>
+	<span style="color:#66d9ef">public</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getSignature</span>($string) {
+		<span style="color:#66d9ef">return</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">hash</span>($this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">passwordHash</span> <span style="color:#f92672">.</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getPublicKey</span>() <span style="color:#f92672">.</span> $string);
+	}
+
+	<span style="color:#e6db74">/**
+</span><span style="color:#e6db74">	 * Get expected valid client authorization token
+</span><span style="color:#e6db74">	 * @return string
+</span><span style="color:#e6db74">	 */</span>
+	<span style="color:#66d9ef">private</span> <span style="color:#66d9ef">final</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">getToken</span>() {
+		<span style="color:#66d9ef">return</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">hash</span>($this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">passwordHash</span> <span style="color:#f92672">.</span> $this<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">getPublicKey</span>());
+	}
+}
+</code></pre></div>
+<p>Here we can see that it is using <strong>SHA-256</strong> as well as a <strong>salt</strong> with a default value <strong>NeverChangeIt:)</strong>, which is used by the <strong>getPasswordHash()</strong> function to create the <strong>passwordHash</strong>. It creates a <strong>publicKey</strong> by hashing the client IP address from <strong>getClientUid()</strong> combined with <strong>passwordHash</strong> in the function <strong>getPublicKey()</strong>.</p>
+
+<hr>
+
+<h2 id="cracking-the-hash">Cracking The Hash</h2>
+
+<p>If we input a test password then use the browser inspect feature to look at our request/response, we see that we get a <strong>php-console-client</strong> cookie with a base 64 value.</p>
+
+<p><figure><img src="/images/console/pics/8.png#center" alt=""></figure></p>
+
+<p>When we decode this value we see it contains both the auth <strong>publicKey</strong> and <strong>token</strong>. Since we know how the publicKey is constructed we can use our client IP address, the default salt, and a wordlist to perform an <strong>offline dictionary/bruteforce attack</strong> on this hash.</p>
+
+<p><figure><img src="/images/console/pics/9.png#center" alt=""></figure></p>
+
+<p><figure><img src="/images/console/pics/10.png#center" alt=""></figure></p>
+
+<p>As long as the default salt has not been changed and the password can be found in a wordlist, we should be able to crack this hash and obtain the password that was used to construct it.</p>
+
+<p>Here is a quick and dirty python script I wrote to perform this dictionary attack using the <strong>rockyou.txt</strong> wordlist.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#e6db74">&#34;&#34;&#34;Python script to crack php-console password.&#34;&#34;&#34;</span>
+<span style="color:#f92672">import</span> hashlib
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">crack</span>():
+    <span style="color:#e6db74">&#34;&#34;&#34;Crack the thing.&#34;&#34;&#34;</span>
+    <span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#34;rockyou.txt&#34;</span>, <span style="color:#e6db74">&#34;r&#34;</span>, encoding<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;latin-1&#34;</span>) <span style="color:#66d9ef">as</span> infile:
+        rockyou <span style="color:#f92672">=</span> infile<span style="color:#f92672">.</span>read()<span style="color:#f92672">.</span>split()
+
+    salt <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;NeverChangeIt:)&#34;</span><span style="color:#f92672">.</span>encode()
+    ip_address <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;167.99.202.131&#34;</span><span style="color:#f92672">.</span>encode()
+    pubkey <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;814994779a2eb8f552b6b4fab5afbdfd14332bfc815afa250b6d1b33859a8b72&#34;</span>
+
+    <span style="color:#66d9ef">for</span> word <span style="color:#f92672">in</span> rockyou:
+        <span style="color:#66d9ef">try</span>:
+            password <span style="color:#f92672">=</span> hashlib<span style="color:#f92672">.</span>sha256(word<span style="color:#f92672">.</span>encode() <span style="color:#f92672">+</span>
+                                      salt)<span style="color:#f92672">.</span>hexdigest()<span style="color:#f92672">.</span>encode()
+            attempt <span style="color:#f92672">=</span> hashlib<span style="color:#f92672">.</span>sha256(ip_address <span style="color:#f92672">+</span> password)<span style="color:#f92672">.</span>hexdigest()
+            <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;TRYING: &#34;</span> <span style="color:#f92672">+</span> word <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;:&#34;</span> <span style="color:#f92672">+</span> attempt)
+            <span style="color:#66d9ef">if</span> attempt <span style="color:#f92672">==</span> pubkey:
+                <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">CRACKED!!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">Login Password is: &#34;</span> <span style="color:#f92672">+</span> word)
+                quit()
+        <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">UnicodeDecodeError</span>:
+            <span style="color:#66d9ef">print</span>(word)
+            <span style="color:#66d9ef">continue</span>
+        <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">KeyboardInterrupt</span>:
+            quit()
+
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
+    crack()</code></pre></div>
+<p>Running it successfully rebuilds the hash with the word <strong>poohbear</strong> used as the password.</p>
+
+<p><figure><img src="/images/console/pics/11.png#center" alt=""></figure></p>
+
+<p>Now let's use that password to log into the <strong>PHP Console</strong>.</p>
+
+<p><figure><img src="/images/console/pics/12.png#center" alt=""></figure></p>
+
+<p>When we log in we successfully authenticate and obtain the challenge flag in a debug alert box!</p>
+
+<p><figure><img src="/images/console/pics/13.png#center" alt=""></figure></p>
+
+<p>We now have access to all the server side features of the <strong>PHP Console</strong>!</p>
+
+<hr>
+
+    </section>
+</article>
+
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "plasticuproject-github-io-blog" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+
+        
+            <footer id="footer">
+    
+        <div id="social">
+
+	
+	
+    <a class="symbol" href="https://pypi.org/user/plasticuproject">
+        <i class="fa fa-code"></i>
+    </a>
+    
+    <a class="symbol" href="https://www.hackthebox.com/profile/32882">
+        <i class="fa fa-cube"></i>
+    </a>
+    
+    <a class="symbol" href="https://gchq.github.io/CyberChef/#recipe=From_Base64%28%27A-Za-z0-9%2B/%3D%27,true%29&amp;input=Y0d4aGMzUnBZM1Z3Y205cVpXTjBRSEJ0TG0xbA">
+        <i class="fa fa-envelope"></i>
+    </a>
+    
+    <a class="symbol" href="https://www.github.com/plasticuproject">
+        <i class="fa fa-github"></i>
+    </a>
+    
+    <a class="symbol" href="https://cryptohack.org/user/snuggles">
+        <i class="fa fa-key"></i>
+    </a>
+    
+
+
+</div>
+
+    
+    <p class="small">
+    
+        © Copyright 2021 plasticuproject
+    
+    </p>
+</footer>
+
+        
+    </section>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://plasticuproject.com/js/main.js"></script>
+<script src="https://plasticuproject.com/js/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-166142607-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+</body>
+</html>

@@ -7,10 +7,20 @@
     <description>Recent content in Write-Up on plasticuproject&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 18 Jul 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 05 Dec 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://plasticuproject.com/categories/write-up/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <author>plasticuproject</author>
+      <title>HackTheBox Console Write-Up</title>
+      <link>https://plasticuproject.com/posts/console-write-up/</link>
+      <pubDate>Sun, 05 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://plasticuproject.com/posts/console-write-up/</guid>
+      <description>Console is a medium difficulty web challenge where we will install a php-console browser extension, review the related source code and use what we learn to perform an offline dictionary attack on a salted hash to obtain authentication for server-side control.</description>
+    </item>
     
     <item>
       <author>plasticuproject</author>

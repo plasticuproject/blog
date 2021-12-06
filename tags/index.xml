@@ -7,7 +7,7 @@
     <description>Recent content in Tags on plasticuproject&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 18 Jul 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 05 Dec 2021 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://plasticuproject.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -16,7 +16,7 @@
       <author>plasticuproject</author>
       <title>HTB</title>
       <link>https://plasticuproject.com/tags/htb/</link>
-      <pubDate>Sat, 18 Jul 2020 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 05 Dec 2021 00:00:00 +0000</pubDate>
       
       <guid>https://plasticuproject.com/tags/htb/</guid>
       <description></description>
@@ -24,9 +24,19 @@
     
     <item>
       <author>plasticuproject</author>
+      <title>Web</title>
+      <link>https://plasticuproject.com/tags/web/</link>
+      <pubDate>Sun, 05 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://plasticuproject.com/tags/web/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <author>plasticuproject</author>
       <title>Write-Up</title>
       <link>https://plasticuproject.com/tags/write-up/</link>
-      <pubDate>Sat, 18 Jul 2020 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 05 Dec 2021 00:00:00 +0000</pubDate>
       
       <guid>https://plasticuproject.com/tags/write-up/</guid>
       <description></description>
