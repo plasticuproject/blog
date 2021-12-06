@@ -26,7 +26,7 @@ Everything seems pretty standard except the line instructing us to load **php-co
 
 ![](/images/console/pics/3.png#center)
 
-I actually have no idea what this is, and had to do a bit of web searching to find two related github repositories, a server library, [php-console](https://github.com/barbushin/php-console), and a Chrome browser extension, [php-console-extension](https://github.com/barbushin/php-console-extension). The browser extension is no longer available in the Chrome store, so we have to manually download the source zip from github, unpack it, and load the extension into Chromium.
+I had no idea what this is, and had to do a bit of web searching to find two related github repositories; a server library, [php-console](https://github.com/barbushin/php-console), and a Chrome browser extension, [php-console-extension](https://github.com/barbushin/php-console-extension). The browser extension is no longer available in the Chrome store, so we have to manually download the source zip from github, unpack it, and load the extension into Chromium.
 
 ![](/images/console/pics/4.png#center)
 
@@ -44,7 +44,7 @@ We are then prompted to enter a password for authorization to the server.
 
 ## Reviewing The Source Code
 
-At this point we _could_ try to just bruteforce/dictionary attack the password live over the network with some simple scripting, but that is dangerous and could lead to failure, or even worse getting caught and/or IP banned. A better idea is to take a look at the source code for the server library, since it is open source, and see if we can leverage any information to help us authenticate or bypass authentication altogether. Here on the [server-features](https://github.com/barbushin/php-console/wiki/PHP-Console-server-features) page we can see some of the features of the library, as well as how it authenticates clients. We see it says it uses SHA-256 password hashing along with the client IP address to create an Auth token.
+At this point we _could_ try to just bruteforce/dictionary attack the password live over the network with some simple scripting, but that is dangerous and could lead to failure, or even worse getting caught and/or IP banned. A better idea is to take a look at the source code for the server library, since it is open source, and see if we can leverage any information to help us authenticate or bypass authentication altogether. The [server-features](https://github.com/barbushin/php-console/wiki/PHP-Console-server-features) page lists some of the library features as well as how it authenticates clients. It lets us know that the client Auth token is hashed with SHA-256 and the client IP address.
 
 ![](/images/console/pics/14.png#center)
 
@@ -223,11 +223,11 @@ Now let's use that password to log into the **PHP Console**.
 
 ![](/images/console/pics/12.png#center)
 
-When we log in we successfully authenticate and obtain the challenge flag in a debug alert box!
+The password is valid, allowing us to successfully authenticate and obtain the challlenge flag in a debug alert box!
 
 ![](/images/console/pics/13.png#center)
 
-We now have access to all the server side features of the **PHP Console**!
+We now have access to all the server-side features of the **PHP Console**!
 
 ******
 
