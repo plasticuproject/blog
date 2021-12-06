@@ -32,7 +32,7 @@ I actually have no idea what this is, and had to do a bit of web searching to fi
 
 ![](/images/console/pics/5.png#center)
 
-Once loaded we revisited the page and used the new **PHP Console** browser extension.
+Once loaded we revisit the page and use the new **PHP Console** browser extension.
 
 ![](/images/console/pics/6.png#center)
 
