@@ -36,7 +36,7 @@ Once loaded we revisit the page and use the new **PHP Console** browser extensio
 
 ![](/images/console/pics/6.png#center)
 
-We are then prompted to enter a password for authorization to the server.
+We are then prompted to enter a password to authenticate to the server.
 
 ![](/images/console/pics/7.png#center)
 
@@ -44,7 +44,7 @@ We are then prompted to enter a password for authorization to the server.
 
 ## Reviewing The Source Code
 
-At this point we _could_ try to just bruteforce/dictionary attack the password live over the network with some simple scripting, but that is dangerous and could lead to failure, or even worse getting caught and/or IP banned. A better idea is to take a look at the source code for the server library, since it is open source, and see if we can leverage any information to help us authenticate or bypass authentication altogether. The [server-features](https://github.com/barbushin/php-console/wiki/PHP-Console-server-features) page lists some of the library features as well as how it authenticates clients. It lets us know that the client Auth token is hashed with SHA-256 and the client IP address.
+At this point we _could_ try to just bruteforce/dictionary attack the password live over the network with some simple scripting, but that is dangerous and could lead to failure, or even worse getting caught and/or IP banned. A better idea is to take a look at the source code for the server library, since it is open source, and see if we can leverage any information to help us authenticate or bypass authentication altogether. The [server-features](https://github.com/barbushin/php-console/wiki/PHP-Console-server-features) page lists some of the library features as well as how it authenticates clients. It lets us know that the client auth token is hashed with SHA-256 and the client IP address.
 
 ![](/images/console/pics/14.png#center)
 
