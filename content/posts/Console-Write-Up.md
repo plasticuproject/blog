@@ -225,7 +225,7 @@ Now let's use that password to log into the **PHP Console**.
 
 The password is valid, allowing us to successfully authenticate and obtain the challlenge flag in a debug alert box!
 
-![](/images/console/pics/13.png#center)
+![](/images/console/pics/15.png#center)
 
 We now have access to all the server-side features of the **PHP Console**!
 
