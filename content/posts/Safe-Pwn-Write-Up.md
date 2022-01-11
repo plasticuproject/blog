@@ -222,7 +222,7 @@ This is where we can utilize the ROP exploitation method. If we can find a ROP *
 
 ![](/images/safe-pwn/pics/20.png#center)
 
-ropper has found a gadget we can use at the virtual address *0x401206*. This gadget not only pops **R13**, but also pops registers **R14** and **R15** before it executes the return instruction. These extra instruction will not be an issue, we can write *0x0* to those registers as they will not be used in our exploit.
+ropper has found a gadget we can use at the virtual address *0x401206*. This gadget not only pops **R13**, but also pops registers **R14** and **R15** before it executes the return instruction. These extra instructions will not be an issue, we can write *0x0* to those registers as they will not be used in our exploit.
 
 ******
 
