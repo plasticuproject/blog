@@ -344,7 +344,7 @@ The script establishes a telnet connection to the server application and once it
 
 ## Conclusion
 
-This was a very trivial exploit performed on a useless, weakly secured, poorly written and implemented application. However contrived the example, this did allowed us to touch on a lot of concepts and methods that are applicable to real world exploit development such as binary inspection, binary security and protections, buffer overflow vulnerabilities, reverse engineering C program Assembly code, program debugging, Return-Oreinted Programming, and binary exploit development in Python. I enjoyed this section of the lab and learned a lot while completing it, as well as in writing this post and explaining the process.
+This was a very trivial exploit performed on a useless, weakly secured, poorly written and implemented application. However contrived the example, this did allow us to touch on a lot of concepts and methods that are applicable to real world exploit development such as binary inspection, binary security and protections, buffer overflow vulnerabilities, reverse engineering C program Assembly code, program debugging, Return-Oreinted Programming, and binary exploit development in Python. I enjoyed this section of the lab and learned a lot while completing it, as well as in writing this post and explaining the process.
 
 ******
 
