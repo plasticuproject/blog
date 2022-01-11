@@ -7,10 +7,20 @@
     <description>Recent content in Write-Up on plasticuproject&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 05 Dec 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 11 Jan 2022 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://plasticuproject.com/tags/write-up/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <author>plasticuproject</author>
+      <title>HackTheBox Safe Pwn Write-Up</title>
+      <link>https://plasticuproject.com/posts/safe-pwn-write-up/</link>
+      <pubDate>Tue, 11 Jan 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://plasticuproject.com/posts/safe-pwn-write-up/</guid>
+      <description>Safe is an east difficulty Linux machine. In this write-up we will complete the binary exploitation section of the lab. We will examine a networked CLI application, find a buffer overflow vulnerability, then design and execute a return-oriented programming exploit to gain shell access to the server.</description>
+    </item>
     
     <item>
       <author>plasticuproject</author>

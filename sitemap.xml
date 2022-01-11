@@ -4,7 +4,47 @@
   
   <url>
     <loc>https://plasticuproject.com/categories/</loc>
-    <lastmod>2021-12-05T00:00:00+00:00</lastmod>
+    <lastmod>2022-01-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://plasticuproject.com/posts/safe-pwn-write-up/</loc>
+    <lastmod>2022-01-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://plasticuproject.com/tags/htb/</loc>
+    <lastmod>2022-01-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://plasticuproject.com/</loc>
+    <lastmod>2022-01-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://plasticuproject.com/posts/</loc>
+    <lastmod>2022-01-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://plasticuproject.com/tags/pwn/</loc>
+    <lastmod>2022-01-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://plasticuproject.com/tags/</loc>
+    <lastmod>2022-01-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://plasticuproject.com/tags/write-up/</loc>
+    <lastmod>2022-01-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://plasticuproject.com/categories/write-up/</loc>
+    <lastmod>2022-01-11T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -13,37 +53,7 @@
   </url>
   
   <url>
-    <loc>https://plasticuproject.com/tags/htb/</loc>
-    <lastmod>2021-12-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://plasticuproject.com/</loc>
-    <lastmod>2021-12-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://plasticuproject.com/posts/</loc>
-    <lastmod>2021-12-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://plasticuproject.com/tags/</loc>
-    <lastmod>2021-12-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://plasticuproject.com/tags/web/</loc>
-    <lastmod>2021-12-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://plasticuproject.com/tags/write-up/</loc>
-    <lastmod>2021-12-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://plasticuproject.com/categories/write-up/</loc>
     <lastmod>2021-12-05T00:00:00+00:00</lastmod>
   </url>
   
