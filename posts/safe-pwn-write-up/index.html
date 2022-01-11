@@ -314,7 +314,7 @@ If we only send 112 bytes of junk followed by an 8 byte <a href="https://en.wiki
 
 <p><figure><img src="/images/safe-pwn/pics/20.png#center" alt=""></figure></p>
 
-<p>ropper has found a gadget we can use at the virtual address <em>0x401206</em>. This gadget not only pops <strong>R13</strong>, but also pops registers <strong>R14</strong> and <strong>R15</strong> before it executes the return instruction. These extra instruction will not be an issue, we can write <em>0x0</em> to those registers as they will not be used in our exploit.</p>
+<p>ropper has found a gadget we can use at the virtual address <em>0x401206</em>. This gadget not only pops <strong>R13</strong>, but also pops registers <strong>R14</strong> and <strong>R15</strong> before it executes the return instruction. These extra instructions will not be an issue, we can write <em>0x0</em> to those registers as they will not be used in our exploit.</p>
 
 <hr>
 
