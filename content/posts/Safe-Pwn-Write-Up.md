@@ -355,3 +355,5 @@ This was a very trivial exploit performed on a useless, weakly secured, poorly w
 2. <sup id="cite_ref-2">[\^](#cite_note-2)</sup> cppreference.com; [*gets, gets\_s*](https://en.cppreference.com/w/c/io/gets)
 
 3. <sup id="cite_ref-3">[\^](#cite_note-3)</sup> Saif El-Sherei; [*Return-Oriented-Programming(ROP FTW)*](https://www.exploit-db.com/docs/english/28479-return-oriented-programming-\(rop-ftw\).pdf)
+
+******
