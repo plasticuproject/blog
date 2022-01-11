@@ -169,7 +169,7 @@ If we only send 112 bytes of junk followed by an 8 byte [string](https://en.wiki
 
 ## Return-Oriented Programming
 
-The limitied binary protections, buffer overflow vulnerability via **gets** function for user supplied input and easy access to the **system** function make this program is a prime candidate for [Return-Oriented Programing](https://en.wikipedia.org/wiki/Return-oriented_programming) exploitation, or *ROP* for short.
+The limitied binary protections, buffer overflow vulnerability via **gets** function for user supplied input and easy access to the **system** function make this program a prime candidate for [Return-Oriented Programing](https://en.wikipedia.org/wiki/Return-oriented_programming) exploitation, or *ROP* for short.
 
 > _"The concept of ROP is simple but tricky. . . [W]e wil[l] be utilizing small instruction sequences available in either the binary or libraries linked to the application called gadgets. . . ROP gadgets are small instruction sequences ending with a “ret” instruction “c3”. Combining these gadgets will enable us to perform certain tasks and in the end conduct our attack . . . [I]nstead of returning to an address of a function . . . we will return to these ROP gadgets. . . The ROP gadget has to end with a “ret” to enable us to perform multiple sequences. Hence it is called return oriented."_ <sup id="cite_note-3">[[3]](#cite\_ref-3)</sup>
 
