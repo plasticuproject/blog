@@ -4,7 +4,7 @@ title: "HackTheBox Safe Pwn Write-Up"
 categories: Write-Up
 date: 2022-01-11
 image: /images/safe-pwn/1.png
-description: Safe is an east difficulty Linux machine. In this write-up we will complete the binary exploitation section of the lab. We will examine a networked CLI application, find a buffer overflow vulnerability, then design and execute a return-oriented programming exploit to gain shell access to the server.
+description: Safe is an easy difficulty Linux machine. In this write-up we will complete the binary exploitation section of the lab. We will examine a networked CLI application, find a buffer overflow vulnerability, then design and execute a return-oriented programming exploit to gain shell access to the server.
 tags: [HTB, Write-Up, Pwn]
 katex: true
 markup: "mmark"
