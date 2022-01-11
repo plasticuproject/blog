@@ -19,7 +19,7 @@
       <pubDate>Tue, 11 Jan 2022 00:00:00 +0000</pubDate>
       
       <guid>https://plasticuproject.com/posts/safe-pwn-write-up/</guid>
-      <description>Safe is an east difficulty Linux machine. In this write-up we will complete the binary exploitation section of the lab. We will examine a networked CLI application, find a buffer overflow vulnerability, then design and execute a return-oriented programming exploit to gain shell access to the server.</description>
+      <description>Safe is an easy difficulty Linux machine. In this write-up we will complete the binary exploitation section of the lab. We will examine a networked CLI application, find a buffer overflow vulnerability, then design and execute a return-oriented programming exploit to gain shell access to the server.</description>
     </item>
     
     <item>
