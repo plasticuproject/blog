@@ -8,10 +8,7 @@
     <section id="wrapper">
         {{ block "profile" . }}{{ end }}
         {{ block "main" . -}}{{- end }}
-
-        {{ if not .IsHome }}
-            {{ partial "footer.html" . }}
-        {{ end }}
+        {{ partial "footer.html" . }}
     </section>
     {{ partial "js.html" . }}
 </body>
