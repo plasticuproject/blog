@@ -203,14 +203,12 @@ pre {
 
 html,
 body {
-  height: 100%;
-  background-color: #111111;
-  background-image:url(../images/topography-dark.svg)
+  height: 100%
 }
 
 body {
   font: 16px/1 "Helvetica Neue", Helvetica, Arial, sans-serif;
-  color: #BBB;
+  color: #222;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility
 }
@@ -250,8 +248,8 @@ h2 {
 .profile h1 {
   font-weight: 400;
   letter-spacing: 0;
-  font-size: 32px;
-  color: #FFFFFF
+  font-size: 20px;
+  color: #222
 }
 
 .profile h2 {
@@ -274,15 +272,10 @@ nav.main-nav a {
   top: 8px;
   right: 6px;
   padding: 8px 12px;
-  color: #BBB;
-  font-size: 16px;
+  color: #5badf0;
+  font-size: 13px;
   line-height: 1.35;
-  border-radius: 3px;
-  font-weight: bold
-}
-
-nav.main-nav a:hover {
-    color: #5694f1
+  border-radius: 3px
 }
 
 nav.main-nav a.cta {
@@ -350,7 +343,7 @@ p {
 b,
 strong {
   font-weight: bold;
-  color: #FFFFFF
+  color: #1e2025
 }
 
 em,
@@ -391,7 +384,7 @@ i {
 
 .post h1 {
   margin-bottom: 1rem;
-  color: #FFFFFF;
+  color: #222;
   font: 300 32px/1.4em "Helvetica Neue", Helvetica, Arial, sans-serif
 }
 
@@ -399,7 +392,7 @@ i {
   margin-top: .5rem;
   margin-bottom: .5rem;
   font: 300 24px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
-  color: #FFFFFF
+  color: #111
 }
 
 .post h2.subtitle {
@@ -431,7 +424,7 @@ i {
 h3,
 h4,
 h5 {
-  color: #FFFFFF
+  color: #333
 }
 
 h3 {
@@ -467,7 +460,7 @@ p.small {
 
 blockquote {
   padding-left: 15px;
-  border-left: 3px solid #eee;
+  border-left: 3px solid #eee
 }
 
 hr {
@@ -581,7 +574,7 @@ img {
 }
 
 #post-list a {
-  color: #BBB;
+  color: #333;
   display: block;
   font: bold 19px/1.7 "Helvetica Neue", helvetica, Arial, sans-serif
 }
@@ -929,7 +922,7 @@ a.symbol {
 }
 
 a.symbol:hover {
-  color: #5694f1
+  color: #bcd4da
 }
 
 pre>code {
