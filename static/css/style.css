@@ -103,7 +103,7 @@ section {
 
 body {
   line-height: 1;
-  text-shadow: 2px 2px 5px #000000;
+  text-shadow: 2px 2px 2px #000000;
 }
 
 blockquote,
@@ -477,7 +477,7 @@ hr {
   height: 1px;
   margin: 40px auto;
   background: #eee;
-  filter: drop-shadow(2px 2px 5px #000000)
+  filter: drop-shadow(2px 2px 2px #000000)
 }
 
 span.code {
