@@ -52,6 +52,7 @@ paginate = 20
 
 # Add additional social link entries underneath
 [social]
+    terminal = "https://leetcode.com/plasticuproject"
     code     = "https://pypi.org/user/plasticuproject"
     cube     = "https://www.hackthebox.com/profile/32882"
     key      = "https://cryptohack.org/user/snuggles"
