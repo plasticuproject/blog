@@ -2,10 +2,6 @@
 <html lang="{{ .Site.LanguageCode | default "en" }}">
 	<head>
     {{ partial "head.html" . }}
-    {{ if and (hugo.IsProduction) (.Site.Params.googleAnalyticsID) }}
-    {{ partial "analytics-gtag.html" . }}
-    {{ end }}
-
     </head>
 <body>
     {{ partial "nav.html" . }}
