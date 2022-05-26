@@ -5,8 +5,7 @@ languageCode = "en-us"
 title = "plasticuproject's blog"
 theme = "hugo-cactus-theme"
 # Enter your tracking code to enable Google Analytics
-#googleAnalytics = "UA-166142607-1"
-googleAnalyticsID = "G-50Z66QSKH7"
+#googleAnalytics = ""
 # Disable comments by leaving disqusShortname empty
 disqusShortname = "plasticuproject-github-io-blog"
 paginate = 20
@@ -21,6 +20,9 @@ paginate = 20
 	# Enter optionally your twitter account
 	twitter = ""
 	enableRSS = true
+
+        # New G4 analytics tag
+        GoogleAnalyticsID = "G-50Z66QSKH7"
 
 	# Integrate Javascript files or stylesheets by adding the url to the external assets or by
 	# linking local files with their path relative to the static folder, e.g. "css/styles.css"
