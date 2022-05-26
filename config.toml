@@ -5,7 +5,8 @@ languageCode = "en-us"
 title = "plasticuproject's blog"
 theme = "hugo-cactus-theme"
 # Enter your tracking code to enable Google Analytics
-googleAnalytics = "UA-166142607-1"
+#googleAnalytics = "UA-166142607-1"
+GoogleAnalyticsID = "G-50Z66QSKH7"
 # Disable comments by leaving disqusShortname empty
 disqusShortname = "plasticuproject-github-io-blog"
 paginate = 20
