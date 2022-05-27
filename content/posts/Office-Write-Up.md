@@ -7,7 +7,7 @@ image: /images/office/pics/CyberSecLabs.png
 description: Office is a hard difficulty linux machine where we need to stop Dwight's "Accountability Booster" (Doomsday Device) by gaining admin access to a content management system and root access to a server via a system configuration tool vulnerability.
 tags: [CyberSecLabs, Write-Up]
 katex: true
-markup: "mmark"
+markup: "markdown"
 ---
 
 ![CyberSecLabs](/images/office/pics/CyberSecLabs.png#center)
@@ -43,7 +43,7 @@ Also when we take a look at the HTTPS server we see it is just a default Apache 
 
 ![](/images/office/pics/user/12.png)
 
-The SSL certificate also has **dwight@office.csl** as a listed email address. This may be a username we can try to use for the log-in.
+The SSL certificate also has **dwight\@office.csl** as a listed email address. This may be a username we can try to use for the log-in.
 
 ![](/images/office/pics/user/14.png#center)
 

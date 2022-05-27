@@ -7,7 +7,7 @@ image: /images/sauna/sauna.png
 description: Sauna is an easy difficulty Windows machine where we exploit weaknesses in an Active Directory environment.
 tags: [HTB, Write-Up]
 katex: true
-markup: "mmark"
+markup: "markdown"
 ---
 
 ![HackTheBox](/images/sauna/sauna.png#center)

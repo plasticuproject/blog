@@ -7,7 +7,7 @@ image: /images/shares/pics/CyberSecLabs.png
 description: Plastic Preservation is a CyberSecLabs challenge I created where we defeat an encryption function written in python.
 tags: [CyberSecLabs, Write-Up, Python, Cryptography]
 katex: true
-markup: "mmark"
+markup: "markdown"
 ---
 
 ![CyberSecLabs](/images/shares/pics/CyberSecLabs.png#center)
@@ -311,7 +311,7 @@ I designed this challenge in a way where you would really need to understand wha
 
 ## Supplemental Information
 
-The logic I used in this challenge for the "encryption" is a variation of a [FNV-1a](https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function) non-cryptographic hashing function that I learned of while reviewing source code for a popular video game written in C#: <sup id="cite_note-1">[[1]](#cite_ref-1)</sup>
+The logic I used in this challenge for the "encryption" is a variation of a [FNV-1a](https://en.wikipedia.org/wiki/Fowler%E2%80%93Noll%E2%80%93Vo_hash_function) non-cryptographic hashing function that I learned of while reviewing source code for a popular video game written in C#: [^1]
 ```c
 public static ulong Hash(string input)
     {
@@ -322,28 +322,23 @@ public static ulong Hash(string input)
             return num;
     }
 ```
-This function was used in the game code to hash asset names. Looking at this original function you will notice it uses an _AND_ operator as it's final [Bitwise Operation](https://en.wikipedia.org/wiki/Bitwise_operation). This is used for [Bitmasking](https://en.wikipedia.org/wiki/Mask_(computing)#Hash_tables) and controls the length of the output hash. This would have discarded bits and prevented us from being able to reverse the hash. I replaced the _AND_ operation with an _XOR_ operation in the challenge function. This allowed us to reverse the hash due to it's [Associative Property](https://en.wikipedia.org/wiki/Associative_property#Definition). The _AND_ operation is a [Logical Conjunction](https://en.wikipedia.org/wiki/Logical_conjunction) bitwise operation. Looking at the Truth Table for this operation you can see that it is not always possible to reconstruct $$p$$, given $$q$$ and $$p\&q$$. <sup id="cite_note-2">[[2]](#cite_ref-2)</sup>
+This function was used in the game code to hash asset names. Looking at this original function you will notice it uses an _AND_ operator as it's final [Bitwise Operation](https://en.wikipedia.org/wiki/Bitwise_operation). This is used for [Bitmasking](https://en.wikipedia.org/wiki/Mask_(computing)#Hash_tables) and controls the length of the output hash. This would have discarded bits and prevented us from being able to reverse the hash. I replaced the _AND_ operation with an _XOR_ operation in the challenge function. This allowed us to reverse the hash due to it's [Associative Property](https://en.wikipedia.org/wiki/Associative_property#Definition). The _AND_ operation is a [Logical Conjunction](https://en.wikipedia.org/wiki/Logical_conjunction) bitwise operation. Looking at the Truth Table for this operation you can see that it is not always possible to reconstruct \\(p\\), given \\(q\\) and \\(p\\)&\\(q\\). [^2]
 
 > _Note: This image uses the "**^**" character in place of an "**&**", but it still represents an **AND** operation._
 
-![truth_table](/images/plastic_preservation/logical_conjunction.png#center)
+![truth\_table](/images/plastic_preservation/logical_conjunction.png#center)
 
 If we substitute _T_ with _1_, and _F_ with _0_ we get bitwise operations.
 
 ![bitwise](/images/plastic_preservation/bitwise.png#center)
 
-As you can see, we cannot simply compute the operation in reverse to reproduce the first value - it does not have an  Associative Property. The _AND_ operation is [destructive](https://stackoverflow.com/questions/2566225/how-to-reverse-bitwise-and-in-c#2566235) - it throws information away. Let's compare this to the Truth Table for the [Exclusive Disjunction](https://en.wikipedia.org/wiki/Exclusive_or) _XOR_ operation that we replaced it with, which has the Associative Property. <sup id="cite_note-3">[[3]](#cite_ref-3)</sup>
+As you can see, we cannot simply compute the operation in reverse to reproduce the first value - it does not have an  Associative Property. The _AND_ operation is [destructive](https://stackoverflow.com/questions/2566225/how-to-reverse-bitwise-and-in-c#2566235) - it throws information away. Let's compare this to the Truth Table for the [Exclusive Disjunction](https://en.wikipedia.org/wiki/Exclusive_or) _XOR_ operation that we replaced it with, which has the Associative Property. [^3]
 
-![truth_table](/images/plastic_preservation/exclusive_disjunction.png#center)
+![truth\_table](/images/plastic_preservation/exclusive_disjunction.png#center)
 
 It is clear that every operation can be computed both forward and backward. In order to make this function reversible for the challenge I had to remove the logical _AND_, and replace it with a non-destructive _XOR_ operation to retain total information preservation, hence the name given to this challenge.
 
----
+[^1]: ["FNV Hash"](http://www.isthe.com/chongo/tech/comp/fnv/index.html#FNV-1a), *Landon, C. N.*
+[^2]: ["Truth Table; Logical Conjunction"](https://en.wikipedia.org/wiki/Truth_table#Logical_conjunction_(AND)), *Wikipedia.*
+[^3]: ["Truth Table; Exclusive Disjunction"](https://en.wikipedia.org/wiki/Truth_table#Exclusive_disjunction), *Wikipedia.*
 
-#### References:
-
-1. <sup id="cite_ref-1">[\^](#cite_note-1)</sup> Landon, C. N. ["FNV Hash"](http://www.isthe.com/chongo/tech/comp/fnv/index.html#FNV-1a)
-2. <sup id="cite_ref-2">[\^](#cite_note-2)</sup> Wikipedia. ["Truth Table; Logical Conjunction"](https://en.wikipedia.org/wiki/Truth_table#Logical_conjunction_(AND))
-3. <sup id="cite_ref-3">[\^](#cite_note-3)</sup> Wikipedia. ["Truth Table; Exclusive Disjunction"](https://en.wikipedia.org/wiki/Truth_table#Exclusive_disjunction)
-
----

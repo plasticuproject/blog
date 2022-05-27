@@ -16,7 +16,7 @@ paginate = 20
 [params]
 	name = "plasticuproject"
 	description = "Self Promoting Blog"
-	bio = ""
+	bio = "is my name and this is a blog."
 	# Enter optionally your twitter account
 	twitter = ""
 	enableRSS = true
@@ -33,7 +33,7 @@ paginate = 20
 	# translate or customize each string of the theme.
 
 	# Navigation links
-	home = ""
+	home = "Posts"
 	subscribe = ""
 	# Pagination links
 	olderPosts = ""
@@ -50,8 +50,8 @@ paginate = 20
 
 	# Choose a font for the social icons in the footer. Either "mono-social" or "font-awesome"
 	iconFont = "font-awesome"
-    # The social icons can be styled differently if you use mono as font - circle, rounded, or empty
-    socialIconStyle = "circle"
+        # The social icons can be styled differently if you use mono as font - circle, rounded, or empty
+        socialIconStyle = "circle"
 
 # Add additional social link entries underneath
 [social]

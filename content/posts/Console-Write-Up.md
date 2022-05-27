@@ -7,7 +7,7 @@ image: /images/console/Hack-The-Box-logo.png
 description: Console is a medium difficulty web challenge where we will install a php-console browser extension, review the related source code and use what we learn to perform an offline dictionary attack on a salted hash to obtain authentication for server-side control.
 tags: [HTB, Write-Up, Web]
 katex: true
-markup: "mmark"
+markup: "markdown"
 ---
 
 ![](/images/console/Hack-The-Box-logo.png#center)

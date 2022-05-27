@@ -7,7 +7,7 @@ image: /images/safe-pwn/1.png
 description: Safe is an easy difficulty Linux machine. In this write-up we will complete the binary exploitation section of the lab. We will examine a networked CLI application, find a buffer overflow vulnerability, then design and execute a return-oriented programming exploit to gain shell access to the server.
 tags: [HTB, Write-Up, Pwn]
 katex: true
-markup: "mmark"
+markup: "markdown"
 ---
 
 ![HackTheBox](/images/safe-pwn/1.png#center)
@@ -43,13 +43,13 @@ Running [file](https://linux.die.net/man/1/file) and [ldd](https://linux.die.net
 ![](/images/safe-pwn/pics/7.png#center)
 
 Let's list out what we know so far to help us decide how to move forward:
->
-- *There is a networked application running on the server*
-- *We can communicate with this application via TCP connection with netcat*
-- *This application runs a system command and returns the output*
-- *This application accepts, processes and returns user input in some way*
-- *We have access to the application binary for local analysis*
-- *The application was compiled for GNU/Linux and dynamically links to the C Standard Library*
+
+> - *There is a networked application running on the server*
+> - *We can communicate with this application via TCP connection with netcat*
+> - *This application runs a system command and returns the output*
+> - *This application accepts, processes and returns user input in some way*
+> - *We have access to the application binary for local analysis*
+> - *The application was compiled for GNU/Linux and dynamically links to the C Standard Library*
 
 ******
 
@@ -65,7 +65,7 @@ The first thing we should try is to leverage the user input functionality. This 
 
 We will use [gdb](https://sourceware.org/gdb/) with the [gef](https://gef.readthedocs.io/en/master/) extension to analyze and debug the program. Running the [*checksec*](https://gef.readthedocs.io/en/master/commands/checksec/) command will check which security protections are enabled in the binary. We can see that the [NX bit](https://en.wikipedia.org/wiki/NX_bit) (no-execute) feature is enabled. This will prevent us from writing instructions directly onto the call stack and executing them. There is also [partial RelRO](https://www.redhat.com/en/blog/hardening-elf-binaries-using-relocation-read-only-relro) (Relocation Read-Only) protection which reorders the internal data sections to protect them from being overwritten in the event of a buffer overflow.
 
-> *"From an attackers point-of-view, partial RELRO makes almost no difference, other than it forces the [GOT](https://refspecs.linuxfoundation.org/ELF/zSeries/lzsabi0\_zSeries/x2251.html#GLOBALOFFSETTABLE) to come before the [BSS](https://refspecs.linuxbase.org/LSB\_3.0.0/LSB-PDA/LSB-PDA/specialsections.html#BSS) in memory, eliminating the risk of a buffer overflows on a [global variable](https://www.techopedia.com/definition/25617/global-variable) overwriting GOT entries."* <sup id="cite_note-1">[[1]](#cite\_ref-1)</sup>
+> *"From an attackers point-of-view, partial RELRO makes almost no difference, other than it forces the [GOT](https://refspecs.linuxfoundation.org/ELF/zSeries/lzsabi0\_zSeries/x2251.html#GLOBALOFFSETTABLE) to come before the [BSS](https://refspecs.linuxbase.org/LSB\_3.0.0/LSB-PDA/LSB-PDA/specialsections.html#BSS) in memory, eliminating the risk of a buffer overflows on a [global variable](https://www.techopedia.com/definition/25617/global-variable) overwriting GOT entries."* [^1]
 
 ![](/images/safe-pwn/pics/9.png#center)
 
@@ -79,9 +79,9 @@ The [executable-space protection](https://en.wikipedia.org/wiki/Executable_space
 
 This is a very simple program. We will re-create this in C below, but first I want to point out a few things. First and foremost this program is using the **gets** function to receive standard input from the user, which is a **_HUGE NO-NO_**. This is how we are able to buffer overflow the program's input.
 
-> _"The gets() function does not perform bounds checking, therefore this function is extremely vulnerable to buffer-overflow attacks. It cannot be used safely (unless the program runs in an environment which restricts what can appear on stdin). For this reason, the function has been deprecated in the third corrigendum to the C99 standard and removed altogether in the C11 standard. fgets() and gets\_s() are the recommended replacements. **Never use gets()**."_ <sup id="cite_note-2">[[2]](#cite\_ref-2)</sup>
+> *"The gets() function does not perform bounds checking, therefore this function is extremely vulnerable to buffer-overflow attacks. It cannot be used safely (unless the program runs in an environment which restricts what can appear on stdin). For this reason, the function has been deprecated in the third corrigendum to the C99 standard and removed altogether in the C11 standard. fgets() and gets\_s() are the recommended replacements. **Never use gets()**."* [^2]
 
-Now that we've addressed the cause of the buffer overflow vulnerability, let's explore how the call to the **system** function works. We see that instruction **<+8>** is [loading](https://www.felixcloutier.com/x86/lea) an address into the **RDI** register, then instruction **<+15>** is calling the **system** function. The **RDI** register is used to store the address of the first argument for function calls in [Linux x86\_64](https://courses.cs.washington.edu/courses/cse378/10au/sections/Section1_recap.pdf). When we run the [*x/s*](https://courses.cs.washington.edu/courses/cse351/20au/gdb/gdbnotes-x86-64.pdf) command on that address, we see it points to the string "*/usr/bin/uptime*", so we know the program is executing **system("/usr/bin/uptime")**, completely confirming our earlier assumption. Understanding how this works will be crucial to the development of our exploit. I also want to point out that the **test** function is not referenced at all in **main**. Normally this could be because the function is an artifact of the development process, or [dead code](https://en.wikipedia.org/wiki/Dead_code), but here I suspect it was created for us to use in our exploitation of this program. Let's disassemble **test** and see what it does.
+Now that we've addressed the cause of the buffer overflow vulnerability, let's explore how the call to the **system** function works. We see that instruction **<+8>** is [loading](https://www.felixcloutier.com/x86/lea) an address into the **RDI** register, then instruction **<+15>** is calling the **system** function. The **RDI** register is used to store the address of the first argument for function calls in [Linux x86\_64](https://courses.cs.washington.edu/courses/cse378/10au/sections/Section1\_recap.pdf). When we run the [*x/s*](https://courses.cs.washington.edu/courses/cse351/20au/gdb/gdbnotes-x86-64.pdf) command on that address, we see it points to the string "*/usr/bin/uptime*", so we know the program is executing **system("/usr/bin/uptime")**, completely confirming our earlier assumption. Understanding how this works will be crucial to the development of our exploit. I also want to point out that the **test** function is not referenced at all in **main**. Normally this could be because the function is an artifact of the development process, or [dead code](https://en.wikipedia.org/wiki/Dead_code), but here I suspect it was created for us to use in our exploitation of this program. Let's disassemble **test** and see what it does.
 
 ![](/images/safe-pwn/pics/12.png#center)
 
@@ -155,12 +155,13 @@ Using the pattern search command we can see how many bytes we need to input to o
 ![](/images/safe-pwn/pics/26.png#center)
 
 So let's recap how our input is handled:
->
-- _The first 112 bytes write to the input buffer, or **RSI** register_
-- _Bytes 113-120 overwrite the **RBP** register_
-- _Bytes 120+ overwrite the **RSP** register, which is the address where the function will return_
 
-\\
+> - _The first 112 bytes write to the input buffer, or **RSI** register_
+> - _Bytes 113-120 overwrite the **RBP** register_
+> - _Bytes 120+ overwrite the **RSP** register, which is the address where the function will return_
+
+&nbsp;
+
 If we only send 112 bytes of junk followed by an 8 byte [string](https://en.wikipedia.org/wiki/String_(computer_science)), "*deadbeef*", we can write that string into the **RBP** register.
 
 ![](/images/safe-pwn/pics/18.png#center)
@@ -171,7 +172,7 @@ If we only send 112 bytes of junk followed by an 8 byte [string](https://en.wiki
 
 The limitied binary protections, buffer overflow vulnerability via **gets** function for user supplied input and easy access to the **system** function make this program a prime candidate for [return-oriented programing](https://en.wikipedia.org/wiki/Return-oriented_programming) exploitation, or *ROP* for short.
 
-> _"The concept of ROP is simple but tricky. . . [W]e wil[l] be utilizing small instruction sequences available in either the binary or libraries linked to the application called gadgets. . . ROP gadgets are small instruction sequences ending with a “ret” instruction “c3”. Combining these gadgets will enable us to perform certain tasks and in the end conduct our attack . . . [I]nstead of returning to an address of a function . . . we will return to these ROP gadgets. . . The ROP gadget has to end with a “ret” to enable us to perform multiple sequences. Hence it is called return oriented."_ <sup id="cite_note-3">[[3]](#cite\_ref-3)</sup>
+> *"The concept of ROP is simple but tricky. . . [W]e wil[l] be utilizing small instruction sequences available in either the binary or libraries linked to the application called gadgets. . . ROP gadgets are small instruction sequences ending with a “ret” instruction “c3”. Combining these gadgets will enable us to perform certain tasks and in the end conduct our attack . . . [I]nstead of returning to an address of a function . . . we will return to these ROP gadgets. . . The ROP gadget has to end with a “ret” to enable us to perform multiple sequences. Hence it is called return oriented."* [^3]
 
 Utilizing the ROP method we can find and chain together useful instruction sequences already present in the binary, essentially re-writing the program to do whatever we want by rearranging pre-existing code. Our ultimate goal here is to find and use ROP gadgets to help us massage program data and [control flow](https://en.wikipedia.org/wiki/Control_flow) in a way that spawns a [forked](https://en.wikipedia.org/wiki/Fork_(system_call)) [command-line shell](https://en.wikipedia.org/wiki/Shell_%28computing%29) process through execution of the binary.
 
@@ -230,16 +231,16 @@ ropper has found a gadget we can use at the virtual address *0x401206*. This gad
 
 Let's list out what we need to send to the program in order to set up a shell command call for */bin/sh*:
 
->
-- _112 bytes of junk to fill the input buffer_
-- _8 byte string for our **system** argument to overwrite **RBP**_
-- _Address of our ROP gadget to pop registers **R13**, **R14**, **R15** and then **ret** to overwrite **RSP**_
-- _Address of the **system** function to write to **R13**_
-- _0x0 to write to **R14**_
-- _0x0 to write to **R15**_
-- _Address of the **test** function to write to **RSP**_
+> - _112 bytes of junk to fill the input buffer_
+> - _8 byte string for our **system** argument to overwrite **RBP**_
+> - _Address of our ROP gadget to pop registers **R13**, **R14**, **R15** and then **ret** to overwrite **RSP**_
+> - _Address of the **system** function to write to **R13**_
+> - _0x0 to write to **R14**_
+> - _0x0 to write to **R15**_
+> - _Address of the **test** function to write to **RSP**_
 
-\\
+&nbsp;
+
 We will adapt our previous python test function to include our new payload instructions and write the data to the file *payload.txt*.
 
 ```python
@@ -346,14 +347,7 @@ The script establishes a telnet connection to the server application and once it
 
 This was a very trivial exploit performed on a useless, weakly secured, poorly written and implemented application. However contrived the example, this did allow us to touch on a lot of concepts and methods that are applicable to real world exploit development such as binary inspection, binary security and protections, buffer overflow vulnerabilities, reverse engineering C program assembly code, program debugging, return-oreinted programming, and binary exploit development in Python. I enjoyed this section of the lab and learned a lot while completing it, as well as in writing this post and explaining the process.
 
-******
+[^1]: [binary-exploitation/relocation-read-only](https://ctf101.org/binary-exploitation/relocation-read-only/), *ctf101.org.*
+[^2]: [gets, gets\_s](https://en.cppreference.com/w/c/io/gets), *cppreference.com.*
+[^3]: [Return-Oriented-Programming(ROP FTW)](https://www.exploit-db.com/docs/english/28479-return-oriented-programming-\(rop-ftw\).pdf), *Saif El-Sherei.*
 
-#### References:
-
-1. <sup id="cite_ref-1">[\^](#cite_note-1)</sup> ctf101.org; [*binary-exploitation/relocation-read-only/*](https://ctf101.org/binary-exploitation/relocation-read-only/)
-
-2. <sup id="cite_ref-2">[\^](#cite_note-2)</sup> cppreference.com; [*gets, gets\_s*](https://en.cppreference.com/w/c/io/gets)
-
-3. <sup id="cite_ref-3">[\^](#cite_note-3)</sup> Saif El-Sherei; [*Return-Oriented-Programming(ROP FTW)*](https://www.exploit-db.com/docs/english/28479-return-oriented-programming-\(rop-ftw\).pdf)
-
-******

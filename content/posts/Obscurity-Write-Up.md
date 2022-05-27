@@ -7,7 +7,7 @@ image: /images/obscurity/obscurity.png
 description: Obscurity is a medium difficulty box where we will leverage bad server code to inject and run commands, and take advantage of poor cryptography and leftover files to get user access. From there we take advantage of sudo privileges and a poorly executed program to read the root.txt file.
 tags: [HTB, Write-Up]
 katex: true
-markup: "mmark"
+markup: "markdown"
 ---
 
 ![](/images/obscurity/obscurity.png#center)

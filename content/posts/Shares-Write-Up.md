@@ -7,7 +7,7 @@ image: /images/shares/pics/CyberSecLabs.png
 description: Shares is an easy difficulty linux box where we will discover and mount a Network File System, export and crack SSH keys, leverage sudo privileges to run python as another user, and use a SSH shell escape method to obtain root access.
 tags: [CyberSecLabs, Write-Up]
 katex: true
-markup: "mmark"
+markup: "markdown"
 ---
 
 ![CyberSecLabs](/images/shares/pics/CyberSecLabs.png#center)
