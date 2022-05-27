@@ -53,7 +53,7 @@
 <meta itemprop="description" content="b00tl3gRSA3 is a picoCTF 2019 cryptography challenge where we have to decrypt a message given just the RSA Public Key constituents.">
 <meta itemprop="datePublished" content="2020-05-15T00:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2020-05-15T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="1794">
+<meta itemprop="wordCount" content="1792">
 
 
 
@@ -67,7 +67,7 @@
 <body>
     <nav class="main-nav">
 	
-		<a href='https://plasticuproject.com'>Home</a>
+		<a href='https://plasticuproject.com'>Posts</a>
 	
 
 	
@@ -109,68 +109,43 @@
         </h2>
     </header>
     <section id="post-body">
-        <p><figure><img src="/images/b00tl3gRSA3/picoctf_logo.png#center" alt=""></figure></p>
-
+        <p><img src="/images/b00tl3gRSA3/picoctf_logo.png#center" alt=""></p>
 <hr>
-
 <h2 id="the-challenge">The Challenge</h2>
-
-<p><figure><img src="/images/b00tl3gRSA3/challenge.png#center" alt="Challenge"></figure></p>
-
-<p>Let's connect with netcat like it tells us and see what we are given to work with.</p>
-
-<p><figure><img src="/images/b00tl3gRSA3/values.png#center" alt="Challenge"></figure></p>
-
-<p>It has returned to us numerical values for <span  class="math">\(c\)</span>, <span  class="math">\(n\)</span> and <span  class="math">\(e\)</span>. Experience tells us that this is an <strong>encrypted ciphertext</strong>, <strong>RSA Key Modulus</strong> value, and <strong>RSA Key Exponent</strong> value, respectively. Values <span  class="math">\(n\)</span> and <span  class="math">\(e\)</span> make up the <strong>RSA Public Key</strong> that was used to encrypt a plaintext message <span  class="math">\(m\)</span>, and produce ciphertext <span  class="math">\(c\)</span>. We need to break this encryption by calculating a <strong>RSA Private Key</strong> from these values, then use it to decrypt <span  class="math">\(c\)</span>. Let's first look at how RSA Keys are generated before trying to crack this.</p>
-
+<p><img src="/images/b00tl3gRSA3/challenge.png#center" alt="Challenge"></p>
+<p>Let&rsquo;s connect with netcat like it tells us and see what we are given to work with.</p>
+<p><img src="/images/b00tl3gRSA3/values.png#center" alt="Challenge"></p>
+<p>It has returned to us numerical values for \(c\), \(n\) and \(e\). Experience tells us that this is an <strong>encrypted ciphertext</strong>, <strong>RSA Key Modulus</strong> value, and <strong>RSA Key Exponent</strong> value, respectively. Values \(n\) and \(e\) make up the <strong>RSA Public Key</strong> that was used to encrypt a plaintext message \(m\), and produce ciphertext \(c\). We need to break this encryption by calculating a <strong>RSA Private Key</strong> from these values, then use it to decrypt \(c\). Let&rsquo;s first look at how RSA Keys are generated before trying to crack this.</p>
 <hr>
-
 <h2 id="rsa-key-generation">RSA Key Generation</h2>
-
-<p>&quot;RSA key generation is fairly simple. It's mostly multiplication and exponentiation. The whole basis of RSA keys is that choosing two numbers, <span  class="math">\(p\)</span> and <span  class="math">\(q\)</span>, and multiplying them together is <em>very easy</em>, while trying to figure out what two numbers multiply together to form <span  class="math">\(n\)</span> is <em>very hard</em>.&quot; <sup id="cite_note-1"><a href="#cite_ref-1">[1]</a></sup></p>
-
+<p>&ldquo;RSA key generation is fairly simple. It&rsquo;s mostly multiplication and exponentiation. The whole basis of RSA keys is that choosing two numbers, \(p\) and \(q\), and multiplying them together is <em>very easy</em>, while trying to figure out what two numbers multiply together to form \(n\) is <em>very hard</em>.&rdquo; <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
 <h3 id="the-math">The Math</h3>
-
 <ul>
-<li><span  class="math">\(n = pq\)</span></li>
+<li>\(n = pq\)</li>
 </ul>
-
-<p>To calculate <span  class="math">\(n\)</span> we need to find two random prime numbers, <span  class="math">\(p\)</span> and <span  class="math">\(q\)</span>, of similar length and multiply them. The longer the numbers the stronger the encryption, but the trade-off is that it will take more time and/or power to encrypt or decrypt messages.</p>
-
+<p>To calculate \(n\) we need to find two random prime numbers, \(p\) and \(q\), of similar length and multiply them. The longer the numbers the stronger the encryption, but the trade-off is that it will take more time and/or power to encrypt or decrypt messages.</p>
 <ul>
-<li><span  class="math">\(\lambda(n) = (p - 1)(q - 1)\)</span></li>
+<li>\(\lambda(n) = (p - 1)(q - 1)\)</li>
 </ul>
-
-<p>Compute <span  class="math">\(\lambda(n)\)</span>, where <span  class="math">\(\lambda\)</span> is <a href="https://en.wikipedia.org/wiki/Carmichael%27s_totient_function">Carmichael's totient function</a>. Since <span  class="math">\(n = pq\)</span>, <span  class="math">\(\lambda(n) = lcm(\lambda(p),\lambda(q))\)</span>, and since <span  class="math">\(p\)</span> and <span  class="math">\(q\)</span> are prime, <span  class="math">\(\lambda(p) = \phi(p) = p − 1\)</span> and likewise <span  class="math">\(\lambda(q) = q − 1\)</span>. Hence <span  class="math">\(\lambda(n) = lcm(p − 1, q − 1)\)</span>. <sup id="cite_note-2"><a href="#cite_ref-2">[2]</a></sup></p>
-
+<p>Compute \(\lambda(n)\), where \(\lambda\) is <a href="https://en.wikipedia.org/wiki/Carmichael%27s_totient_function">Carmichael&rsquo;s totient function</a>. Since \(n = pq\), \(\lambda(n) = lcm(\lambda(p),\lambda(q))\), and since \(p\) and \(q\) are prime, \(\lambda(p) = \phi(p) = p − 1\) and likewise \(\lambda(q) = q − 1\). Hence \(\lambda(n) = lcm(p − 1, q − 1)\). <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p>
 <ul>
-<li><span  class="math">\(e = 65537\)</span></li>
+<li>\(e = 65537\)</li>
 </ul>
-
-<p>We next choose an exponent, <span  class="math">\(e\)</span>. This number should be greater than <span  class="math">\(1\)</span>, less than and <a href="https://en.wikipedia.org/wiki/Coprime_integers">coprime</a> with <span  class="math">\(\lambda(n)\)</span>. The value used for this is usually <span  class="math">\(65537\)</span>.</p>
-
+<p>We next choose an exponent, \(e\). This number should be greater than \(1\), less than and <a href="https://en.wikipedia.org/wiki/Coprime_integers">coprime</a> with \(\lambda(n)\). The value used for this is usually \(65537\).</p>
 <ul>
-<li><span  class="math">\(d \equiv e^{-1} \pmod{\lambda(n)}\)</span></li>
+<li>\(d \equiv e^{-1} \pmod{\lambda(n)}\)</li>
 </ul>
-
-<p><span  class="math">\(d\)</span> is the modular <a href="https://en.wikipedia.org/wiki/Multiplicative_inverse">multiplicative inverse</a> of <span  class="math">\(e\)</span> modulus <span  class="math">\( \lambda(n)\)</span>. <span  class="math">\(d\)</span> is the <strong>Private Key Exponent</strong> and should never be shared.</p>
-
+<p>\(d\) is the modular <a href="https://en.wikipedia.org/wiki/Multiplicative_inverse">multiplicative inverse</a> of \(e\) modulus \(\lambda(n)\). \(d\) is the <strong>Private Key Exponent</strong> and should never be shared.</p>
 <ul>
-<li><span  class="math">\(c \equiv m^e \pmod{n}\)</span></li>
+<li>\(c \equiv m^e \pmod{n}\)</li>
 </ul>
-
-<p>This will encrypt your integer converted message <span  class="math">\(m\)</span> into an RSA encrypted ciphertext <span  class="math">\(c\)</span>.</p>
-
+<p>This will encrypt your integer converted message \(m\) into an RSA encrypted ciphertext \(c\).</p>
 <ul>
-<li><span  class="math">\(c^d \equiv (m^e)^d \equiv m \pmod n\)</span></li>
+<li>\(c^d \equiv (m^e)^d \equiv m \pmod n\)</li>
 </ul>
-
-<p>This will decrypt the encrypted ciphertext <span  class="math">\(c\)</span> back into it's integer message form <span  class="math">\(m\)</span>.</p>
-
-<p><span  class="math">\(n\)</span> and <span  class="math">\(e\)</span> are used to construct the Public Key, while <span  class="math">\(n\)</span> and <span  class="math">\(d\)</span> are used to create the Private Key.</p>
-
+<p>This will decrypt the encrypted ciphertext \(c\) back into it&rsquo;s integer message form \(m\).</p>
+<p>\(n\) and \(e\) are used to construct the Public Key, while \(n\) and \(d\) are used to create the Private Key.</p>
 <h3 id="constructing-values-and-keys-in-python">Constructing Values and Keys in Python</h3>
-
 <p>Calculating our values in Python code will look something like this:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># modular multiplicative inverse</span>
 <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">mod_inv</span>(a, n):
@@ -200,9 +175,9 @@ e <span style="color:#f92672">=</span> <span style="color:#ae81ff">65537</span>
 lambda_n <span style="color:#f92672">=</span> (p <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">*</span> (q <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>)
 
 <span style="color:#75715e"># calculate private key exponent</span>
-d <span style="color:#f92672">=</span> mod_inv(e, lambda_n)</code></pre></div>
-<p>We can also use Python libraries to construct Public and Private Keys. Here we will use the <a href="https://pypi.org/project/pycrypto/">pycrypto</a> library.</p>
+d <span style="color:#f92672">=</span> mod_inv(e, lambda_n)
 
+</code></pre></div><p>We can also use Python libraries to construct Public and Private Keys. Here we will use the <a href="https://pypi.org/project/pycrypto/">pycrypto</a> library.</p>
 <blockquote>
 <p><strong>Note</strong>: <em>This library can be insecure and is not recommended for production use unless you know exactly what you are doing.</em></p>
 </blockquote>
@@ -244,22 +219,19 @@ key <span style="color:#f92672">=</span> RSA<span style="color:#f92672">.</span>
 
 <span style="color:#75715e"># print Private and Public Key</span>
 <span style="color:#66d9ef">print</span>(key<span style="color:#f92672">.</span>exportKey()<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span>)
-<span style="color:#66d9ef">print</span>(key<span style="color:#f92672">.</span>publickey()<span style="color:#f92672">.</span>exportKey()<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span>)</code></pre></div>
-<p>This will produce the output:</p>
+<span style="color:#66d9ef">print</span>(key<span style="color:#f92672">.</span>publickey()<span style="color:#f92672">.</span>exportKey()<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span>)
+</code></pre></div><p>This will produce the output:</p>
 <pre><code>-----BEGIN RSA PRIVATE KEY-----
 MCUCAQACAy19UwIDAQABAgMBmJECAge1AgIF5wIBTQICAZMCAgZK
 -----END RSA PRIVATE KEY-----
 
 -----BEGIN PUBLIC KEY-----
 MB4wDQYJKoZIhvcNAQEBBQADDQAwCgIDLX1TAgMBAAE=
------END PUBLIC KEY-----</code></pre>
-<p>We can now write these to files for storage, distribution, and use to encrypt or decrypt messages.</p>
-
+-----END PUBLIC KEY-----
+</code></pre><p>We can now write these to files for storage, distribution, and use to encrypt or decrypt messages.</p>
 <hr>
-
 <h2 id="back-to-the-challenge">Back To The Challenge</h2>
-
-<p>Now that we know how RSA Keys are generated, we can try to crack the Public Key values that we obtained from the server and construct the Private key. The first thing we need to do is try to factor <span  class="math">\(n\)</span> into it's primes <span  class="math">\(p\)</span> and <span  class="math">\(q\)</span>. With strong enough prime values this would be impossible, but since this is a CTF challenge we know there will be a vulnerability somewhere in this scheme. To factor <span  class="math">\(n\)</span>, I will use a web tool called <a href="https://www.alpertron.com.ar/ECM.HTM">Integer Factorization Calculator</a>. Using the factoring tool on this site tells us that <span  class="math">\(n\)</span> can be made from the following multiples:</p>
+<p>Now that we know how RSA Keys are generated, we can try to crack the Public Key values that we obtained from the server and construct the Private key. The first thing we need to do is try to factor \(n\) into it&rsquo;s primes \(p\) and \(q\). With strong enough prime values this would be impossible, but since this is a CTF challenge we know there will be a vulnerability somewhere in this scheme. To factor \(n\), I will use a web tool called <a href="https://www.alpertron.com.ar/ECM.HTM">Integer Factorization Calculator</a>. Using the factoring tool on this site tells us that \(n\) can be made from the following multiples:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># factors of n</span>
 p1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">8694307819</span>
 p2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">8775407717</span>
@@ -294,14 +266,12 @@ p30 <span style="color:#f92672">=</span> <span style="color:#ae81ff">16335802403
 p31 <span style="color:#f92672">=</span> <span style="color:#ae81ff">16382994611</span>
 p32 <span style="color:#f92672">=</span> <span style="color:#ae81ff">16728205063</span>
 p33 <span style="color:#f92672">=</span> <span style="color:#ae81ff">16809927443</span>
-p34 <span style="color:#f92672">=</span> <span style="color:#ae81ff">16861924201</span></code></pre></div>
-<p>That's way more than two numbers! What is going on here? Let's look again at what the challenge description says:</p>
-
+p34 <span style="color:#f92672">=</span> <span style="color:#ae81ff">16861924201</span>
+</code></pre></div><p>That&rsquo;s way more than two numbers! What is going on here? Let&rsquo;s look again at what the challenge description says:</p>
 <blockquote>
-<p><em>Why use p and q when I can use more?</em></p>
+<p><em>&ldquo;Why use p and q when I can use more?&quot;</em></p>
 </blockquote>
-
-<p>Now this makes sense. They insecurely built their Keys by using <em>many</em> numbers to compute <span  class="math">\(n\)</span>, and because of this we were able to factor <span  class="math">\(n\)</span> into it's constituents. We now have the information we need to build the Private Key values and decrypt <span  class="math">\(c\)</span>. We can do this in Python, but will have to make some changes to our code. We will first write some test code to assert that all these integers multiplied will equal our <span  class="math">\(n\)</span> value. Then we will place all the values into a list, and create some logic to derive our <span  class="math">\(\lambda(n)\)</span> from the entire list of integers. Then we can calculate <span  class="math">\(d\)</span>, our <strong>Private Key Exponent</strong>. That code will look like this:</p>
+<p>Now this makes sense. They insecurely built their Keys by using <em>many</em> numbers to compute \(n\), and because of this we were able to factor \(n\) into it&rsquo;s constituents. We now have the information we need to build the Private Key values and decrypt \(c\). We can do this in Python, but will have to make some changes to our code. We will first write some test code to assert that all these integers multiplied will equal our \(n\) value. Then we will place all the values into a list, and create some logic to derive our \(\lambda(n)\) from the entire list of integers. Then we can calculate \(d\), our <strong>Private Key Exponent</strong>. That code will look like this:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> math <span style="color:#f92672">import</span> gcd
 
 <span style="color:#75715e"># modular multiplicative inverse</span>
@@ -384,11 +354,11 @@ ps <span style="color:#f92672">=</span> []
 lambda_n <span style="color:#f92672">=</span> calc_lambda_n(ps)
 
 <span style="color:#75715e"># calculate private key exponent</span>
-d <span style="color:#f92672">=</span> mod_inv(e, lambda_n)</code></pre></div>
-<p>Now we can just add our <span  class="math">\(c\)</span>, <span  class="math">\(n\)</span>, and <span  class="math">\(e\)</span> values given, and decrypt <span  class="math">\(c\)</span> by adding the following:</p>
+d <span style="color:#f92672">=</span> mod_inv(e, lambda_n)
+</code></pre></div><p>Now we can just add our \(c\), \(n\), and \(e\) values given, and decrypt \(c\) by adding the following:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">message <span style="color:#f92672">=</span> pow(c, d, n)
-<span style="color:#66d9ef">print</span>(bytes<span style="color:#f92672">.</span>fromhex(hex(message)[<span style="color:#ae81ff">2</span>:])<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>))</code></pre></div>
-<p>The final Python script will look as follows:</p>
+<span style="color:#66d9ef">print</span>(bytes<span style="color:#f92672">.</span>fromhex(hex(message)[<span style="color:#ae81ff">2</span>:])<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>))
+</code></pre></div><p>The final Python script will look as follows:</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> math <span style="color:#f92672">import</span> gcd
 
 <span style="color:#75715e"># cipher text and public key values</span>
@@ -484,24 +454,23 @@ d <span style="color:#f92672">=</span> mod_inv(e, lambda_n)
 message <span style="color:#f92672">=</span> pow(c, d, n)
 
 <span style="color:#75715e"># print utf-8 encoded results</span>
-<span style="color:#66d9ef">print</span>(bytes<span style="color:#f92672">.</span>fromhex(hex(message)[<span style="color:#ae81ff">2</span>:])<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>))</code></pre></div>
-<p>And this will print out the resulting decrypted message:</p>
-<pre><code>picoCTF{too_many_fact0rs_0744041}</code></pre>
-<p>We enter the flag and are notified that our solution is correct.
-<figure><img src="/images/b00tl3gRSA3/solved.png#center" alt="solved"></figure></p>
-
-<p>This was a fun challenge demonstrating how to use a basic RSA encryption method for un-padded messages. This is not a very real world example, as it is unlikely you will ever see <span  class="math">\(n\)</span> computed with more than two values, and real messages are rarely un-padded, but this was a great way to get your feet wet with basic principles of RSA Encryption.</p>
-
+<span style="color:#66d9ef">print</span>(bytes<span style="color:#f92672">.</span>fromhex(hex(message)[<span style="color:#ae81ff">2</span>:])<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#39;utf-8&#39;</span>))
+</code></pre></div><p>And this will print out the resulting decrypted message:</p>
+<pre><code>picoCTF{too_many_fact0rs_0744041}
+</code></pre><p>We enter the flag and are notified that our solution is correct.
+<img src="/images/b00tl3gRSA3/solved.png#center" alt="solved"></p>
+<p>This was a fun challenge demonstrating how to use a basic RSA encryption method for un-padded messages. This is not a very real world example, as it is unlikely you will ever see \(n\) computed with more than two values, and real messages are rarely un-padded, but this was a great way to get your feet wet with basic principles of RSA Encryption.</p>
+<section class="footnotes" role="doc-endnotes">
 <hr>
-
-<h4 id="references">References:</h4>
-
 <ol>
-<li><sup id="cite_ref-1"><a href="#cite_note-1">^</a></sup> Bulischeck, N. <a href="https://nbulischeck.io/posts/introduction-to-rsa/">&quot;An Introduction to RSA&quot;</a></li>
-<li><sup id="cite_ref-2"><a href="#cite_note-2">^</a></sup> Wikipedia. <a href="https://en.wikipedia.org/wiki/RSA_(cryptosystem)#Key_generation">&quot;RSA (cryptosystem)&quot;</a></li>
+<li id="fn:1" role="doc-endnote">
+<p><a href="https://nbulischeck.io/posts/introduction-to-rsa/">&ldquo;An Introduction to RSA&rdquo;</a>, <em>Bulischeck, N.</em> <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2" role="doc-endnote">
+<p><a href="https://en.wikipedia.org/wiki/RSA_(cryptosystem)#Key_generation">&ldquo;RSA (cryptosystem)&quot;</a>, <em>Wikipedia.</em> <a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
 </ol>
-
-<hr>
+</section>
 
     </section>
 </article>

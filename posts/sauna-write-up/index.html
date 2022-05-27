@@ -67,7 +67,7 @@
 <body>
     <nav class="main-nav">
 	
-		<a href='https://plasticuproject.com'>Home</a>
+		<a href='https://plasticuproject.com'>Posts</a>
 	
 
 	
@@ -103,98 +103,58 @@
         </h2>
     </header>
     <section id="post-body">
-        <p><figure><img src="/images/sauna/sauna.png#center" alt="HackTheBox"></figure></p>
-
+        <p><img src="/images/sauna/sauna.png#center" alt="HackTheBox"></p>
 <hr>
-
 <h2 id="user--jsmith">User / jsmith</h2>
-
 <p>First we will run an <strong>nmap</strong> scan of the machine IP address, export our results to an HTML file, and view it in Firefox-ESR.</p>
-
-<p><figure><img src="/images/sauna/pics/user/1.png" alt=""></figure>
-<figure><img src="/images/sauna/pics/user/3.png" alt=""></figure>
-<figure><img src="/images/sauna/pics/user/4.png" alt=""></figure>
-<figure><img src="/images/sauna/pics/user/5.png" alt=""></figure></p>
-
+<p><img src="/images/sauna/pics/user/1.png" alt="">
+<img src="/images/sauna/pics/user/3.png" alt="">
+<img src="/images/sauna/pics/user/4.png" alt="">
+<img src="/images/sauna/pics/user/5.png" alt=""></p>
 <p>Here we can see the machine is running a <strong>Web Server</strong>, and a number of other services like <strong>Kerberos</strong>, <strong>RPC</strong>, and <strong>Active Directory LDAP</strong>. We do some light, manual recon on the web server and do not find much. One thing that did get my attention is an <strong>about</strong> page with a list of employees, some of which may have user accounts.</p>
-
-<p><figure><img src="/images/sauna/pics/user/10.png" alt=""></figure>
-<figure><img src="/images/sauna/pics/user/11.png" alt=""></figure></p>
-
-<p>Let's run nmap again, this time using a <a href="https://nmap.org/nsedoc/scripts/ldap-search.html">script</a> to try and enumerate the <a href="https://en.wikipedia.org/wiki/Lightweight_Directory_Access_Protocol">LDAP</a>.</p>
-
-<p><figure><img src="/images/sauna/pics/user/6.png" alt=""></figure>
-<figure><img src="/images/sauna/pics/user/7.png" alt=""></figure>
-<figure><img src="/images/sauna/pics/user/8.png" alt=""></figure></p>
-
-<p>Here we can see that there is a user named <strong>Hugo Smith</strong> and the <strong>Domain Controller</strong> is <strong>EGOTISTICAL-BANK.LOCAL</strong>. Mr. Smith is one of the employee names listed on the <em>about</em> page. Before we move any further let's add the domain controller and web server names to our <strong>/etc/hosts</strong> file.</p>
-
-<p><figure><img src="/images/sauna/pics/user/13.png" alt=""></figure></p>
-
-<p>Trying different username formats for the users that we found, we try to perform <a href="https://www.hackingarticles.in/as-rep-roasting/">AS-REP Roasting</a> with <a href="https://github.com/SecureAuthCorp/impacket/blob/master/examples/GetNPUsers.py">impacket-GetNPUsers.py</a>, which will try to retrieve a user's <strong>Kerberos AS-REP Password Hash</strong> if that user has <strong><em>“Do not use Kerberos pre-authentication”</em></strong> set on their account.</p>
-
-<p><figure><img src="/images/sauna/pics/user/14.png" alt=""></figure></p>
-
-<p>We've successfully extracted the password hash for user <strong>fsmith</strong> by AS-REP Roasting. Now let's copy that hash to another computer that has <a href="https://github.com/magnumripper/JohnTheRipper">JohnTheRipper</a> installed and try to crack the hash with the <a href="https://github.com/danielmiessler/SecLists/tree/master/Passwords/Leaked-Databases">rockyou.txt wordlist</a>.</p>
-
-<p><figure><img src="/images/sauna/pics/user/john.png" alt=""></figure></p>
-
-<p>John successfully cracked the hash. We still don't have a clear entry point for logging into this machine so let's run nmap again, this time using the <em>-p</em> switch to look at all TCP ports.</p>
-
-<p><figure><img src="/images/sauna/pics/user/nmap.png" alt=""></figure></p>
-
+<p><img src="/images/sauna/pics/user/10.png" alt="">
+<img src="/images/sauna/pics/user/11.png" alt=""></p>
+<p>Let&rsquo;s run nmap again, this time using a <a href="https://nmap.org/nsedoc/scripts/ldap-search.html">script</a> to try and enumerate the <a href="https://en.wikipedia.org/wiki/Lightweight_Directory_Access_Protocol">LDAP</a>.</p>
+<p><img src="/images/sauna/pics/user/6.png" alt="">
+<img src="/images/sauna/pics/user/7.png" alt="">
+<img src="/images/sauna/pics/user/8.png" alt=""></p>
+<p>Here we can see that there is a user named <strong>Hugo Smith</strong> and the <strong>Domain Controller</strong> is <strong>EGOTISTICAL-BANK.LOCAL</strong>. Mr. Smith is one of the employee names listed on the <em>about</em> page. Before we move any further let&rsquo;s add the domain controller and web server names to our <strong>/etc/hosts</strong> file.</p>
+<p><img src="/images/sauna/pics/user/13.png" alt=""></p>
+<p>Trying different username formats for the users that we found, we try to perform <a href="https://www.hackingarticles.in/as-rep-roasting/">AS-REP Roasting</a> with <a href="https://github.com/SecureAuthCorp/impacket/blob/master/examples/GetNPUsers.py">impacket-GetNPUsers.py</a>, which will try to retrieve a user&rsquo;s <strong>Kerberos AS-REP Password Hash</strong> if that user has <strong><em>“Do not use Kerberos pre-authentication”</em></strong> set on their account.</p>
+<p><img src="/images/sauna/pics/user/14.png" alt=""></p>
+<p>We&rsquo;ve successfully extracted the password hash for user <strong>fsmith</strong> by AS-REP Roasting. Now let&rsquo;s copy that hash to another computer that has <a href="https://github.com/magnumripper/JohnTheRipper">JohnTheRipper</a> installed and try to crack the hash with the <a href="https://github.com/danielmiessler/SecLists/tree/master/Passwords/Leaked-Databases">rockyou.txt wordlist</a>.</p>
+<p><img src="/images/sauna/pics/user/john.png" alt=""></p>
+<p>John successfully cracked the hash. We still don&rsquo;t have a clear entry point for logging into this machine so let&rsquo;s run nmap again, this time using the <em>-p</em> switch to look at all TCP ports.</p>
+<p><img src="/images/sauna/pics/user/nmap.png" alt=""></p>
 <p>Here we can see <strong>Port 5985</strong> is open. This port handles <a href="https://en.wikipedia.org/wiki/Windows_Remote_Management">WinRM (Windows Remote Management)</a>, an implementation of WS-Management (Web Services-Management) that can be authenticated with <a href="https://en.wikipedia.org/wiki/Kerberos_%28protocol%29">Kerberos</a>.
 Now we can attempt to log in through WinRM with the credentials we obtained and cracked using AS-REP Roasting and JohnTheRipper. We will use <a href="https://github.com/Hackplayers/evil-winrm">Evil-WinRM</a> to do this as it will give us the some added functionality, like the ability to upload and download files between our host and client very easily. After we log in we will find and print the <strong>user.txt</strong> file.</p>
-
-<p><figure><img src="/images/sauna/pics/user/15.png" alt=""></figure></p>
-
+<p><img src="/images/sauna/pics/user/15.png" alt=""></p>
 <hr>
-
 <h2 id="privilege-escalation--administrator">Privilege Escalation / Administrator</h2>
-
 <p>We run <em>net user</em> and get a list of all user accounts. We will ultimately want to get access to the Administrator account, but we may need to pivot through another account to do so.</p>
-
-<p><figure><img src="/images/sauna/pics/root/6.png" alt=""></figure></p>
-
+<p><img src="/images/sauna/pics/root/6.png" alt=""></p>
 <p>We can upload and run the <a href="https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS">WinPEAS</a> enumeration script. This will help us discover user information, privilege settings, groups, stored credentials, and show us other things that may help us find vulnerabilities for privilege escalation.</p>
-
-<p><figure><img src="/images/sauna/pics/root/5.png" alt=""></figure></p>
-
+<p><img src="/images/sauna/pics/root/5.png" alt=""></p>
 <p>WinPEAS shows us some valuable information about our current user. It has also found <strong>stored credentials</strong> for the <strong>svc_loanmanager/svc_loanmgr</strong> account.</p>
-
-<p><figure><img src="/images/sauna/pics/root/n3.png" alt=""></figure>
-<figure><img src="/images/sauna/pics/root/n4.png" alt=""></figure>
-<figure><img src="/images/sauna/pics/root/n5.png" alt=""></figure>
-<figure><img src="/images/sauna/pics/root/4.png" alt=""></figure></p>
-
-<p>Next we'll use the credentials that we found to log in as <strong>scv_loanmgr</strong>.</p>
-
-<p><figure><img src="/images/sauna/pics/root/7.png" alt=""></figure></p>
-
-<p>We run our WinPEAS script again, but don't really discover much of anything else. At this point I think it is a good idea to run <a href="https://github.com/BloodHoundAD/BloodHound">BloodHound</a>, an Active Directory reconnaissance tool. We can use BloodHound to identify different attack paths through a visualized graph. <a href="https://www.pentestpartners.com/security-blog/bloodhound-walkthrough-a-tool-for-many-tradecrafts/">Here</a> is a good article explaining how to download, install, and get started using BloodHound. After we get everything installed and working we will upload the SharpHound Ingestor script, run it with the appropriate arguments, and download the zipped results. At this time we will also upload <a href="https://github.com/gentilkiwi/mimikatz">mimikatz</a>, which we will talk about later.</p>
-
-<p><figure><img src="/images/sauna/pics/root/16.png" alt=""></figure>
-<figure><img src="/images/sauna/pics/root/8.png" alt=""></figure>
-<figure><img src="/images/sauna/pics/root/18.png" alt=""></figure></p>
-
+<p><img src="/images/sauna/pics/root/n3.png" alt="">
+<img src="/images/sauna/pics/root/n4.png" alt="">
+<img src="/images/sauna/pics/root/n5.png" alt="">
+<img src="/images/sauna/pics/root/4.png" alt=""></p>
+<p>Next we&rsquo;ll use the credentials that we found to log in as <strong>scv_loanmgr</strong>.</p>
+<p><img src="/images/sauna/pics/root/7.png" alt=""></p>
+<p>We run our WinPEAS script again, but don&rsquo;t really discover much of anything else. At this point I think it is a good idea to run <a href="https://github.com/BloodHoundAD/BloodHound">BloodHound</a>, an Active Directory reconnaissance tool. We can use BloodHound to identify different attack paths through a visualized graph. <a href="https://www.pentestpartners.com/security-blog/bloodhound-walkthrough-a-tool-for-many-tradecrafts/">Here</a> is a good article explaining how to download, install, and get started using BloodHound. After we get everything installed and working we will upload the SharpHound Ingestor script, run it with the appropriate arguments, and download the zipped results. At this time we will also upload <a href="https://github.com/gentilkiwi/mimikatz">mimikatz</a>, which we will talk about later.</p>
+<p><img src="/images/sauna/pics/root/16.png" alt="">
+<img src="/images/sauna/pics/root/8.png" alt="">
+<img src="/images/sauna/pics/root/18.png" alt=""></p>
 <p>Afterwords we will download the data, import it into BloodHound and start looking around. Here is the shortest path from svc_loanmgr to Domain Admin.</p>
-
-<p><figure><img src="/images/sauna/pics/root/21.png" alt=""></figure></p>
-
+<p><img src="/images/sauna/pics/root/21.png" alt=""></p>
 <p>One of the first things we look at is if any users can use a <a href="https://qomplx.com/kerberos_dcsync_attacks_explained/">DCSync attack</a>, which will allow them to simulate the behavior of a Domain Controller and ask other Domain Controllers to replicate information using the <a href="https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-drsr/06205d97-30da-4fdc-a276-3fd831b272e0">Directory Replication Service Remote Protocol (MS-DRSR)</a>. By searching <em>Find Principals With DCSync Rights</em> we find that our current user, svc_loanmgr, should be able to perform this attack.</p>
-
-<p><figure><img src="/images/sauna/pics/root/19.png" alt=""></figure></p>
-
+<p><img src="/images/sauna/pics/root/19.png" alt=""></p>
 <p>We can try running the <strong>mimikatz</strong> program we uploaded earlier, selecting the <a href="https://attack.stealthbits.com/privilege-escalation-using-mimikatz-dcsync">DCSync</a> option, using it to dump the NTLM Hash for the <strong>Administrator</strong> account.</p>
-
-<p><figure><img src="/images/sauna/pics/root/9.png" alt=""></figure></p>
-
+<p><img src="/images/sauna/pics/root/9.png" alt=""></p>
 <p>We now have Administrator account ownership, can log in through WinRM, and print the <strong>root.txt</strong> file. With this exploit we can also get the <a href="https://adsecurity.org/?p=483">KRBTGT</a> password hash, giving us the ability to create <a href="https://www.qomplx.com/qomplx-knowledge-golden-ticket-attacks-explained/">Golden Tickets</a> which will grant us unfettered access to the network.</p>
-
-<p><figure><img src="/images/sauna/pics/root/13.png" alt=""></figure></p>
-
-<p>I don't have much experience with Windows Active Directory attacks, so this was a great machine for getting started and learning some basic principles and methods. I very much enjoyed the process.</p>
-
+<p><img src="/images/sauna/pics/root/13.png" alt=""></p>
+<p>I don&rsquo;t have much experience with Windows Active Directory attacks, so this was a great machine for getting started and learning some basic principles and methods. I very much enjoyed the process.</p>
 <hr>
 
     </section>
