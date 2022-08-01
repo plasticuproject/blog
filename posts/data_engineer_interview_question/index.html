@@ -53,7 +53,7 @@
 <meta itemprop="description" content="A Test-Driven Development approach to solving a data processing problem given in an interview take-home assessment.">
 <meta itemprop="datePublished" content="2022-08-01T00:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2022-08-01T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="3619">
+<meta itemprop="wordCount" content="3621">
 
 
 
@@ -271,8 +271,9 @@
 <hr>
 <p><img src="/images/data_engineer_interview_question/TDD_Global_Lifecycle.png#center" alt="TDD_Global_Lifecycle.png"></p>
 <h2 id="testing-and-tdd">Testing and TDD</h2>
-<p><a href="https://en.wikipedia.org/wiki/Test-driven_development#cite_note-Beck-2">Test-Driven Development</a>, or <em>TDD</em>, is a software development methodology where writing test cases is prioritized over the full development of software components in the development process. We cyclically run these tests anytime changes are made to the code. This allows us to clearly define requirements for our components before we begin to develop them, reduces the chance of introducing bugs during iterative development, refactoring, debugging and ensures our code will always behave as expected.</p>
-<p>We will be using python&rsquo;s <a href="https://docs.python.org/3.8/library/unittest.html">unittest</a> framework for our testing. The first thing we need to do is generate some data to test against. This data should be self-contained within our testing module as we do not want our tests to interact with the filesystem outside of the code that we are testing. We will use unittest&rsquo;s <a href="https://docs.python.org/3.8/library/unittest.mock.html">mock</a> library to achieve this. Let&rsquo;s write two helper functions, one to generate randomized arrays of sequential numbers, with selected values missing, and one to format these arrays into a string of newline separated &ldquo;rows&rdquo; to be used for our mock CSV file object.</p>
+<p><a href="https://en.wikipedia.org/wiki/Test-driven_development">Test-Driven Development</a>, or <em>TDD</em>, is a software development methodology where writing test cases is prioritized over the full development of software components in the development process. We cyclically run these tests anytime changes are made to the code. This allows us to clearly define requirements for our components before we begin to develop them, reduces the chance of introducing bugs during iterative development, refactoring, debugging and ensures our code will always behave as expected.</p>
+<p>We will be using python&rsquo;s <a href="https://docs.python.org/3.8/library/unittest.html">unittest</a> framework for our testing. The first thing we need to do is generate some data to test against. This data should be self-contained within our testing module as we do not want our tests to interact with the filesystem outside of the code that we are testing. We will use unittest&rsquo;s <a href="https://docs.python.org/3.8/library/unittest.mock.html">mock</a> library to achieve this.</p>
+<p>Let&rsquo;s write two helper functions, one to generate randomized arrays of sequential numbers, with selected values missing, and one to format these arrays into a string of newline separated &ldquo;rows&rdquo; to be used for our mock CSV file object.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#e6db74">&#34;&#34;&#34;test.py&#34;&#34;&#34;</span>
 
 <span style="color:#f92672">import</span> unittest
@@ -361,8 +362,8 @@
     length <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000000</span>
 
     <span style="color:#75715e"># create two random integers to remove from lists</span>
-    missing_low <span style="color:#f92672">=</span> randint(<span style="color:#ae81ff">100000</span>, length <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>)
-    missing_high <span style="color:#f92672">=</span> randint(missing_low <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>, length)
+    missing_low <span style="color:#f92672">=</span> randint(<span style="color:#ae81ff">2</span>, length <span style="color:#f92672">-</span> <span style="color:#ae81ff">3</span>)
+    missing_high <span style="color:#f92672">=</span> randint(missing_low <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>, length <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>)
 
     <span style="color:#75715e"># Assert that a column of length 0 will return an empty list</span>
     <span style="color:#66d9ef">assert</span> _generate_column([], <span style="color:#ae81ff">0</span>) <span style="color:#f92672">==</span> []
