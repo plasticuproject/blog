@@ -7,10 +7,20 @@
     <description>Recent content on plasticuproject&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 11 Jan 2022 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 01 Aug 2022 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://plasticuproject.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <author>plasticuproject</author>
+      <title>Data Engineer Interview Question</title>
+      <link>https://plasticuproject.com/posts/data_engineer_interview_question/</link>
+      <pubDate>Mon, 01 Aug 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://plasticuproject.com/posts/data_engineer_interview_question/</guid>
+      <description>A Test-Driven Development approach to solving a data processing problem given in an interview take-home assessment.</description>
+    </item>
     
     <item>
       <author>plasticuproject</author>

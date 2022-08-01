@@ -7,10 +7,30 @@
     <description>Recent content in Tags on plasticuproject&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 11 Jan 2022 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 01 Aug 2022 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://plasticuproject.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <author>plasticuproject</author>
+      <title>Data Processing</title>
+      <link>https://plasticuproject.com/tags/data-processing/</link>
+      <pubDate>Mon, 01 Aug 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://plasticuproject.com/tags/data-processing/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <author>plasticuproject</author>
+      <title>Python</title>
+      <link>https://plasticuproject.com/tags/python/</link>
+      <pubDate>Mon, 01 Aug 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://plasticuproject.com/tags/python/</guid>
+      <description></description>
+    </item>
     
     <item>
       <author>plasticuproject</author>
@@ -69,16 +89,6 @@
       <pubDate>Fri, 29 May 2020 00:00:00 +0000</pubDate>
       
       <guid>https://plasticuproject.com/tags/cryptography/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <author>plasticuproject</author>
-      <title>Python</title>
-      <link>https://plasticuproject.com/tags/python/</link>
-      <pubDate>Fri, 29 May 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://plasticuproject.com/tags/python/</guid>
       <description></description>
     </item>
     

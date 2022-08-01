@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-50Z66QSKH7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-50Z66QSKH7');
+</script>
+
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="plasticuproject">
+<meta name="description" content="Self Promoting Blog">
+<meta name="generator" content="Hugo 0.70.0" />
+<title>Data Engineer Interview Question</title>
+<link rel="shortcut icon" href="https://plasticuproject.com/images/favicon.ico">
+<link rel="stylesheet" href="https://plasticuproject.com/css/style.css">
+<link rel="stylesheet" href="https://plasticuproject.com/css/highlight.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+
+
+
+<link href="https://plasticuproject.com/index.xml" rel="alternate" type="application/rss+xml" title="plasticuproject&#39;s blog" />
+
+
+<meta property="og:title" content="Data Engineer Interview Question" />
+<meta property="og:description" content="A Test-Driven Development approach to solving a data processing problem given in an interview take-home assessment." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://plasticuproject.com/posts/data_engineer_interview_question/" />
+<meta property="article:published_time" content="2022-08-01T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-08-01T00:00:00+00:00" />
+
+
+<meta itemprop="name" content="Data Engineer Interview Question">
+<meta itemprop="description" content="A Test-Driven Development approach to solving a data processing problem given in an interview take-home assessment.">
+<meta itemprop="datePublished" content="2022-08-01T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2022-08-01T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="3619">
+
+
+
+<meta itemprop="keywords" content="Python,Data Processing," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Data Engineer Interview Question"/>
+<meta name="twitter:description" content="A Test-Driven Development approach to solving a data processing problem given in an interview take-home assessment."/>
+
+
+</head>
+<body>
+    <nav class="main-nav">
+	
+		<a href='https://plasticuproject.com'>Posts</a>
+	
+
+	
+ 		<a href='/about/'>About</a>
+  	
+
+    <a href='https://plasticuproject.com/tags'>Tags</a>
+
+	
+		<a href="https://plasticuproject.com/index.xml">RSS</a>
+	
+</nav>
+
+    <section id="wrapper">
+        
+        
+<article class="post">
+    <header>
+        <h1>Data Engineer Interview Question</h1>
+        <h2 class="subtitle">A Test-Driven Development approach to solving a data processing problem given in an interview take-home assessment.</h2>
+        <h2 class="headline">
+        August 1, 2022
+        <br>
+          
+            
+              
+              <a href="https://plasticuproject.com/tags/python">Python</a>
+            
+               | 
+              <a href="https://plasticuproject.com/tags/data-processing">Data Processing</a>
+            
+          
+        </h2>
+    </header>
+    <section id="post-body">
+        <p><img src="/images/data_engineer_interview_question/Python-PNG-File.png#center" alt="Image"></p>
+<hr>
+<h2 id="the-problem">The Problem</h2>
+<p>In a recent engineering interview I was given the following take-home assessment problem:</p>
+<blockquote>
+<ul>
+<li><em>You are given a CSV file with two columns of integers as strings.</em></li>
+<li><em>The first column has the numbers 1:1000000, unordered, with one value missing.</em></li>
+<li><em>The second column is the same but with a different order and two values missing.</em></li>
+<li><em>First, find the number that is missing from both columns.</em></li>
+<li><em>Then, find the number missing in the first column.</em></li>
+</ul>
+</blockquote>
+<p> </p>
+<p>The provided CSV file looks as follows:</p>
+<pre><code>&quot;359803&quot;,&quot;583035&quot;
+&quot;357353&quot;,&quot;&quot;
+&quot;633834&quot;,&quot;523049&quot;
+&quot;453111&quot;,&quot;701564&quot;
+&quot;&quot;,&quot;829488&quot;
+&quot;598043&quot;,&quot;416142&quot;
+&quot;709298&quot;,&quot;914973&quot;
+&quot;865343&quot;,&quot;549521&quot;
+&quot;183281&quot;,&quot;341882&quot;
+&quot;404978&quot;,&quot;623801&quot;
+...
+...
+...
+&quot;787303&quot;,&quot;534748&quot;
+&quot;260831&quot;,&quot;742456&quot;
+&quot;436372&quot;,&quot;&quot;
+&quot;825283&quot;,&quot;233817&quot;
+&quot;205556&quot;,&quot;484274&quot;
+&quot;243051&quot;,&quot;911476&quot;
+&quot;84359&quot;,&quot;498681&quot;
+&quot;181643&quot;,&quot;838601&quot;
+&quot;454707&quot;,&quot;525760&quot;
+&quot;205823&quot;,&quot;541473&quot;
+...
+...
+...
+</code></pre><hr>
+<h2 id="initial-planning">Initial Planning</h2>
+<p>My idea is to write a function in <strong>challenge.py</strong> that will take in the CSV filename as an argument and return the requested results in an array, as such:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#e6db74">&#34;&#34;&#34;challenge.py&#34;&#34;&#34;</span>
+
+<span style="color:#f92672">from</span> typing <span style="color:#f92672">import</span> List
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">solution</span>(csv_file: str) <span style="color:#f92672">-&gt;</span> List[int]:
+    <span style="color:#e6db74">&#34;&#34;&#34;Given a headerless csv file
+</span><span style="color:#e6db74">    with two equal length columns of
+</span><span style="color:#e6db74">    integers in range 1 to (inf - 1) as
+</span><span style="color:#e6db74">    string literals, and empty string
+</span><span style="color:#e6db74">    literals in place of missing values,
+</span><span style="color:#e6db74">    returns an array of integers where the
+</span><span style="color:#e6db74">    first value is missing from both
+</span><span style="color:#e6db74">    columns and the second value is
+</span><span style="color:#e6db74">    missing from the first column.
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Parameters
+</span><span style="color:#e6db74">    ----------
+</span><span style="color:#e6db74">    arg1 : str
+</span><span style="color:#e6db74">        path/filename of csv file
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Returns
+</span><span style="color:#e6db74">    -------
+</span><span style="color:#e6db74">    list of int
+</span><span style="color:#e6db74">        array containing int values missing from
+</span><span style="color:#e6db74">        both columns in input csv file
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Example
+</span><span style="color:#e6db74">    -------
+</span><span style="color:#e6db74">    &gt;&gt;&gt; from io import StringIO
+</span><span style="color:#e6db74">    &gt;&gt;&gt; test_csv = StringIO(&#39;&#34;3&#34;,&#34;4&#34;</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">n&#34;1&#34;,&#34;&#34;</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">n&#34;&#34;,&#34;&#34;</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">n&#34;4&#34;,&#34;1&#34;&#39;)
+</span><span style="color:#e6db74">    &gt;&gt;&gt; solution(test_csv)
+</span><span style="color:#e6db74">    [2, 2]
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    result <span style="color:#f92672">=</span> []
+    <span style="color:#66d9ef">return</span> result
+</code></pre></div><p>The plan is to read the CSV file, sort each column, then loop a <a href="https://en.wikipedia.org/wiki/Binary_search_algorithm">binary search algorithm</a> over the second column to find the missing values. We can use those missing values to index the sorted first column and compare. Once we have the missing value shared between the columns, for the second part we can just perform a binary search on the first sorted column and obtain the single missing value.</p>
+<p>We will achieve all of this by breaking the problem up into two smaller helper functions, one to read the CSV file and sort the values and one to find the missing values with a binary search, then calling these helper functions in our <strong>solution()</strong> function to get the requested results.</p>
+<p>For reading and sorting the CSV file columns let&rsquo;s write two separate functions that return the same result, one using the <a href="https://pandas.pydata.org/">pandas</a> library and one without, in case using a third party library was not allowed.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_pd_read_and_sort</span>(file_name: str) <span style="color:#f92672">-&gt;</span> List[List[int]]:
+    <span style="color:#e6db74">&#34;&#34;&#34;Given a csv file containing unlabeled columns of
+</span><span style="color:#e6db74">    unique numbers as strings, returns an array containing
+</span><span style="color:#e6db74">    arrays of each column sorted in ascending order as
+</span><span style="color:#e6db74">    integers with any empty or missing elements replaced
+</span><span style="color:#e6db74">    with 0s in the first positions.
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Parameters
+</span><span style="color:#e6db74">    ----------
+</span><span style="color:#e6db74">    arg1 : str
+</span><span style="color:#e6db74">        path/filename of csv file
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Returns
+</span><span style="color:#e6db74">    -------
+</span><span style="color:#e6db74">    list of list of int
+</span><span style="color:#e6db74">        array containing arrays of sorted int values
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Example
+</span><span style="color:#e6db74">    --------
+</span><span style="color:#e6db74">    &gt;&gt;&gt; from io import StringIO
+</span><span style="color:#e6db74">    &gt;&gt;&gt; test_csv = StringIO(&#39;&#34;1&#34;,&#34;4&#34;</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">n&#34;&#34;,&#34;&#34;</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">n&#34;3&#34;,&#34;6&#34;&#39;)
+</span><span style="color:#e6db74">    &gt;&gt;&gt; _pd_read_and_sort(test_csv)
+</span><span style="color:#e6db74">    [[0, 1, 3], [0, 4, 6]]
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    return_columns <span style="color:#f92672">=</span> []
+    <span style="color:#66d9ef">return</span> return_columns
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_read_and_sort</span>(file_name: str) <span style="color:#f92672">-&gt;</span> List[List[int]]:
+    <span style="color:#e6db74">&#34;&#34;&#34;Given a csv file containing unlabeled columns of
+</span><span style="color:#e6db74">    unique numbers as strings, returns an array containing
+</span><span style="color:#e6db74">    arrays of each column sorted in ascending order as
+</span><span style="color:#e6db74">    integers with any empty or missing elements replaced
+</span><span style="color:#e6db74">    with 0 in the first positions.
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Parameters
+</span><span style="color:#e6db74">    ----------
+</span><span style="color:#e6db74">    arg1 : str
+</span><span style="color:#e6db74">        path/filename of csv file
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Returns
+</span><span style="color:#e6db74">    -------
+</span><span style="color:#e6db74">    list of list of int
+</span><span style="color:#e6db74">        array containing arrays of sorted int values
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Example
+</span><span style="color:#e6db74">    --------
+</span><span style="color:#e6db74">    &gt;&gt;&gt; from io import StringIO
+</span><span style="color:#e6db74">    &gt;&gt;&gt; test_csv = StringIO(&#39;&#34;1&#34;,&#34;4&#34;</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">n&#34;&#34;,&#34;&#34;</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">n&#34;3&#34;,&#34;6&#34;&#39;)
+</span><span style="color:#e6db74">    &gt;&gt;&gt; _pd_read_and_sort(test_csv)
+</span><span style="color:#e6db74">    [[0, 1, 3], [0, 4, 6]]
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    return_columns <span style="color:#f92672">=</span> []
+    <span style="color:#66d9ef">return</span> return_columns
+</code></pre></div><p>Next we will create a function that will find the missing values from these sorted arrays.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_missing_from_list</span>(input_list: List[int]) <span style="color:#f92672">-&gt;</span> List[int]:
+    <span style="color:#e6db74">&#34;&#34;&#34;Given an array of ascending sorted integers,
+</span><span style="color:#e6db74">    starting at the first non-zero integer, returns a
+</span><span style="color:#e6db74">    sorted array containing all missing sequential integers
+</span><span style="color:#e6db74">    from the input array using a looped binary search
+</span><span style="color:#e6db74">    algorithm.
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Parameters
+</span><span style="color:#e6db74">    ----------
+</span><span style="color:#e6db74">    arg1 : list of int
+</span><span style="color:#e6db74">        array of sorted int values
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Returns
+</span><span style="color:#e6db74">    -------
+</span><span style="color:#e6db74">    list of int
+</span><span style="color:#e6db74">        array of sorted ints missing from the input array
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Example
+</span><span style="color:#e6db74">    -------
+</span><span style="color:#e6db74">    &gt;&gt;&gt; _missing_from_list([0, 0, 1, 2, 3, 5, 6, 8, 9])
+</span><span style="color:#e6db74">    [4, 7]
+</span><span style="color:#e6db74">    &gt;&gt;&gt; _missing_from_list([1, 2, 3, 4, 5, 6, 7, 8, 9])
+</span><span style="color:#e6db74">    []
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    missing <span style="color:#f92672">=</span> []
+    <span style="color:#66d9ef">return</span> missing
+</code></pre></div><p>Now that we have a plan for how we will solve this problem and an outline of the functions we will be using, we can write some tests for how these functions should handle and return data.</p>
+<hr>
+<p><img src="/images/data_engineer_interview_question/TDD_Global_Lifecycle.png#center" alt="TDD_Global_Lifecycle.png"></p>
+<h2 id="testing-and-tdd">Testing and TDD</h2>
+<p><a href="https://en.wikipedia.org/wiki/Test-driven_development#cite_note-Beck-2">Test-Driven Development</a>, or <em>TDD</em>, is a software development methodology where writing test cases is prioritized over the full development of software components in the development process. We cyclically run these tests anytime changes are made to the code. This allows us to clearly define requirements for our components before we begin to develop them, reduces the chance of introducing bugs during iterative development, refactoring, debugging and ensures our code will always behave as expected.</p>
+<p>We will be using python&rsquo;s <a href="https://docs.python.org/3.8/library/unittest.html">unittest</a> framework for our testing. The first thing we need to do is generate some data to test against. This data should be self-contained within our testing module as we do not want our tests to interact with the filesystem outside of the code that we are testing. We will use unittest&rsquo;s <a href="https://docs.python.org/3.8/library/unittest.mock.html">mock</a> library to achieve this. Let&rsquo;s write two helper functions, one to generate randomized arrays of sequential numbers, with selected values missing, and one to format these arrays into a string of newline separated &ldquo;rows&rdquo; to be used for our mock CSV file object.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#e6db74">&#34;&#34;&#34;test.py&#34;&#34;&#34;</span>
+
+<span style="color:#f92672">import</span> unittest
+<span style="color:#f92672">from</span> unittest.mock <span style="color:#f92672">import</span> patch, mock_open
+<span style="color:#f92672">from</span> typing <span style="color:#f92672">import</span> List
+<span style="color:#f92672">from</span> random <span style="color:#f92672">import</span> sample, randint
+<span style="color:#f92672">from</span> challenge <span style="color:#f92672">import</span> _pd_read_and_sort, _read_and_sort, _missing_from_list
+<span style="color:#f92672">from</span> challenge <span style="color:#f92672">import</span> solution
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_generate_column</span>(missing: List[int], length: int) <span style="color:#f92672">-&gt;</span> List[int]:
+    <span style="color:#e6db74">&#34;&#34;&#34;Helper function to generate randomized array of
+</span><span style="color:#e6db74">    N length unique integers with 0 standing in for
+</span><span style="color:#e6db74">    missing integers.
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Parameters
+</span><span style="color:#e6db74">    ----------
+</span><span style="color:#e6db74">    arg1 : list of int
+</span><span style="color:#e6db74">        array of integers to exclude from returning array
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Returns
+</span><span style="color:#e6db74">    -------
+</span><span style="color:#e6db74">    list of int
+</span><span style="color:#e6db74">        array containing unique integers
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Example
+</span><span style="color:#e6db74">    -------
+</span><span style="color:#e6db74">    &gt;&gt;&gt; test = _generate_column([2, 5], 10)
+</span><span style="color:#e6db74">    &gt;&gt;&gt; len(test)
+</span><span style="color:#e6db74">    10
+</span><span style="color:#e6db74">    &gt;&gt;&gt; sum(test)
+</span><span style="color:#e6db74">    48
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> length:
+        <span style="color:#66d9ef">return</span> []
+    <span style="color:#66d9ef">if</span> missing:
+        missing<span style="color:#f92672">.</span>sort()
+        return_list <span style="color:#f92672">=</span> sample(range(<span style="color:#ae81ff">1</span>, missing[<span style="color:#ae81ff">0</span>]), (missing[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>))
+        return_list <span style="color:#f92672">+=</span> [<span style="color:#ae81ff">0</span>]
+        <span style="color:#66d9ef">for</span> i, num <span style="color:#f92672">in</span> enumerate(missing[:<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]):
+            return_list <span style="color:#f92672">+=</span> sample(range(num <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, missing[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]),
+                                  (missing[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">-</span> (num <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)))
+            return_list <span style="color:#f92672">+=</span> [<span style="color:#ae81ff">0</span>]
+    return_list <span style="color:#f92672">+=</span> sample(range(missing[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, length <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>),
+                          ((length <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">-</span> (missing[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)))
+    <span style="color:#66d9ef">return</span> return_list
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_write_to_csv_mock</span>(first_column: List[int],
+                       second_column: List[int]) <span style="color:#f92672">-&gt;</span> str:
+    <span style="color:#e6db74">&#34;&#34;&#34;Helper function to write two arrays of integers
+</span><span style="color:#e6db74">    to mock csv file columns, substituting all 0 integers
+</span><span style="color:#e6db74">    with empty string literals.
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Parameters
+</span><span style="color:#e6db74">    ----------
+</span><span style="color:#e6db74">    arg1 : list of int
+</span><span style="color:#e6db74">        array of integers to write to first column
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    arg2 : list of int
+</span><span style="color:#e6db74">        array of integers to write to second column
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Returns
+</span><span style="color:#e6db74">    -------
+</span><span style="color:#e6db74">    string
+</span><span style="color:#e6db74">        string of mocked csv data
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Example
+</span><span style="color:#e6db74">    -------
+</span><span style="color:#e6db74">    &gt;&gt;&gt; _write_to_csv_mock([1, 2, 3], [4, 5, 6])
+</span><span style="color:#e6db74">    &#39;&#34;1&#34;,&#34;4&#34;</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">n&#34;2&#34;,&#34;5&#34;</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">n&#34;3&#34;,&#34;6&#34;</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">n&#39;
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    return_data <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>
+    column_number <span style="color:#f92672">=</span> len(first_column)
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(column_number):
+        one <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> first_column[i] <span style="color:#66d9ef">else</span> first_column[i]
+        two <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> second_column[i] <span style="color:#66d9ef">else</span> second_column[i]
+        return_data <span style="color:#f92672">+=</span> f<span style="color:#e6db74">&#39;&#34;{one}&#34;,&#34;{two}&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span>
+    <span style="color:#66d9ef">return</span> return_data
+</code></pre></div><p>Next let&rsquo;s create our <strong>UnitTestModule</strong> class and build our testing data. This selection of data should cover most of the probable use cases our functions will encounter.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UnitTestModule</span>(unittest<span style="color:#f92672">.</span>TestCase):
+    <span style="color:#e6db74">&#34;&#34;&#34;Test all functionality for challenge module.&#34;&#34;&#34;</span>
+
+    <span style="color:#75715e"># Generate and test all testing data</span>
+
+    length <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000000</span>
+
+    <span style="color:#75715e"># create two random integers to remove from lists</span>
+    missing_low <span style="color:#f92672">=</span> randint(<span style="color:#ae81ff">100000</span>, length <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>)
+    missing_high <span style="color:#f92672">=</span> randint(missing_low <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>, length)
+
+    <span style="color:#75715e"># Assert that a column of length 0 will return an empty list</span>
+    <span style="color:#66d9ef">assert</span> _generate_column([], <span style="color:#ae81ff">0</span>) <span style="color:#f92672">==</span> []
+
+    <span style="color:#75715e"># Randomized list containing 1-1000000 with random number missing</span>
+    column_one <span style="color:#f92672">=</span> _generate_column([missing_high], length)
+    <span style="color:#66d9ef">assert</span> len(column_one) <span style="color:#f92672">==</span> length
+
+    <span style="color:#75715e"># Randomized list containing 1-1000000 with two random</span>
+    <span style="color:#75715e">#   numbers missing, one being from column_one</span>
+    column_two <span style="color:#f92672">=</span> _generate_column([missing_low, missing_high], length)
+    <span style="color:#66d9ef">assert</span> len(column_two) <span style="color:#f92672">==</span> length
+
+    <span style="color:#75715e"># Randomized list containing 1-1000000 with both ends missing</span>
+    column_three <span style="color:#f92672">=</span> _generate_column([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1000000</span>], length)
+    <span style="color:#66d9ef">assert</span> len(column_three) <span style="color:#f92672">==</span> length
+
+    <span style="color:#75715e"># Randomized list containing 1-1000000 with two consecutive numbers missing</span>
+    column_four <span style="color:#f92672">=</span> _generate_column([<span style="color:#ae81ff">12346</span>, <span style="color:#ae81ff">12345</span>], length)
+    <span style="color:#66d9ef">assert</span> len(column_four) <span style="color:#f92672">==</span> length
+
+    <span style="color:#75715e"># Write lists to 1000000 x 2 headerless csv file mock</span>
+    csv_mock <span style="color:#f92672">=</span> _write_to_csv_mock(column_one, column_two)
+    <span style="color:#66d9ef">assert</span> isinstance(csv_mock, str)
+
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
+    unittest<span style="color:#f92672">.</span>main()
+</code></pre></div><p>Now that we have created our testing arrays and mock CSV file object we can write some test cases for our <strong>challenge</strong> functions, defining how they should handle data and what our expected results should be. Doing this <em>before</em> writing the function logic itself will help us design our functions more clearly and ensure that the code works as expected. It also will allow us to easily test our functions when iteratively developing, debugging, or refactoring the code.</p>
+<p>The test cases for the <strong>_pd_read_and_sort()</strong> and <strong>_read_and_sort()</strong> functions will make sure the mock CSV file is read, and that it produces two arrays, each of length 1000000.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#a6e22e">@patch</span>(<span style="color:#e6db74">&#34;builtins.open&#34;</span>, mock_open(read_data<span style="color:#f92672">=</span>csv_mock))
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test_pd_read_and_sort</span>(self) <span style="color:#f92672">-&gt;</span> None:
+        <span style="color:#e6db74">&#34;&#34;&#34;Test _pd_read_and_sort function.&#34;&#34;&#34;</span>
+        columns <span style="color:#f92672">=</span> _pd_read_and_sort(<span style="color:#e6db74">&#34;test.csv&#34;</span>)
+        self<span style="color:#f92672">.</span>assertEqual(len(columns), <span style="color:#ae81ff">2</span>)
+        self<span style="color:#f92672">.</span>assertEqual(len(columns[<span style="color:#ae81ff">0</span>]), self<span style="color:#f92672">.</span>length)
+        self<span style="color:#f92672">.</span>assertEqual(len(columns[<span style="color:#ae81ff">1</span>]), self<span style="color:#f92672">.</span>length)
+
+    <span style="color:#a6e22e">@patch</span>(<span style="color:#e6db74">&#34;builtins.open&#34;</span>, mock_open(read_data<span style="color:#f92672">=</span>csv_mock))
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test_read_and_sort</span>(self) <span style="color:#f92672">-&gt;</span> None:
+        <span style="color:#e6db74">&#34;&#34;&#34;Test _read_and_sort function.&#34;&#34;&#34;</span>
+        columns <span style="color:#f92672">=</span> _read_and_sort(<span style="color:#e6db74">&#34;test.csv&#34;</span>)
+        self<span style="color:#f92672">.</span>assertEqual(len(columns), <span style="color:#ae81ff">2</span>)
+        self<span style="color:#f92672">.</span>assertEqual(len(columns[<span style="color:#ae81ff">0</span>]), self<span style="color:#f92672">.</span>length)
+        self<span style="color:#f92672">.</span>assertEqual(len(columns[<span style="color:#ae81ff">1</span>]), self<span style="color:#f92672">.</span>length)
+</code></pre></div><p>The test case for our <strong>_missing_from_list()</strong> function will make sure the function returns the values missing from the sorted input array. Our tests will include arrays with randomly chosen missing values, missing first and last values, consecutive missing values, and where there are no missing values at all.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test_missing_from_list</span>(self) <span style="color:#f92672">-&gt;</span> None:
+        <span style="color:#e6db74">&#34;&#34;&#34;Test _missing_from_list function.&#34;&#34;&#34;</span>
+        missing_column_one <span style="color:#f92672">=</span> _missing_from_list(sorted(self<span style="color:#f92672">.</span>column_one))
+        missing_column_two <span style="color:#f92672">=</span> _missing_from_list(sorted(self<span style="color:#f92672">.</span>column_two))
+        missing_ends <span style="color:#f92672">=</span> _missing_from_list(sorted(self<span style="color:#f92672">.</span>column_three))
+        missing_consecutive <span style="color:#f92672">=</span> _missing_from_list(sorted(self<span style="color:#f92672">.</span>column_four))
+        missing_column_one_and_two <span style="color:#f92672">=</span> [
+            i <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> missing_column_two <span style="color:#66d9ef">if</span> i <span style="color:#f92672">in</span> missing_column_one
+        ]
+        self<span style="color:#f92672">.</span>assertEqual(missing_column_one, [self<span style="color:#f92672">.</span>missing_high])
+        self<span style="color:#f92672">.</span>assertEqual(missing_column_two,
+                         [self<span style="color:#f92672">.</span>missing_low, self<span style="color:#f92672">.</span>missing_high])
+        self<span style="color:#f92672">.</span>assertEqual(missing_column_one_and_two, [self<span style="color:#f92672">.</span>missing_high])
+        self<span style="color:#f92672">.</span>assertEqual(missing_ends, [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1000000</span>])
+        self<span style="color:#f92672">.</span>assertEqual(missing_consecutive, [<span style="color:#ae81ff">12345</span>, <span style="color:#ae81ff">12346</span>])
+        self<span style="color:#f92672">.</span>assertEqual(_missing_from_list([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>]), [])
+</code></pre></div><p>Finally we can write a test case for our <strong>solution()</strong> function, ensuring it returns the correct results when ran.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#a6e22e">@patch</span>(<span style="color:#e6db74">&#34;builtins.open&#34;</span>, mock_open(read_data<span style="color:#f92672">=</span>csv_mock))
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test_solution</span>(self) <span style="color:#f92672">-&gt;</span> None:
+        <span style="color:#e6db74">&#34;&#34;&#34;Test solution function.&#34;&#34;&#34;</span>
+        self<span style="color:#f92672">.</span>assertEqual(solution(<span style="color:#e6db74">&#34;test.csv&#34;</span>),
+                         [self<span style="color:#f92672">.</span>missing_high, self<span style="color:#f92672">.</span>missing_high])
+</code></pre></div><p>When we run our test module with the unittest <a href="https://docs.python.org/3.8/library/unittest.html#command-line-interface">command-line interface</a>, we can see that all our tests have completed, signaling that our test code is performing as we intended. As expected, all our tests have <em>failed</em> because he have not yet written the logic for the functions we are testing.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ python -m unittest -v test.py
+test_missing_from_list <span style="color:#f92672">(</span>test.UnitTestModule<span style="color:#f92672">)</span>
+Test _missing_from_list <span style="color:#66d9ef">function</span>. ... FAIL
+test_pd_read_and_sort <span style="color:#f92672">(</span>test.UnitTestModule<span style="color:#f92672">)</span>
+Test _pd_read_and_sort <span style="color:#66d9ef">function</span>. ... FAIL
+test_read_and_sort <span style="color:#f92672">(</span>test.UnitTestModule<span style="color:#f92672">)</span>
+Test _read_and_sort <span style="color:#66d9ef">function</span>. ... FAIL
+test_solution <span style="color:#f92672">(</span>test.UnitTestModule<span style="color:#f92672">)</span>
+Test solution <span style="color:#66d9ef">function</span>. ... FAIL
+
+<span style="color:#f92672">======================================================================</span>
+...
+...
+...
+----------------------------------------------------------------------
+Ran <span style="color:#ae81ff">4</span> tests in 1.277s
+
+FAILED <span style="color:#f92672">(</span>failures<span style="color:#f92672">=</span>4<span style="color:#f92672">)</span>
+</code></pre></div><hr>
+<h2 id="challenge-function-logic">Challenge Function Logic</h2>
+<p>Now that we have some good tests for our <strong>challenge</strong> functions, we can write the actual function logic. Using TDD, writing our testable functions will be an iterative process. We first write the simplest code that will pass our tests, then refactor to improve the code and re-run the tests, fixing any issues or bugs that pop up while refactoring. We repeat this process as many times as needed until we are satisfied with our component logic. All of the code written below is the result of this iterative process and we will be seeing the final product of this process.</p>
+<p>Let&rsquo;s first write the logic for our two read and sort functions. These functions will read in the CSV file data, extract the column values and write them as integer types to separate arrays, replacing the empty string literals with the integer value 0. This will allow us to easily run sorting algorithms on all of the values, placing the former empty strings at the beginning of the arrays.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#e6db74">&#34;&#34;&#34;challenge.py&#34;&#34;&#34;</span>
+
+<span style="color:#f92672">import</span> csv
+<span style="color:#f92672">from</span> typing <span style="color:#f92672">import</span> List, Any
+<span style="color:#f92672">import</span> pandas <span style="color:#f92672">as</span> pd
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_pd_read_and_sort</span>(file_name: str) <span style="color:#f92672">-&gt;</span> List[List[int]]:
+    <span style="color:#e6db74">&#34;&#34;&#34;Given a csv file containing unlabeled columns of
+</span><span style="color:#e6db74">    unique numbers as strings, returns an array containing
+</span><span style="color:#e6db74">    arrays of each column sorted in ascending order as
+</span><span style="color:#e6db74">    integers with any empty or missing elements replaced
+</span><span style="color:#e6db74">    with 0s in the first positions.
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Uses the Quicksort sorting algorithm for each column:
+</span><span style="color:#e6db74">    Time=O(n log(n)), Space=O(log (n))
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Parameters
+</span><span style="color:#e6db74">    ----------
+</span><span style="color:#e6db74">    arg1 : str
+</span><span style="color:#e6db74">        path/filename of csv file
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Returns
+</span><span style="color:#e6db74">    -------
+</span><span style="color:#e6db74">    list of list of int
+</span><span style="color:#e6db74">        array containing arrays of sorted int values
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Example
+</span><span style="color:#e6db74">    --------
+</span><span style="color:#e6db74">    &gt;&gt;&gt; from io import StringIO
+</span><span style="color:#e6db74">    &gt;&gt;&gt; test_csv = StringIO(&#39;&#34;1&#34;,&#34;4&#34;</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">n&#34;&#34;,&#34;&#34;</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">n&#34;3&#34;,&#34;6&#34;&#39;)
+</span><span style="color:#e6db74">    &gt;&gt;&gt; _pd_read_and_sort(test_csv)
+</span><span style="color:#e6db74">    [[0, 1, 3], [0, 4, 6]]
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    return_columns <span style="color:#f92672">=</span> []
+    data_frame <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(file_name, header<span style="color:#f92672">=</span>None)
+    <span style="color:#66d9ef">for</span> col <span style="color:#f92672">in</span> range(data_frame<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">1</span>]):
+        column: Any <span style="color:#f92672">=</span> data_frame<span style="color:#f92672">.</span>columns[col]
+        data_frame<span style="color:#f92672">.</span>sort_values(by<span style="color:#f92672">=</span>column, inplace<span style="color:#f92672">=</span>True, na_position<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;first&#34;</span>)
+        return_columns<span style="color:#f92672">.</span>append(
+            data_frame[column]<span style="color:#f92672">.</span>fillna(<span style="color:#ae81ff">0</span>)<span style="color:#f92672">.</span>astype(int)<span style="color:#f92672">.</span>tolist())
+    <span style="color:#66d9ef">return</span> return_columns
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_read_and_sort</span>(file_name: str) <span style="color:#f92672">-&gt;</span> List[List[int]]:
+    <span style="color:#e6db74">&#34;&#34;&#34;Given a csv file containing unlabeled columns of
+</span><span style="color:#e6db74">    unique numbers as strings, returns an array containing
+</span><span style="color:#e6db74">    arrays of each column sorted in ascending order as
+</span><span style="color:#e6db74">    integers with any empty or missing elements replaced
+</span><span style="color:#e6db74">    with 0 in the first positions.
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Uses the Timsort sorting algorithm for each column:
+</span><span style="color:#e6db74">    Time=O(n log(n)), Space=O(n)
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Parameters
+</span><span style="color:#e6db74">    ----------
+</span><span style="color:#e6db74">    arg1 : str
+</span><span style="color:#e6db74">        path/filename of csv file
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Returns
+</span><span style="color:#e6db74">    -------
+</span><span style="color:#e6db74">    list of list of int
+</span><span style="color:#e6db74">        array containing arrays of sorted int values
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Example
+</span><span style="color:#e6db74">    --------
+</span><span style="color:#e6db74">    &gt;&gt;&gt; from io import StringIO
+</span><span style="color:#e6db74">    &gt;&gt;&gt; test_csv = StringIO(&#39;&#34;1&#34;,&#34;4&#34;</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">n&#34;&#34;,&#34;&#34;</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">n&#34;3&#34;,&#34;6&#34;&#39;)
+</span><span style="color:#e6db74">    &gt;&gt;&gt; _pd_read_and_sort(test_csv)
+</span><span style="color:#e6db74">    [[0, 1, 3], [0, 4, 6]]
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    return_columns <span style="color:#f92672">=</span> []
+    <span style="color:#66d9ef">with</span> open(file_name, <span style="color:#e6db74">&#34;r&#34;</span>, encoding<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;utf-8&#34;</span>) <span style="color:#66d9ef">as</span> csv_file:
+        reader <span style="color:#f92672">=</span> csv<span style="color:#f92672">.</span>reader(csv_file)
+        csv_list <span style="color:#f92672">=</span> list(reader)
+    <span style="color:#66d9ef">for</span> col <span style="color:#f92672">in</span> range(len(csv_list[<span style="color:#ae81ff">0</span>])):
+        column <span style="color:#f92672">=</span> [<span style="color:#ae81ff">0</span> <span style="color:#66d9ef">if</span> row[col] <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;&#34;</span> <span style="color:#66d9ef">else</span> int(row[col]) <span style="color:#66d9ef">for</span> row <span style="color:#f92672">in</span> csv_list]
+        column<span style="color:#f92672">.</span>sort()
+        return_columns<span style="color:#f92672">.</span>append(column)
+    <span style="color:#66d9ef">return</span> return_columns
+</code></pre></div><p>Now let&rsquo;s test our updated functions by running the unittest CLI on their test cases.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ python -m unittest test.UnitTestModule.test_pd_read_and_sort <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>&gt; test.UnitTestModule.test_read_and_sort -v
+test_pd_read_and_sort <span style="color:#f92672">(</span>test.UnitTestModule<span style="color:#f92672">)</span>
+Test _pd_read_and_sort <span style="color:#66d9ef">function</span>. ... ok
+test_read_and_sort <span style="color:#f92672">(</span>test.UnitTestModule<span style="color:#f92672">)</span>
+Test _read_and_sort <span style="color:#66d9ef">function</span>. ... ok
+
+----------------------------------------------------------------------
+Ran <span style="color:#ae81ff">2</span> tests in 3.639s
+
+OK
+</code></pre></div><p>All tests passed and everything looks good. We can now write our <strong>_missing_from_list()</strong> function logic. In this function we will count the number of 0s at the beginning of the array, as this will give us a count on how many values are missing. Then we will use that as a counter and loop a binary search algorithm over the array until we find all of the missing values, breaking out of the loop and returning the values we found.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_missing_from_list</span>(input_list: List[int]) <span style="color:#f92672">-&gt;</span> List[int]:
+    <span style="color:#e6db74">&#34;&#34;&#34;Given an array of ascending sorted integers,
+</span><span style="color:#e6db74">    starting at the first non-zero integer, returns a
+</span><span style="color:#e6db74">    sorted array containing all missing sequential integers
+</span><span style="color:#e6db74">    from the input array using a looped binary search
+</span><span style="color:#e6db74">    algorithm.
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Parameters
+</span><span style="color:#e6db74">    ----------
+</span><span style="color:#e6db74">    arg1 : list of int
+</span><span style="color:#e6db74">        array of sorted int values
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Returns
+</span><span style="color:#e6db74">    -------
+</span><span style="color:#e6db74">    list of int
+</span><span style="color:#e6db74">        array of sorted ints missing from the input array
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Example
+</span><span style="color:#e6db74">    -------
+</span><span style="color:#e6db74">    &gt;&gt;&gt; _missing_from_list([0, 0, 1, 2, 3, 5, 6, 8, 9])
+</span><span style="color:#e6db74">    [4, 7]
+</span><span style="color:#e6db74">    &gt;&gt;&gt; _missing_from_list([1, 2, 3, 4, 5, 6, 7, 8, 9])
+</span><span style="color:#e6db74">    []
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    missing: List[int] <span style="color:#f92672">=</span> []
+    count <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> input_list:
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> i:
+            count <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+        <span style="color:#66d9ef">else</span>:
+            <span style="color:#66d9ef">break</span>
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(count):
+        input_list<span style="color:#f92672">.</span>pop(<span style="color:#ae81ff">0</span>)
+    <span style="color:#66d9ef">if</span> input_list[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">!=</span> <span style="color:#ae81ff">1</span>:
+        input_list<span style="color:#f92672">.</span>insert(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>)
+        missing<span style="color:#f92672">.</span>append(<span style="color:#ae81ff">1</span>)
+    <span style="color:#66d9ef">while</span> len(missing) <span style="color:#f92672">!=</span> count:
+        low <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+        high <span style="color:#f92672">=</span> len(input_list)
+        <span style="color:#66d9ef">while</span> low <span style="color:#f92672">&lt;</span> high:
+            mid <span style="color:#f92672">=</span> (low <span style="color:#f92672">+</span> high) <span style="color:#f92672">//</span> <span style="color:#ae81ff">2</span>
+            <span style="color:#66d9ef">if</span> input_list[mid] <span style="color:#f92672">&gt;</span> mid <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>:
+                high <span style="color:#f92672">=</span> mid
+            <span style="color:#66d9ef">else</span>:
+                low <span style="color:#f92672">=</span> mid <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+        <span style="color:#66d9ef">if</span> len(missing) <span style="color:#f92672">==</span> count <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">and</span> mid <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">==</span> high:
+            input_list<span style="color:#f92672">.</span>insert(high, high <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)
+            missing<span style="color:#f92672">.</span>append(high <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)
+            <span style="color:#66d9ef">break</span>
+        value <span style="color:#f92672">=</span> input_list[low] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
+        index <span style="color:#f92672">=</span> value <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span> <span style="color:#66d9ef">if</span> value <span style="color:#f92672">&lt;</span> input_list[value <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>] <span style="color:#66d9ef">else</span> value <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
+        input_list<span style="color:#f92672">.</span>insert(index, value)
+        missing<span style="color:#f92672">.</span>append(value)
+    missing<span style="color:#f92672">.</span>sort()
+    <span style="color:#66d9ef">return</span> missing
+</code></pre></div><p>When we run our test case on this updated function we can see that everything works as expected.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ python -m unittest test.UnitTestModule.test_missing_from_list -v
+test_missing_from_list <span style="color:#f92672">(</span>test.UnitTestModule<span style="color:#f92672">)</span>
+Test _missing_from_list <span style="color:#66d9ef">function</span>. ... ok
+
+----------------------------------------------------------------------
+Ran <span style="color:#ae81ff">1</span> test in 1.214s
+
+OK
+</code></pre></div><p>In our <strong>solution()</strong> function we can call the <strong>_pd_read_and_sort()</strong> function with the CSV filename argument passed through to it, generating our two sorted arrays, then call <strong>_missing_from_list()</strong> on the second array to obtain it&rsquo;s missing values. We can then find the missing value from the column one array by looping over the values that are missing from the column two array, using it&rsquo;s values plus a negative counter offset as the index for the first array and comparing the two. If the value at the column one array index does not match the missing number from column two, the number is missing from column one and we appended it to our result array. This solves the first part of the interview question.</p>
+<p>For the second part, we will just independently run the <strong>_missing_from_list()</strong> function on the first column array and append the resulting value to the result array. Doing this is potentially slower than how we obtained the result in the first part of the question, as now we have to run a binary search over the entire column array instead of just checking via index using known missing values from the column two array. It is much easier to find the missing value from column one if we know that value is also missing from column two. But since the question was split into two parts, I decided we should separate the logic for them.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">solution</span>(csv_file: str) <span style="color:#f92672">-&gt;</span> List[int]:
+    <span style="color:#e6db74">&#34;&#34;&#34;Given a headerless csv file
+</span><span style="color:#e6db74">    with two equal length columns of
+</span><span style="color:#e6db74">    integers in range 1 to (inf - 1) as
+</span><span style="color:#e6db74">    string literals, and empty string
+</span><span style="color:#e6db74">    literals in place of missing values,
+</span><span style="color:#e6db74">    returns an array of integers where the
+</span><span style="color:#e6db74">    first value is missing from both
+</span><span style="color:#e6db74">    columns and the second value is
+</span><span style="color:#e6db74">    missing from the first column.
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Parameters
+</span><span style="color:#e6db74">    ----------
+</span><span style="color:#e6db74">    arg1 : str
+</span><span style="color:#e6db74">        path/filename of csv file
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Returns
+</span><span style="color:#e6db74">    -------
+</span><span style="color:#e6db74">    list of int
+</span><span style="color:#e6db74">        array containing int values missing from
+</span><span style="color:#e6db74">        both columns in input csv file
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">    Example
+</span><span style="color:#e6db74">    -------
+</span><span style="color:#e6db74">    &gt;&gt;&gt; from io import StringIO
+</span><span style="color:#e6db74">    &gt;&gt;&gt; test_csv = StringIO(&#39;&#34;3&#34;,&#34;4&#34;</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">n&#34;1&#34;,&#34;&#34;</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">n&#34;&#34;,&#34;&#34;</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">n&#34;4&#34;,&#34;1&#34;&#39;)
+</span><span style="color:#e6db74">    &gt;&gt;&gt; solution(test_csv)
+</span><span style="color:#e6db74">    [2, 2]
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    result <span style="color:#f92672">=</span> []
+    columns <span style="color:#f92672">=</span> _pd_read_and_sort(csv_file)
+
+    <span style="color:#75715e"># Part 1: Find the number that is missing from both columns</span>
+    missing_from_column_two <span style="color:#f92672">=</span> _missing_from_list(columns[<span style="color:#ae81ff">1</span>])
+    count <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    <span style="color:#66d9ef">for</span> num <span style="color:#f92672">in</span> missing_from_column_two:
+        <span style="color:#66d9ef">if</span> num <span style="color:#f92672">!=</span> columns[<span style="color:#ae81ff">0</span>][num <span style="color:#f92672">+</span> count]:
+            result<span style="color:#f92672">.</span>append(num)
+            count <span style="color:#f92672">-=</span> <span style="color:#ae81ff">1</span>
+
+    <span style="color:#75715e"># Part 2: Find the number missing in the first column</span>
+    missing_from_column_one <span style="color:#f92672">=</span> _missing_from_list(columns[<span style="color:#ae81ff">0</span>])
+    result <span style="color:#f92672">+=</span> missing_from_column_one
+
+    <span style="color:#66d9ef">return</span> result
+</code></pre></div><p>Our <strong>solution()</strong> function passes it&rsquo;s test.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ python -m unittest test.UnitTestModule.test_solution -v
+test_solution <span style="color:#f92672">(</span>test.UnitTestModule<span style="color:#f92672">)</span>
+Test solution <span style="color:#66d9ef">function</span>. ... ok
+
+----------------------------------------------------------------------
+Ran <span style="color:#ae81ff">1</span> test in 0.751s
+
+OK
+
+</code></pre></div><p>Finally, we will run our entire test module to make sure everything executes and passes.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ python -m unittest -v test.py
+test_missing_from_list <span style="color:#f92672">(</span>test.UnitTestModule<span style="color:#f92672">)</span>
+Test _missing_from_list <span style="color:#66d9ef">function</span>. ... ok
+test_pd_read_and_sort <span style="color:#f92672">(</span>test.UnitTestModule<span style="color:#f92672">)</span>
+Test _pd_read_and_sort <span style="color:#66d9ef">function</span>. ... ok
+test_read_and_sort <span style="color:#f92672">(</span>test.UnitTestModule<span style="color:#f92672">)</span>
+Test _read_and_sort <span style="color:#66d9ef">function</span>. ... ok
+test_solution <span style="color:#f92672">(</span>test.UnitTestModule<span style="color:#f92672">)</span>
+Test solution <span style="color:#66d9ef">function</span>. ... ok
+
+----------------------------------------------------------------------
+Ran <span style="color:#ae81ff">4</span> tests in 5.826s
+
+OK
+</code></pre></div><p>At this point we are pretty much finished. We can always go back and refactor our code to optimize it or increase readability/visibility/maintainability, re-run our tests and repeat the process as necessary. As it stands I am fairly happy with the code we have written. Our <strong>solution()</strong> function will solve the interview problem successfully with acceptable time/space complexity.</p>
+<hr>
+<h2 id="more-testing">More Testing</h2>
+<p>Additional things we can do to increase and enforce testing thoroughness and code quality standards are to add python <a href="https://docs.python.org/3.8/library/doctest.html">doctests</a>, <a href="https://github.com/pycqa/flake8">flake8</a> linting checks, <a href="https://mypy.readthedocs.io/en/stable/">mypy</a> static type checking, and testing code <a href="https://github.com/nedbat/coveragepy">coverage</a> reporting. We can package all of these tests into a simple shell script.</p>
+<p>First, let&rsquo;s create a <strong>requirements.txt</strong> file including all the packages and dependencies we will need for our module and testing.</p>
+<pre><code>flake8==4.0.1
+mypy==0.961
+mypy-extensions==0.4.3
+pandas==1.4.3
+pandas-stubs==1.4.3.220718
+coverage&gt;=6.4.2
+</code></pre><p>Now we can write a simple bash script, <strong>test.sh</strong>, to install the dependencies, run our tests, and print out our code coverage report.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#!/bin/sh
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e"># Upgrade pip and install dependencies</span>
+
+echo <span style="color:#e6db74">&#34;\n----------------------------------------------------------------------&#34;</span>
+echo <span style="color:#e6db74">&#34;\nInstalling Python  Dependencies:\n&#34;</span>
+python --version
+pip install --upgrade pip
+pip install -r requirements.txt
+echo <span style="color:#e6db74">&#34;\n----------------------------------------------------------------------&#34;</span>
+
+
+<span style="color:#75715e"># Lint with flake8</span>
+
+echo <span style="color:#e6db74">&#34;\nPerforming Linting and Syntax Checks:\n&#34;</span>
+<span style="color:#75715e"># stop the build if there are Python syntax errors or undefined names</span>
+flake8 . --count --select<span style="color:#f92672">=</span>E9,F63,F7,F82 --show-source --statistics
+<span style="color:#75715e"># exit-zero treats all errors as warnings</span>
+flake8 . --count --exit-zero --max-complexity<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span> --max-line-length<span style="color:#f92672">=</span><span style="color:#ae81ff">127</span> --statistics
+echo <span style="color:#e6db74">&#34;\n----------------------------------------------------------------------&#34;</span>
+
+
+<span style="color:#75715e"># Static type checking with mypy</span>
+
+echo <span style="color:#e6db74">&#34;\nPerforming Static Type Analysis:\n&#34;</span>
+python -m mypy --strict .
+echo <span style="color:#e6db74">&#34;\n----------------------------------------------------------------------&#34;</span>
+
+
+<span style="color:#75715e"># Doctests</span>
+echo <span style="color:#e6db74">&#34;\nPerforming Python Doctests:\n&#34;</span>
+python -m doctest -f -v *.py
+echo <span style="color:#e6db74">&#34;\n----------------------------------------------------------------------&#34;</span>
+
+
+<span style="color:#75715e"># Unit tests and code coverage reporting</span>
+
+echo <span style="color:#e6db74">&#34;\nPerforming Unit Tests:\n&#34;</span>
+python -m coverage run test.py -v
+echo <span style="color:#e6db74">&#34;\n----------------------------------------------------------------------&#34;</span>
+echo <span style="color:#e6db74">&#34;\nGenerating Code Coverage Report:\n&#34;</span>
+python -m coverage lcov -o ./coverage/lcov.infoa
+python -m coverage html
+echo <span style="color:#e6db74">&#34;\n&#34;</span>
+python -m coverage report
+echo <span style="color:#e6db74">&#34;\n----------------------------------------------------------------------\n&#34;</span>
+</code></pre></div><p>Now we can execute <strong>test.sh</strong> and run all of our tests.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ ./test.sh
+
+----------------------------------------------------------------------
+
+Installing Python  Dependencies:
+
+Python 3.8.0
+Requirement already satisfied: pip in .../site-packages <span style="color:#f92672">(</span>22.2.1<span style="color:#f92672">)</span>
+Requirement already satisfied: flake8<span style="color:#f92672">==</span>4.0.1 in ...
+Requirement already satisfied: mypy<span style="color:#f92672">==</span>0.961 in ...
+Requirement already satisfied: mypy-extensions<span style="color:#f92672">==</span>0.4.3 in ...
+Requirement already satisfied: pandas<span style="color:#f92672">==</span>1.4.3 in ...
+Requirement already satisfied: pandas-stubs<span style="color:#f92672">==</span>1.4.3.220718 in ...
+Requirement already satisfied: coverage&gt;<span style="color:#f92672">=</span>6.4.2 in ...
+Requirement already satisfied: mccabe&lt;0.7.0,&gt;<span style="color:#f92672">=</span>0.6.0 in ...
+Requirement already satisfied: pyflakes&lt;2.5.0,&gt;<span style="color:#f92672">=</span>2.4.0 in ...
+Requirement already satisfied: pycodestyle&lt;2.9.0,&gt;<span style="color:#f92672">=</span>2.8.0 in ...
+Requirement already satisfied: tomli&gt;<span style="color:#f92672">=</span>1.1.0 in ...
+Requirement already satisfied: typing-extensions&gt;<span style="color:#f92672">=</span>3.10 in ...
+Requirement already satisfied: pytz&gt;<span style="color:#f92672">=</span>2020.1 in ...
+Requirement already satisfied: python-dateutil&gt;<span style="color:#f92672">=</span>2.8.1 in ...
+Requirement already satisfied: numpy&gt;<span style="color:#f92672">=</span>1.18.5 in ...
+Requirement already satisfied: types-pytz&gt;<span style="color:#f92672">=</span>2022.1.1 in ...
+Requirement already satisfied: six&gt;<span style="color:#f92672">=</span>1.5 in ...
+
+----------------------------------------------------------------------
+
+Performing Linting and Syntax Checks:
+
+<span style="color:#ae81ff">0</span>
+<span style="color:#ae81ff">0</span>
+
+----------------------------------------------------------------------
+
+Performing Static Type Analysis:
+
+Success: no issues found in <span style="color:#ae81ff">2</span> source files
+
+----------------------------------------------------------------------
+
+Performing Python Doctests:
+
+...
+...
+...
+<span style="color:#ae81ff">1</span> items had no tests:
+    challenge
+<span style="color:#ae81ff">4</span> items passed all tests:
+   <span style="color:#ae81ff">2</span> tests in challenge._missing_from_list
+   <span style="color:#ae81ff">3</span> tests in challenge._pd_read_and_sort
+   <span style="color:#ae81ff">3</span> tests in challenge._read_and_sort
+   <span style="color:#ae81ff">3</span> tests in challenge.solution
+<span style="color:#ae81ff">11</span> tests in <span style="color:#ae81ff">5</span> items.
+<span style="color:#ae81ff">11</span> passed and <span style="color:#ae81ff">0</span> failed.
+Test passed.
+...
+...
+...
+<span style="color:#ae81ff">6</span> items had no tests:
+    test
+    test.UnitTestModule
+    test.UnitTestModule.test_missing_from_list
+    test.UnitTestModule.test_pd_read_and_sort
+    test.UnitTestModule.test_read_and_sort
+    test.UnitTestModule.test_solution
+<span style="color:#ae81ff">2</span> items passed all tests:
+   <span style="color:#ae81ff">3</span> tests in test._generate_column
+   <span style="color:#ae81ff">1</span> tests in test._write_to_csv_mock
+<span style="color:#ae81ff">4</span> tests in <span style="color:#ae81ff">8</span> items.
+<span style="color:#ae81ff">4</span> passed and <span style="color:#ae81ff">0</span> failed.
+Test passed.
+
+----------------------------------------------------------------------
+
+Performing Unit Tests:
+
+test_missing_from_list <span style="color:#f92672">(</span>__main__.UnitTestModule<span style="color:#f92672">)</span>
+Test _missing_from_list <span style="color:#66d9ef">function</span>. ... ok
+test_pd_read_and_sort <span style="color:#f92672">(</span>__main__.UnitTestModule<span style="color:#f92672">)</span>
+Test _pd_read_and_sort <span style="color:#66d9ef">function</span>. ... ok
+test_read_and_sort <span style="color:#f92672">(</span>__main__.UnitTestModule<span style="color:#f92672">)</span>
+Test _read_and_sort <span style="color:#66d9ef">function</span>. ... ok
+test_solution <span style="color:#f92672">(</span>__main__.UnitTestModule<span style="color:#f92672">)</span>
+Test solution <span style="color:#66d9ef">function</span>. ... ok
+
+----------------------------------------------------------------------
+Ran <span style="color:#ae81ff">4</span> tests in 5.828s
+
+OK
+
+----------------------------------------------------------------------
+
+Generating Code Coverage Report:
+
+Wrote LCOV report to ./coverage/lcov.infoa
+Wrote HTML report to htmlcov/index.html
+
+Name           Stmts   Miss  Cover
+----------------------------------
+challenge.py      <span style="color:#ae81ff">63</span>      <span style="color:#ae81ff">0</span>   100%
+test.py           <span style="color:#ae81ff">70</span>      <span style="color:#ae81ff">0</span>   100%
+----------------------------------
+TOTAL            <span style="color:#ae81ff">133</span>      <span style="color:#ae81ff">0</span>   100%
+
+----------------------------------------------------------------------
+</code></pre></div><p>Our code has passed all tests and we have 100% testing coverage.</p>
+
+    </section>
+</article>
+
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "plasticuproject-github-io-blog" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        <footer id="footer">
+    
+        <div id="social">
+
+	
+	
+    <a class="symbol" href="https://pypi.org/user/plasticuproject">
+        <i class="fa fa-code"></i>
+    </a>
+    
+    <a class="symbol" href="https://www.hackthebox.com/profile/32882">
+        <i class="fa fa-cube"></i>
+    </a>
+    
+    <a class="symbol" href="mailto:plastic@plasticuproject.com">
+        <i class="fa fa-envelope"></i>
+    </a>
+    
+    <a class="symbol" href="https://www.github.com/plasticuproject">
+        <i class="fa fa-github"></i>
+    </a>
+    
+    <a class="symbol" href="https://cryptohack.org/user/snuggles">
+        <i class="fa fa-key"></i>
+    </a>
+    
+    <a class="symbol" href="https://leetcode.com/plasticuproject">
+        <i class="fa fa-terminal"></i>
+    </a>
+    
+
+
+</div>
+
+    
+    <p class="small">
+    
+        © Copyright 2022 plasticuproject
+    
+    </p>
+</footer>
+
+    </section>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://plasticuproject.com/js/main.js"></script>
+<script src="https://plasticuproject.com/js/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+</body>
+</html>
