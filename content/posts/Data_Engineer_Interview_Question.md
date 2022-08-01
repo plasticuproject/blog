@@ -199,9 +199,11 @@ Now that we have a plan for how we will solve this problem and an outline of the
 
 ## Testing and TDD
 
-[Test-Driven Development](https://en.wikipedia.org/wiki/Test-driven_development#cite_note-Beck-2), or *TDD*, is a software development methodology where writing test cases is prioritized over the full development of software components in the development process. We cyclically run these tests anytime changes are made to the code. This allows us to clearly define requirements for our components before we begin to develop them, reduces the chance of introducing bugs during iterative development, refactoring, debugging and ensures our code will always behave as expected.
+[Test-Driven Development](https://en.wikipedia.org/wiki/Test-driven_development), or *TDD*, is a software development methodology where writing test cases is prioritized over the full development of software components in the development process. We cyclically run these tests anytime changes are made to the code. This allows us to clearly define requirements for our components before we begin to develop them, reduces the chance of introducing bugs during iterative development, refactoring, debugging and ensures our code will always behave as expected.
 
-We will be using python's [unittest](https://docs.python.org/3.8/library/unittest.html) framework for our testing. The first thing we need to do is generate some data to test against. This data should be self-contained within our testing module as we do not want our tests to interact with the filesystem outside of the code that we are testing. We will use unittest's [mock](https://docs.python.org/3.8/library/unittest.mock.html) library to achieve this. Let's write two helper functions, one to generate randomized arrays of sequential numbers, with selected values missing, and one to format these arrays into a string of newline separated "rows" to be used for our mock CSV file object.
+We will be using python's [unittest](https://docs.python.org/3.8/library/unittest.html) framework for our testing. The first thing we need to do is generate some data to test against. This data should be self-contained within our testing module as we do not want our tests to interact with the filesystem outside of the code that we are testing. We will use unittest's [mock](https://docs.python.org/3.8/library/unittest.mock.html) library to achieve this.
+
+Let's write two helper functions, one to generate randomized arrays of sequential numbers, with selected values missing, and one to format these arrays into a string of newline separated "rows" to be used for our mock CSV file object.
 ```python
 """test.py"""
 
@@ -294,8 +296,8 @@ class UnitTestModule(unittest.TestCase):
     length = 1000000
 
     # create two random integers to remove from lists
-    missing_low = randint(100000, length - 1)
-    missing_high = randint(missing_low + 2, length)
+    missing_low = randint(2, length - 3)
+    missing_high = randint(missing_low + 2, length - 1)
 
     # Assert that a column of length 0 will return an empty list
     assert _generate_column([], 0) == []
