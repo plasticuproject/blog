@@ -378,7 +378,7 @@ Finally we can write a test case for our **solution()** function, ensuring it re
                          [self.missing_high, self.missing_high])
 ```
 
-When we run our test module with the unittest [command-line interface](https://docs.python.org/3.8/library/unittest.html#command-line-interface), we can see that all our tests have completed, signaling that our test code is performing as we intended. As expected, all our tests have *failed* because he have not yet written the logic for the functions we are testing.
+When we run our test module with the unittest [command-line interface](https://docs.python.org/3.8/library/unittest.html#command-line-interface), we can see that all our tests have completed, signaling that our test code is performing as we intended. As expected, all our tests have *failed* because we have not yet written the logic for the functions we are testing.
 ```shell
 $ python -m unittest -v test.py
 test_missing_from_list (test.UnitTestModule)
