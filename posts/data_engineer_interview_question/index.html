@@ -432,7 +432,7 @@
         <span style="color:#e6db74">&#34;&#34;&#34;Test solution function.&#34;&#34;&#34;</span>
         self<span style="color:#f92672">.</span>assertEqual(solution(<span style="color:#e6db74">&#34;test.csv&#34;</span>),
                          [self<span style="color:#f92672">.</span>missing_high, self<span style="color:#f92672">.</span>missing_high])
-</code></pre></div><p>When we run our test module with the unittest <a href="https://docs.python.org/3.8/library/unittest.html#command-line-interface">command-line interface</a>, we can see that all our tests have completed, signaling that our test code is performing as we intended. As expected, all our tests have <em>failed</em> because he have not yet written the logic for the functions we are testing.</p>
+</code></pre></div><p>When we run our test module with the unittest <a href="https://docs.python.org/3.8/library/unittest.html#command-line-interface">command-line interface</a>, we can see that all our tests have completed, signaling that our test code is performing as we intended. As expected, all our tests have <em>failed</em> because we have not yet written the logic for the functions we are testing.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">$ python -m unittest -v test.py
 test_missing_from_list <span style="color:#f92672">(</span>test.UnitTestModule<span style="color:#f92672">)</span>
 Test _missing_from_list <span style="color:#66d9ef">function</span>. ... FAIL
