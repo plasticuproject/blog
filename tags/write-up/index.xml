@@ -7,10 +7,20 @@
     <description>Recent content in Write-Up on plasticuproject&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 11 Jan 2022 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 12 Nov 2022 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://plasticuproject.com/tags/write-up/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <author>plasticuproject</author>
+      <title>HackTheBox Sigma Technology Write-Up</title>
+      <link>https://plasticuproject.com/posts/sigma-technology-write-up/</link>
+      <pubDate>Sat, 12 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://plasticuproject.com/posts/sigma-technology-write-up/</guid>
+      <description>Sigma Technology is a medium difficulty misc challenge where we &#34;fool&#34; an image classifier into labeling an image of a dog as an airplane by only altering five individual pixels.</description>
+    </item>
     
     <item>
       <author>plasticuproject</author>

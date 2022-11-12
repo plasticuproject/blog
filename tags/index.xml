@@ -7,10 +7,50 @@
     <description>Recent content in Tags on plasticuproject&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 01 Aug 2022 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 12 Nov 2022 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://plasticuproject.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <author>plasticuproject</author>
+      <title>HTB</title>
+      <link>https://plasticuproject.com/tags/htb/</link>
+      <pubDate>Sat, 12 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://plasticuproject.com/tags/htb/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <author>plasticuproject</author>
+      <title>Misc</title>
+      <link>https://plasticuproject.com/tags/misc/</link>
+      <pubDate>Sat, 12 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://plasticuproject.com/tags/misc/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <author>plasticuproject</author>
+      <title>Python</title>
+      <link>https://plasticuproject.com/tags/python/</link>
+      <pubDate>Sat, 12 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://plasticuproject.com/tags/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <author>plasticuproject</author>
+      <title>Write-Up</title>
+      <link>https://plasticuproject.com/tags/write-up/</link>
+      <pubDate>Sat, 12 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://plasticuproject.com/tags/write-up/</guid>
+      <description></description>
+    </item>
     
     <item>
       <author>plasticuproject</author>
@@ -24,41 +64,11 @@
     
     <item>
       <author>plasticuproject</author>
-      <title>Python</title>
-      <link>https://plasticuproject.com/tags/python/</link>
-      <pubDate>Mon, 01 Aug 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://plasticuproject.com/tags/python/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <author>plasticuproject</author>
-      <title>HTB</title>
-      <link>https://plasticuproject.com/tags/htb/</link>
-      <pubDate>Tue, 11 Jan 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://plasticuproject.com/tags/htb/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <author>plasticuproject</author>
       <title>Pwn</title>
       <link>https://plasticuproject.com/tags/pwn/</link>
       <pubDate>Tue, 11 Jan 2022 00:00:00 +0000</pubDate>
       
       <guid>https://plasticuproject.com/tags/pwn/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <author>plasticuproject</author>
-      <title>Write-Up</title>
-      <link>https://plasticuproject.com/tags/write-up/</link>
-      <pubDate>Tue, 11 Jan 2022 00:00:00 +0000</pubDate>
-      
-      <guid>https://plasticuproject.com/tags/write-up/</guid>
       <description></description>
     </item>
     
