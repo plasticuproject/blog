@@ -322,7 +322,7 @@ NDArrayFloat <span style="color:#f92672">=</span> npt<span style="color:#f92672"
         data: Dict[str, str] <span style="color:#f92672">=</span> {}
         key_count <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
         <span style="color:#66d9ef">for</span> key, value <span style="color:#f92672">in</span> changes<span style="color:#f92672">.</span>items():
-            p_value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">.</span>join([str(_) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;,+&#34;</span> <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> key])
+            p_value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">.</span>join(str(_) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;,+&#34;</span> <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> key)
             p_value <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">.</span>join(str(_) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;,+&#34;</span> <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> value)
             data[<span style="color:#e6db74">&#34;p&#34;</span> <span style="color:#f92672">+</span> str(key_count)] <span style="color:#f92672">=</span> p_value[:<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>]
             key_count <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
