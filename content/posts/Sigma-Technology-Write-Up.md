@@ -251,7 +251,7 @@ def print_send_save(count: int, guess: str, new: NDArrayInt,
         data: Dict[str, str] = {}
         key_count = 1
         for key, value in changes.items():
-            p_value = "".join([str(_) + ",+" for _ in key])
+            p_value = "".join(str(_) + ",+" for _ in key)
             p_value += "".join(str(_) + ",+" for _ in value)
             data["p" + str(key_count)] = p_value[:-2]
             key_count += 1
