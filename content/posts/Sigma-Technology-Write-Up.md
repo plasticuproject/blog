@@ -211,8 +211,8 @@ def attack() -> Tuple[int, str, NDArrayInt, Dict[Tuple[int, int], List[int]]]:
         for key, value in changes.items():
             print(key, value)
         print("-----------------------")
-        for _c, _i in enumerate(guess[1]):
-            print(class_names[_c], _i)
+        for index, value in enumerate(guess[1]):
+            print(class_names[index], value)
         print()
 
         # New airplane confidence check
@@ -251,17 +251,13 @@ def print_send_save(count: int, guess: str, new: NDArrayInt,
         data: Dict[str, str] = {}
         key_count = 1
         for key, value in changes.items():
-            _p = "p" + str(key_count)
-            p_value = ""
-            for i in key:
-                p_value += str(i) + ",+"
-            for i in value:
-                p_value += str(i) + ",+"
-            data[_p] = p_value[:-2]
+            p_value = "".join([str(_) + ",+" for _ in key])
+            p_value += "".join(str(_) + ",+" for _ in value)
+            data["p" + str(key_count)] = p_value[:-2]
             key_count += 1
             print(key, value)
         if len(data) < 5:
-            for i in range(1, 6 - len(data)):
+            for i in range(len(data) + 1, 6):
                 data["p" + str(i)] = data["p1"]
 
         # Write request data string of changed values to file
