@@ -53,7 +53,7 @@
 <meta itemprop="description" content="Sigma Technology is a medium difficulty misc challenge where we &#34;fool&#34; an image classifier into labeling an image of a dog as an airplane by only altering five individual pixels.">
 <meta itemprop="datePublished" content="2022-11-12T00:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2022-11-12T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="1705">
+<meta itemprop="wordCount" content="1699">
 
 
 
@@ -285,8 +285,8 @@ NDArrayFloat <span style="color:#f92672">=</span> npt<span style="color:#f92672"
         <span style="color:#66d9ef">for</span> key, value <span style="color:#f92672">in</span> changes<span style="color:#f92672">.</span>items():
             <span style="color:#66d9ef">print</span>(key, value)
         <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;-----------------------&#34;</span>)
-        <span style="color:#66d9ef">for</span> _c, _i <span style="color:#f92672">in</span> enumerate(guess[<span style="color:#ae81ff">1</span>]):
-            <span style="color:#66d9ef">print</span>(class_names[_c], _i)
+        <span style="color:#66d9ef">for</span> index, value <span style="color:#f92672">in</span> enumerate(guess[<span style="color:#ae81ff">1</span>]):
+            <span style="color:#66d9ef">print</span>(class_names[index], value)
         <span style="color:#66d9ef">print</span>()
 
         <span style="color:#75715e"># New airplane confidence check</span>
@@ -322,17 +322,13 @@ NDArrayFloat <span style="color:#f92672">=</span> npt<span style="color:#f92672"
         data: Dict[str, str] <span style="color:#f92672">=</span> {}
         key_count <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
         <span style="color:#66d9ef">for</span> key, value <span style="color:#f92672">in</span> changes<span style="color:#f92672">.</span>items():
-            _p <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;p&#34;</span> <span style="color:#f92672">+</span> str(key_count)
-            p_value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>
-            <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> key:
-                p_value <span style="color:#f92672">+=</span> str(i) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;,+&#34;</span>
-            <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> value:
-                p_value <span style="color:#f92672">+=</span> str(i) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;,+&#34;</span>
-            data[_p] <span style="color:#f92672">=</span> p_value[:<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>]
+            p_value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">.</span>join([str(_) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;,+&#34;</span> <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> key])
+            p_value <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">.</span>join(str(_) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;,+&#34;</span> <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> value)
+            data[<span style="color:#e6db74">&#34;p&#34;</span> <span style="color:#f92672">+</span> str(key_count)] <span style="color:#f92672">=</span> p_value[:<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>]
             key_count <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
             <span style="color:#66d9ef">print</span>(key, value)
         <span style="color:#66d9ef">if</span> len(data) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">5</span>:
-            <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">6</span> <span style="color:#f92672">-</span> len(data)):
+            <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(data) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">6</span>):
                 data[<span style="color:#e6db74">&#34;p&#34;</span> <span style="color:#f92672">+</span> str(i)] <span style="color:#f92672">=</span> data[<span style="color:#e6db74">&#34;p1&#34;</span>]
 
         <span style="color:#75715e"># Write request data string of changed values to file</span>
