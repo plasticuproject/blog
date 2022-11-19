@@ -240,39 +240,41 @@ def print_send_save(count: int, guess: str, new: NDArrayInt,
     """When defeated, save new image, print
     values and send data to server."""
 
-    # Save new image of dog that classifies as airplane
-    if guess == "airplane":
-        not_dog = Image.fromarray(new)
-        not_dog.save("not_dog.png")
-
-        # Print changed values and build request data string
-        #  with changed values
-        print("DEFEATING PIXEL VALUES:")
-        data: Dict[str, str] = {}
-        key_count = 1
-        for key, value in changes.items():
-            p_value = "".join(str(_) + ",+" for _ in key)
-            p_value += "".join(str(_) + ",+" for _ in value)
-            data["p" + str(key_count)] = p_value[:-2]
-            key_count += 1
-            print(key, value)
-        if len(data) < 5:
-            for i in range(len(data) + 1, 6):
-                data["p" + str(i)] = data["p1"]
-
-        # Write request data string of changed values to file
-        with open("defeating_values.txt", "w", encoding='utf-8') as defeat:
-            defeat.write(json.dumps(data))
-
-        # Print attempt information and request data string, or failure
-        print("\n")
-        _r = requests.post(URL + "/point-laser", data=data, timeout=60)
-        print(_r.text)
-        print("\nATTEMPT:", count)
-        print("GUESS:", guess)
-        print("\nFORM DATA:", data)
-    else:
+    # If failed, print and return
+    if guess != "airplane":
         print("\nFAILED!!\n")
+        return
+
+    # Save new image of dog that classifies as airplane
+    not_dog = Image.fromarray(new)
+    not_dog.save("not_dog.png")
+
+    # Print changed values and build request data string
+    #  with changed values
+    print("DEFEATING PIXEL VALUES:")
+    data: Dict[str, str] = {}
+    key_count = 1
+    for key, value in changes.items():
+        p_value = "".join(str(_) + ",+" for _ in key)
+        p_value += "".join(str(_) + ",+" for _ in value)
+        data["p" + str(key_count)] = p_value[:-2]
+        key_count += 1
+        print(key, value)
+    if len(data) < 5:
+        for i in range(len(data) + 1, 6):
+            data["p" + str(i)] = data["p1"]
+
+    # Write request data string of changed values to file
+    with open("defeating_values.txt", "w", encoding='utf-8') as defeat:
+        defeat.write(json.dumps(data))
+
+    # Send to server, print attempt information, request data string and response
+    print("\n")
+    _r = requests.post(URL + "/point-laser", data=data, timeout=60)
+    print(_r.text)
+    print("\nATTEMPT:", count)
+    print("GUESS:", guess)
+    print("\nFORM DATA:", data)
 ```
 
 Finally, we call our functions when the script is run.
