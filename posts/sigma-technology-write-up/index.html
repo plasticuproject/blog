@@ -53,7 +53,7 @@
 <meta itemprop="description" content="Sigma Technology is a medium difficulty misc challenge where we &#34;fool&#34; an image classifier into labeling an image of a dog as an airplane by only altering five individual pixels.">
 <meta itemprop="datePublished" content="2022-11-12T00:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2022-11-12T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="1699">
+<meta itemprop="wordCount" content="1707">
 
 
 
@@ -311,39 +311,41 @@ NDArrayFloat <span style="color:#f92672">=</span> npt<span style="color:#f92672"
     <span style="color:#e6db74">&#34;&#34;&#34;When defeated, save new image, print
 </span><span style="color:#e6db74">    values and send data to server.&#34;&#34;&#34;</span>
 
-    <span style="color:#75715e"># Save new image of dog that classifies as airplane</span>
-    <span style="color:#66d9ef">if</span> guess <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;airplane&#34;</span>:
-        not_dog <span style="color:#f92672">=</span> Image<span style="color:#f92672">.</span>fromarray(new)
-        not_dog<span style="color:#f92672">.</span>save(<span style="color:#e6db74">&#34;not_dog.png&#34;</span>)
-
-        <span style="color:#75715e"># Print changed values and build request data string</span>
-        <span style="color:#75715e">#  with changed values</span>
-        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;DEFEATING PIXEL VALUES:&#34;</span>)
-        data: Dict[str, str] <span style="color:#f92672">=</span> {}
-        key_count <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
-        <span style="color:#66d9ef">for</span> key, value <span style="color:#f92672">in</span> changes<span style="color:#f92672">.</span>items():
-            p_value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">.</span>join(str(_) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;,+&#34;</span> <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> key)
-            p_value <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">.</span>join(str(_) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;,+&#34;</span> <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> value)
-            data[<span style="color:#e6db74">&#34;p&#34;</span> <span style="color:#f92672">+</span> str(key_count)] <span style="color:#f92672">=</span> p_value[:<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>]
-            key_count <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
-            <span style="color:#66d9ef">print</span>(key, value)
-        <span style="color:#66d9ef">if</span> len(data) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">5</span>:
-            <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(data) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">6</span>):
-                data[<span style="color:#e6db74">&#34;p&#34;</span> <span style="color:#f92672">+</span> str(i)] <span style="color:#f92672">=</span> data[<span style="color:#e6db74">&#34;p1&#34;</span>]
-
-        <span style="color:#75715e"># Write request data string of changed values to file</span>
-        <span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#34;defeating_values.txt&#34;</span>, <span style="color:#e6db74">&#34;w&#34;</span>, encoding<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;utf-8&#39;</span>) <span style="color:#66d9ef">as</span> defeat:
-            defeat<span style="color:#f92672">.</span>write(json<span style="color:#f92672">.</span>dumps(data))
-
-        <span style="color:#75715e"># Print attempt information and request data string, or failure</span>
-        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
-        _r <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>post(URL <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;/point-laser&#34;</span>, data<span style="color:#f92672">=</span>data, timeout<span style="color:#f92672">=</span><span style="color:#ae81ff">60</span>)
-        <span style="color:#66d9ef">print</span>(_r<span style="color:#f92672">.</span>text)
-        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">ATTEMPT:&#34;</span>, count)
-        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;GUESS:&#34;</span>, guess)
-        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">FORM DATA:&#34;</span>, data)
-    <span style="color:#66d9ef">else</span>:
+    <span style="color:#75715e"># If failed, print and return</span>
+    <span style="color:#66d9ef">if</span> guess <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;airplane&#34;</span>:
         <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">FAILED!!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
+        <span style="color:#66d9ef">return</span>
+
+    <span style="color:#75715e"># Save new image of dog that classifies as airplane</span>
+    not_dog <span style="color:#f92672">=</span> Image<span style="color:#f92672">.</span>fromarray(new)
+    not_dog<span style="color:#f92672">.</span>save(<span style="color:#e6db74">&#34;not_dog.png&#34;</span>)
+
+    <span style="color:#75715e"># Print changed values and build request data string</span>
+    <span style="color:#75715e">#  with changed values</span>
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;DEFEATING PIXEL VALUES:&#34;</span>)
+    data: Dict[str, str] <span style="color:#f92672">=</span> {}
+    key_count <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+    <span style="color:#66d9ef">for</span> key, value <span style="color:#f92672">in</span> changes<span style="color:#f92672">.</span>items():
+        p_value <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">.</span>join(str(_) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;,+&#34;</span> <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> key)
+        p_value <span style="color:#f92672">+=</span> <span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">.</span>join(str(_) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;,+&#34;</span> <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> value)
+        data[<span style="color:#e6db74">&#34;p&#34;</span> <span style="color:#f92672">+</span> str(key_count)] <span style="color:#f92672">=</span> p_value[:<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span>]
+        key_count <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+        <span style="color:#66d9ef">print</span>(key, value)
+    <span style="color:#66d9ef">if</span> len(data) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">5</span>:
+        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(data) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">6</span>):
+            data[<span style="color:#e6db74">&#34;p&#34;</span> <span style="color:#f92672">+</span> str(i)] <span style="color:#f92672">=</span> data[<span style="color:#e6db74">&#34;p1&#34;</span>]
+
+    <span style="color:#75715e"># Write request data string of changed values to file</span>
+    <span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#34;defeating_values.txt&#34;</span>, <span style="color:#e6db74">&#34;w&#34;</span>, encoding<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;utf-8&#39;</span>) <span style="color:#66d9ef">as</span> defeat:
+        defeat<span style="color:#f92672">.</span>write(json<span style="color:#f92672">.</span>dumps(data))
+
+    <span style="color:#75715e"># Send to server, print attempt information, request data string and response</span>
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
+    _r <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>post(URL <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;/point-laser&#34;</span>, data<span style="color:#f92672">=</span>data, timeout<span style="color:#f92672">=</span><span style="color:#ae81ff">60</span>)
+    <span style="color:#66d9ef">print</span>(_r<span style="color:#f92672">.</span>text)
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">ATTEMPT:&#34;</span>, count)
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;GUESS:&#34;</span>, guess)
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">FORM DATA:&#34;</span>, data)
 </code></pre></div><p>Finally, we call our functions when the script is run.</p>
 <div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
     <span style="color:#66d9ef">try</span>:
