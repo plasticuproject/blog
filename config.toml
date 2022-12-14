@@ -51,14 +51,15 @@ paginate = 20
 	# Choose a font for the social icons in the footer. Either "mono-social" or "font-awesome"
 	iconFont = "font-awesome"
         # The social icons can be styled differently if you use mono as font - circle, rounded, or empty
-        socialIconStyle = "circle"
+        # socialIconStyle = "circle"
 
 # Add additional social link entries underneath
 [social]
-    terminal = "https://leetcode.com/plasticuproject"
-    code     = "https://pypi.org/user/plasticuproject"
-    cube     = "https://www.hackthebox.com/profile/32882"
-    key      = "https://cryptohack.org/user/snuggles"
-    github   = "https://www.github.com/plasticuproject"
-    envelope = "mailto:plastic@plasticuproject.com"
+    'fa-solid fa-code' = "https://leetcode.com/plasticuproject"
+    'fa-brands fa-python'     = "https://pypi.org/user/plasticuproject"
+    'fa-solid fa-cube'     = "https://www.hackthebox.com/profile/32882"
+    'fa-solid fa-brain'      = "https://cryptohack.org/user/snuggles"
+    'fa-brands fa-github'   = "https://www.github.com/plasticuproject"
+    'fa-solid fa-envelope' = "mailto:plastic@plasticuproject.com"
+    'fa-brands fa-mastodon' = "https://fosstodon.org/@plasticuproject"
 

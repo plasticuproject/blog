@@ -5,6 +5,6 @@ hidden = true
 menu = "main"
 +++
 
-I am plasticuproject. I'm a linux, foss, python, and infosec enthusiast. This is my blog of self promotion. Below you will find links to my Pypi projects, HackTheBox profile, email address, Github, CryptoHack and LeetCode profiles, respectively.
+I am plasticuproject. I'm a linux, foss, python, and infosec enthusiast. This is my blog of self promotion. Below you will find links to my profiles for Github, Mastodon, PyPi, CryptoHack, LeetCode, HackTheBox and my email address, respectively.
 
 ***
