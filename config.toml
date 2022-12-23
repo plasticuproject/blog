@@ -62,4 +62,6 @@ paginate = 20
     'fa-brands fa-github'   = "https://www.github.com/plasticuproject"
     'fa-solid fa-envelope' = "mailto:plastic@plasticuproject.com"
     'fa-brands fa-mastodon' = "https://fosstodon.org/@plasticuproject"
+    'fa-solid fa-fingerprint' = "https://plasticuproject.com/fingerprint.txt"
+    'fa-solid fa-key' = "https://plasticuproject.com/pubkey.txt"
 
