@@ -185,22 +185,22 @@ def solution(file_name: str) -&gt; SolutionReturnType:
     _ips: List[str] = []
     _phishing: List[Tuple[str, str]] = []
 
-    # Loop through domain dictionaries in JSON data.
-    for domain in data['response']['results']:
+    # Loop through results objects in JSON data.
+    for result in data['response']['results']:
 
         # Append a tuple containing the domain's risk score and name to
         #   _scores list.
-        _scores.append((domain['domain_risk']['risk_score'], domain['domain']))
+        _scores.append((result['domain_risk']['risk_score'], result['domain']))
 
         # Append each IP address to _ips list.
-        for addresses in domain['ip']:
+        for addresses in result['ip']:
             _ips.append(addresses['address']['value'])
 
         # Append a Tuple containing the domain name and its phishing component
         #   to _phishing list.
-        for component in domain['domain_risk']['components']:
+        for component in result['domain_risk']['components']:
             if 'phishing' in component['name']:
-                _phishing.append((domain['domain'], component['name']))
+                _phishing.append((result['domain'], component['name']))
 
     # Return a list containing the _scores, _ips, and _phishing lists.
     return (_scores, _ips, _phishing)
@@ -343,23 +343,23 @@ if __name__ == &quot;__main__&quot;:
    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">_ips</span>: <span style="color:#66d9ef">string</span>[] <span style="color:#f92672">=</span> [];
    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">_phishing</span><span style="color:#f92672">:</span> { [<span style="color:#a6e22e">key</span>: <span style="color:#66d9ef">string</span>]<span style="color:#f92672">:</span> <span style="color:#66d9ef">string</span> }[] <span style="color:#f92672">=</span> [];
 
-  <span style="color:#75715e">// Loop through domain objects in JSON Object.
-</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">domain</span> <span style="color:#a6e22e">of</span> <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">results</span>) {
+  <span style="color:#75715e">// Loop through results objects in JSON Object.
+</span><span style="color:#75715e"></span>  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">result</span> <span style="color:#a6e22e">of</span> <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">results</span>) {
 
     <span style="color:#75715e">// Push an object containing the domain&#39;s risk score and name to _scores array.
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">domainScore</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">domain</span>.<span style="color:#a6e22e">domain_risk</span>.<span style="color:#a6e22e">risk_score</span>;
-    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">domainName</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">domain</span>.<span style="color:#a6e22e">domain</span>;
-    <span style="color:#a6e22e">_scores</span>.<span style="color:#a6e22e">push</span>({[<span style="color:#a6e22e">domain</span>.<span style="color:#a6e22e">domain_risk</span>.<span style="color:#a6e22e">risk_score</span>]<span style="color:#f92672">:</span> <span style="color:#a6e22e">domain</span>.<span style="color:#a6e22e">domain</span>});
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">domainScore</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">domain_risk</span>.<span style="color:#a6e22e">risk_score</span>;
+    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">domainName</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">domain</span>;
+    <span style="color:#a6e22e">_scores</span>.<span style="color:#a6e22e">push</span>({[<span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">domain_risk</span>.<span style="color:#a6e22e">risk_score</span>]<span style="color:#f92672">:</span> <span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">domain</span>});
 
     <span style="color:#75715e">// Push each IP address to _ips array.
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">addresses</span> <span style="color:#a6e22e">of</span> <span style="color:#a6e22e">domain</span>.<span style="color:#a6e22e">ip</span>) {
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">addresses</span> <span style="color:#a6e22e">of</span> <span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">ip</span>) {
       <span style="color:#a6e22e">_ips</span>.<span style="color:#a6e22e">push</span>(<span style="color:#a6e22e">addresses</span>.<span style="color:#a6e22e">address</span>.<span style="color:#a6e22e">value</span>);
     }
 
     <span style="color:#75715e">// Push an object containing the domain name and its phishing component to _phishing array.
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">component</span> <span style="color:#a6e22e">of</span> <span style="color:#a6e22e">domain</span>.<span style="color:#a6e22e">domain_risk</span>.<span style="color:#a6e22e">components</span>) {
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">component</span> <span style="color:#a6e22e">of</span> <span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">domain_risk</span>.<span style="color:#a6e22e">components</span>) {
       <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">component</span>.<span style="color:#a6e22e">name</span>.<span style="color:#a6e22e">includes</span>(<span style="color:#e6db74">&#39;phishing&#39;</span>)) {
-        <span style="color:#a6e22e">_phishing</span>.<span style="color:#a6e22e">push</span>({[<span style="color:#a6e22e">domain</span>.<span style="color:#a6e22e">domain</span>]<span style="color:#f92672">:</span> <span style="color:#a6e22e">component</span>.<span style="color:#a6e22e">name</span>});
+        <span style="color:#a6e22e">_phishing</span>.<span style="color:#a6e22e">push</span>({[<span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">domain</span>]<span style="color:#f92672">:</span> <span style="color:#a6e22e">component</span>.<span style="color:#a6e22e">name</span>});
       }
     }
   }
