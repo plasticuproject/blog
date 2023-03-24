@@ -99,22 +99,22 @@ def solution(file_name: str) -> SolutionReturnType:
     _ips: List[str] = []
     _phishing: List[Tuple[str, str]] = []
 
-    # Loop through domain dictionaries in JSON data.
-    for domain in data['response']['results']:
+    # Loop through results objects in JSON data.
+    for result in data['response']['results']:
 
         # Append a tuple containing the domain's risk score and name to
         #   _scores list.
-        _scores.append((domain['domain_risk']['risk_score'], domain['domain']))
+        _scores.append((result['domain_risk']['risk_score'], result['domain']))
 
         # Append each IP address to _ips list.
-        for addresses in domain['ip']:
+        for addresses in result['ip']:
             _ips.append(addresses['address']['value'])
 
         # Append a Tuple containing the domain name and its phishing component
         #   to _phishing list.
-        for component in domain['domain_risk']['components']:
+        for component in result['domain_risk']['components']:
             if 'phishing' in component['name']:
-                _phishing.append((domain['domain'], component['name']))
+                _phishing.append((result['domain'], component['name']))
 
     # Return a list containing the _scores, _ips, and _phishing lists.
     return (_scores, _ips, _phishing)
@@ -265,23 +265,23 @@ type solutionReturnType = [
    const _ips: string[] = [];
    const _phishing: { [key: string]: string }[] = [];
 
-  // Loop through domain objects in JSON Object.
-  for (let domain of data.response.results) {
+  // Loop through results objects in JSON Object.
+  for (let result of data.response.results) {
 
     // Push an object containing the domain's risk score and name to _scores array.
-    const domainScore = domain.domain_risk.risk_score;
-    const domainName = domain.domain;
-    _scores.push({[domain.domain_risk.risk_score]: domain.domain});
+    const domainScore = result.domain_risk.risk_score;
+    const domainName = result.domain;
+    _scores.push({[result.domain_risk.risk_score]: result.domain});
 
     // Push each IP address to _ips array.
-    for (let addresses of domain.ip) {
+    for (let addresses of result.ip) {
       _ips.push(addresses.address.value);
     }
 
     // Push an object containing the domain name and its phishing component to _phishing array.
-    for (let component of domain.domain_risk.components) {
+    for (let component of result.domain_risk.components) {
       if (component.name.includes('phishing')) {
-        _phishing.push({[domain.domain]: component.name});
+        _phishing.push({[result.domain]: component.name});
       }
     }
   }
