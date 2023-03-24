@@ -54,7 +54,7 @@
 <meta itemprop="description" content="A solution for solving an API response parsing exercise given in an engineering interview.">
 <meta itemprop="datePublished" content="2023-03-23T00:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2023-03-23T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="1340">
+<meta itemprop="wordCount" content="1346">
 
 
 
@@ -119,23 +119,29 @@
 </blockquote>
 <p> </p>
 <p>By manually inspecting the JSON file I found that the information I needed to gather was structured in the following representation:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-ts" data-lang="ts">{
-  <span style="color:#a6e22e">response</span><span style="color:#f92672">:</span> {
-    <span style="color:#a6e22e">results</span><span style="color:#f92672">:</span> {
-      <span style="color:#a6e22e">domain</span>: <span style="color:#66d9ef">string</span>;
-      <span style="color:#a6e22e">domain_risk</span><span style="color:#f92672">:</span> {
-        <span style="color:#a6e22e">risk_score</span>: <span style="color:#66d9ef">number</span>;
-        <span style="color:#a6e22e">components</span><span style="color:#f92672">:</span> {
-          <span style="color:#a6e22e">name</span>: <span style="color:#66d9ef">string</span>;
-        }[];
-      };
-      <span style="color:#a6e22e">ip</span><span style="color:#f92672">:</span> {
-        <span style="color:#a6e22e">address</span><span style="color:#f92672">:</span> {
-          <span style="color:#a6e22e">value</span>: <span style="color:#66d9ef">string</span>;
-        };
-      }[];
-    }[];
-  };
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+  <span style="color:#f92672">&#34;response&#34;</span>: {
+    <span style="color:#f92672">&#34;results&#34;</span>: [
+      {
+        <span style="color:#f92672">&#34;domain&#34;</span>: <span style="color:#e6db74">&#34;string&#34;</span>,
+        <span style="color:#f92672">&#34;domain_risk&#34;</span>: {
+          <span style="color:#f92672">&#34;risk_score&#34;</span>: <span style="color:#e6db74">&#34;number&#34;</span>,
+          <span style="color:#f92672">&#34;components&#34;</span>: [
+            {
+              <span style="color:#f92672">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;string&#34;</span>
+            }
+          ]
+        },
+        <span style="color:#f92672">&#34;ip&#34;</span>: [
+          {
+            <span style="color:#f92672">&#34;address&#34;</span>: {
+              <span style="color:#f92672">&#34;value&#34;</span>: <span style="color:#e6db74">&#34;string&#34;</span>
+            }
+          }
+        ]
+      }
+    ]
+  }
 }
 </code></pre></div><hr>
 <h2 id="python-solution">Python Solution</h2>
@@ -337,7 +343,7 @@ if __name__ == &quot;__main__&quot;:
    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">_ips</span>: <span style="color:#66d9ef">string</span>[] <span style="color:#f92672">=</span> [];
    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">_phishing</span><span style="color:#f92672">:</span> { [<span style="color:#a6e22e">key</span>: <span style="color:#66d9ef">string</span>]<span style="color:#f92672">:</span> <span style="color:#66d9ef">string</span> }[] <span style="color:#f92672">=</span> [];
 
-   <span style="color:#75715e">// Loop through domain objects in JSON Object.
+  <span style="color:#75715e">// Loop through domain objects in JSON Object.
 </span><span style="color:#75715e"></span>  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">domain</span> <span style="color:#a6e22e">of</span> <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">results</span>) {
 
     <span style="color:#75715e">// Push an object containing the domain&#39;s risk score and name to _scores array.
