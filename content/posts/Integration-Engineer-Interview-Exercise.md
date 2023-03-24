@@ -27,24 +27,30 @@ In a recent engineering interview I was given a somewhat dense API response JSON
 
 By manually inspecting the JSON file I found that the information I needed to gather was structured in the following representation:
 
-```ts
+```json
 {
-  response: {
-    results: {
-      domain: string;
-      domain_risk: {
-        risk_score: number;
-        components: {
-          name: string;
-        }[];
-      };
-      ip: {
-        address: {
-          value: string;
-        };
-      }[];
-    }[];
-  };
+  "response": {
+    "results": [
+      {
+        "domain": "string",
+        "domain_risk": {
+          "risk_score": "number",
+          "components": [
+            {
+              "name": "string"
+            }
+          ]
+        },
+        "ip": [
+          {
+            "address": {
+              "value": "string"
+            }
+          }
+        ]
+      }
+    ]
+  }
 }
 ```
 
@@ -259,7 +265,7 @@ type solutionReturnType = [
    const _ips: string[] = [];
    const _phishing: { [key: string]: string }[] = [];
 
-   // Loop through domain objects in JSON Object.
+  // Loop through domain objects in JSON Object.
   for (let domain of data.response.results) {
 
     // Push an object containing the domain's risk score and name to _scores array.
