@@ -7,10 +7,20 @@
     <description>Recent content in Write-Up on plasticuproject&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 12 Nov 2022 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 23 Mar 2023 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://plasticuproject.com/categories/write-up/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <author>plasticuproject</author>
+      <title>Integration Engineer Interview Exercise</title>
+      <link>https://plasticuproject.com/posts/integration-engineer-interview-exercise/</link>
+      <pubDate>Thu, 23 Mar 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://plasticuproject.com/posts/integration-engineer-interview-exercise/</guid>
+      <description>A solution for solving an API response parsing exercise given in an engineering interview.</description>
+    </item>
     
     <item>
       <author>plasticuproject</author>

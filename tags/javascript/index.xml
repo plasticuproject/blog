@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <author>plasticuproject</author>
+    <title>JavaScript on plasticuproject&#39;s blog</title>
+    <link>https://plasticuproject.com/tags/javascript/</link>
+    <description>Recent content in JavaScript on plasticuproject&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 23 Mar 2023 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://plasticuproject.com/tags/javascript/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <author>plasticuproject</author>
+      <title>Integration Engineer Interview Exercise</title>
+      <link>https://plasticuproject.com/posts/integration-engineer-interview-exercise/</link>
+      <pubDate>Thu, 23 Mar 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://plasticuproject.com/posts/integration-engineer-interview-exercise/</guid>
+      <description>A solution for solving an API response parsing exercise given in an engineering interview.</description>
+    </item>
+    
+  </channel>
+</rss>
