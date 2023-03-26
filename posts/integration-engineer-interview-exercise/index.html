@@ -54,7 +54,7 @@
 <meta itemprop="description" content="A solution for solving an API response parsing exercise given in an engineering interview.">
 <meta itemprop="datePublished" content="2023-03-23T00:00:00&#43;00:00" />
 <meta itemprop="dateModified" content="2023-03-23T00:00:00&#43;00:00" />
-<meta itemprop="wordCount" content="1346">
+<meta itemprop="wordCount" content="1256">
 
 
 
@@ -319,7 +319,7 @@ if __name__ == &quot;__main__&quot;:
 <span style="color:#a6e22e">type</span> <span style="color:#a6e22e">solutionReturnType</span> <span style="color:#f92672">=</span> [
   { [<span style="color:#a6e22e">key</span>: <span style="color:#66d9ef">number</span>]<span style="color:#f92672">:</span> <span style="color:#66d9ef">string</span> }[],
   <span style="color:#66d9ef">string</span>[],
-  { [<span style="color:#a6e22e">key</span>: <span style="color:#66d9ef">string</span>]<span style="color:#f92672">:</span> <span style="color:#66d9ef">string</span> }[]
+  { [<span style="color:#a6e22e">key</span>: <span style="color:#66d9ef">string</span>]<span style="color:#f92672">:</span> <span style="color:#66d9ef">string</span> }
 ];
 
 
@@ -331,7 +331,7 @@ if __name__ == &quot;__main__&quot;:
 </span><span style="color:#75715e"> * @returns {solutionReturnType} - An array containing three arrays:
 </span><span style="color:#75715e"> *   1. An array of objects, each containing a domain&#39;s risk score and name.
 </span><span style="color:#75715e"> *   2. An array of IP addresses extracted from the JSON data.
-</span><span style="color:#75715e"> *   3. An array of objects, each containing a domain name and its associated phishing component.
+</span><span style="color:#75715e"> *   3. An object containing a domain name and its associated phishing component.
 </span><span style="color:#75715e"> */</span>
  <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">solution</span>(<span style="color:#a6e22e">jsonDataFile</span>: <span style="color:#66d9ef">string</span>)<span style="color:#f92672">:</span> <span style="color:#a6e22e">solutionReturnType</span> {
 
@@ -341,7 +341,7 @@ if __name__ == &quot;__main__&quot;:
    <span style="color:#75715e">// Initialize empty arrays.
 </span><span style="color:#75715e"></span>   <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">_scores</span><span style="color:#f92672">:</span> { [<span style="color:#a6e22e">key</span>: <span style="color:#66d9ef">number</span>]<span style="color:#f92672">:</span> <span style="color:#66d9ef">string</span> }[] <span style="color:#f92672">=</span> [];
    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">_ips</span>: <span style="color:#66d9ef">string</span>[] <span style="color:#f92672">=</span> [];
-   <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">_phishing</span><span style="color:#f92672">:</span> { [<span style="color:#a6e22e">key</span>: <span style="color:#66d9ef">string</span>]<span style="color:#f92672">:</span> <span style="color:#66d9ef">string</span> }[] <span style="color:#f92672">=</span> [];
+   <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">_phishing</span><span style="color:#f92672">:</span> { [<span style="color:#a6e22e">key</span>: <span style="color:#66d9ef">string</span>]<span style="color:#f92672">:</span> <span style="color:#66d9ef">string</span> } <span style="color:#f92672">=</span> {};
 
   <span style="color:#75715e">// Loop through results objects in JSON Object.
 </span><span style="color:#75715e"></span>  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">result</span> <span style="color:#a6e22e">of</span> <span style="color:#a6e22e">data</span>.<span style="color:#a6e22e">response</span>.<span style="color:#a6e22e">results</span>) {
@@ -359,7 +359,7 @@ if __name__ == &quot;__main__&quot;:
     <span style="color:#75715e">// Push an object containing the domain name and its phishing component to _phishing array.
 </span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> <span style="color:#a6e22e">component</span> <span style="color:#a6e22e">of</span> <span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">domain_risk</span>.<span style="color:#a6e22e">components</span>) {
       <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">component</span>.<span style="color:#a6e22e">name</span>.<span style="color:#a6e22e">includes</span>(<span style="color:#e6db74">&#39;phishing&#39;</span>)) {
-        <span style="color:#a6e22e">_phishing</span>.<span style="color:#a6e22e">push</span>({[<span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">domain</span>]<span style="color:#f92672">:</span> <span style="color:#a6e22e">component</span>.<span style="color:#a6e22e">name</span>});
+        <span style="color:#a6e22e">_phishing</span>[<span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">domain</span>] <span style="color:#f92672">=</span> <span style="color:#a6e22e">component</span>.<span style="color:#a6e22e">name</span>;
       }
     }
   }
@@ -425,52 +425,52 @@ if __name__ == &quot;__main__&quot;:
   <span style="color:#e6db74">&#39;194.58.56.8&#39;</span>,    <span style="color:#e6db74">&#39;194.67.71.23&#39;</span>,   <span style="color:#e6db74">&#39;194.67.71.73&#39;</span>,
   <span style="color:#e6db74">&#39;194.58.56.211&#39;</span>,  <span style="color:#e6db74">&#39;194.58.56.67&#39;</span>,   <span style="color:#e6db74">&#39;194.58.56.74&#39;</span>
 <span style="color:#f92672">]</span>
-<span style="color:#f92672">[</span>
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;5000eth.net&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;5000eth.su&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;500btc.su&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;bcvclaim.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;binance5000.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;binanceairdrop.net&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;binancebonus.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;binanceclaim.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;binancedrop.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;binanceprize.net&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;binancepromo.net&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;binancex10.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;bitcoindrop.net&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;bitcoinprize.net&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;bsvclaim.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;btc-drop.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;btcbinance.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;btcdrop.net&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;btcevent.net&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;btcholiday.net&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;buterinpromo.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;claim-tool.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;csgo-exchnge.online&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;csgo1x1.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;csgo24.trade&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;csgo2bets.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;csgocompetive.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;csgohightbet.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;csgoswap.de&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;csgotrade.money&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;csgotrade.su&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;csgowinx.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;csgowix.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;d2faceit.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;eth-drop.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;ethbuterin.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;ethdrop.net&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;ethprize.net&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;ethpromo.net&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;fast-trade24.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;fastpromo.su&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;skinstrade.zone&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;skinstradefast.su&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>,
-  <span style="color:#f92672">{</span> <span style="color:#e6db74">&#39;tradeskinsfast.su&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span> <span style="color:#f92672">}</span>
-<span style="color:#f92672">]</span>
+<span style="color:#f92672">{</span>
+  <span style="color:#e6db74">&#39;5000eth.net&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;5000eth.su&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;500btc.su&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;bcvclaim.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;binance5000.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;binanceairdrop.net&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;binancebonus.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;binanceclaim.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;binancedrop.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;binanceprize.net&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;binancepromo.net&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;binancex10.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;bitcoindrop.net&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;bitcoinprize.net&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;bsvclaim.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;btc-drop.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;btcbinance.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;btcdrop.net&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;btcevent.net&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;btcholiday.net&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;buterinpromo.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;claim-tool.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;csgo-exchnge.online&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;csgo1x1.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;csgo24.trade&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;csgo2bets.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;csgocompetive.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;csgohightbet.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;csgoswap.de&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;csgotrade.money&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;csgotrade.su&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;csgowinx.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;csgowix.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;d2faceit.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;eth-drop.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;ethbuterin.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;ethdrop.net&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;ethprize.net&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;ethpromo.net&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;fast-trade24.com&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;fastpromo.su&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;skinstrade.zone&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;skinstradefast.su&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>,
+  <span style="color:#e6db74">&#39;tradeskinsfast.su&#39;</span>: <span style="color:#e6db74">&#39;threat_profile_phishing&#39;</span>
+<span style="color:#f92672">}</span>
 </code></pre></div><hr>
 <h2 id="conclusion">Conclusion</h2>
 <p>While not a particularly difficult exercise, the JSON file was fairly dense and it did seem very realistic and relevant considering the role that I was interviewing for. I was not able to complete the exercise within the designated time frame in the interview due to nervousness, but easily completed it after I had flunked the technical interview.</p>
