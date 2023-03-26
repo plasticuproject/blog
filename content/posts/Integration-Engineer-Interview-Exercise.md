@@ -241,7 +241,7 @@ interface InvestigationData {
 type solutionReturnType = [
   { [key: number]: string }[],
   string[],
-  { [key: string]: string }[]
+  { [key: string]: string }
 ];
 
 
@@ -253,7 +253,7 @@ type solutionReturnType = [
  * @returns {solutionReturnType} - An array containing three arrays:
  *   1. An array of objects, each containing a domain's risk score and name.
  *   2. An array of IP addresses extracted from the JSON data.
- *   3. An array of objects, each containing a domain name and its associated phishing component.
+ *   3. An object containing a domain name and its associated phishing component.
  */
  function solution(jsonDataFile: string): solutionReturnType {
 
@@ -263,7 +263,7 @@ type solutionReturnType = [
    // Initialize empty arrays.
    const _scores: { [key: number]: string }[] = [];
    const _ips: string[] = [];
-   const _phishing: { [key: string]: string }[] = [];
+   const _phishing: { [key: string]: string } = {};
 
   // Loop through results objects in JSON Object.
   for (let result of data.response.results) {
@@ -281,7 +281,7 @@ type solutionReturnType = [
     // Push an object containing the domain name and its phishing component to _phishing array.
     for (let component of result.domain_risk.components) {
       if (component.name.includes('phishing')) {
-        _phishing.push({[result.domain]: component.name});
+        _phishing[result.domain] = component.name;
       }
     }
   }
@@ -350,52 +350,52 @@ Output:
   '194.58.56.8',    '194.67.71.23',   '194.67.71.73',
   '194.58.56.211',  '194.58.56.67',   '194.58.56.74'
 ]
-[
-  { '5000eth.net': 'threat_profile_phishing' },
-  { '5000eth.su': 'threat_profile_phishing' },
-  { '500btc.su': 'threat_profile_phishing' },
-  { 'bcvclaim.com': 'threat_profile_phishing' },
-  { 'binance5000.com': 'threat_profile_phishing' },
-  { 'binanceairdrop.net': 'threat_profile_phishing' },
-  { 'binancebonus.com': 'threat_profile_phishing' },
-  { 'binanceclaim.com': 'threat_profile_phishing' },
-  { 'binancedrop.com': 'threat_profile_phishing' },
-  { 'binanceprize.net': 'threat_profile_phishing' },
-  { 'binancepromo.net': 'threat_profile_phishing' },
-  { 'binancex10.com': 'threat_profile_phishing' },
-  { 'bitcoindrop.net': 'threat_profile_phishing' },
-  { 'bitcoinprize.net': 'threat_profile_phishing' },
-  { 'bsvclaim.com': 'threat_profile_phishing' },
-  { 'btc-drop.com': 'threat_profile_phishing' },
-  { 'btcbinance.com': 'threat_profile_phishing' },
-  { 'btcdrop.net': 'threat_profile_phishing' },
-  { 'btcevent.net': 'threat_profile_phishing' },
-  { 'btcholiday.net': 'threat_profile_phishing' },
-  { 'buterinpromo.com': 'threat_profile_phishing' },
-  { 'claim-tool.com': 'threat_profile_phishing' },
-  { 'csgo-exchnge.online': 'threat_profile_phishing' },
-  { 'csgo1x1.com': 'threat_profile_phishing' },
-  { 'csgo24.trade': 'threat_profile_phishing' },
-  { 'csgo2bets.com': 'threat_profile_phishing' },
-  { 'csgocompetive.com': 'threat_profile_phishing' },
-  { 'csgohightbet.com': 'threat_profile_phishing' },
-  { 'csgoswap.de': 'threat_profile_phishing' },
-  { 'csgotrade.money': 'threat_profile_phishing' },
-  { 'csgotrade.su': 'threat_profile_phishing' },
-  { 'csgowinx.com': 'threat_profile_phishing' },
-  { 'csgowix.com': 'threat_profile_phishing' },
-  { 'd2faceit.com': 'threat_profile_phishing' },
-  { 'eth-drop.com': 'threat_profile_phishing' },
-  { 'ethbuterin.com': 'threat_profile_phishing' },
-  { 'ethdrop.net': 'threat_profile_phishing' },
-  { 'ethprize.net': 'threat_profile_phishing' },
-  { 'ethpromo.net': 'threat_profile_phishing' },
-  { 'fast-trade24.com': 'threat_profile_phishing' },
-  { 'fastpromo.su': 'threat_profile_phishing' },
-  { 'skinstrade.zone': 'threat_profile_phishing' },
-  { 'skinstradefast.su': 'threat_profile_phishing' },
-  { 'tradeskinsfast.su': 'threat_profile_phishing' }
-]
+{
+  '5000eth.net': 'threat_profile_phishing',
+  '5000eth.su': 'threat_profile_phishing',
+  '500btc.su': 'threat_profile_phishing',
+  'bcvclaim.com': 'threat_profile_phishing',
+  'binance5000.com': 'threat_profile_phishing',
+  'binanceairdrop.net': 'threat_profile_phishing',
+  'binancebonus.com': 'threat_profile_phishing',
+  'binanceclaim.com': 'threat_profile_phishing',
+  'binancedrop.com': 'threat_profile_phishing',
+  'binanceprize.net': 'threat_profile_phishing',
+  'binancepromo.net': 'threat_profile_phishing',
+  'binancex10.com': 'threat_profile_phishing',
+  'bitcoindrop.net': 'threat_profile_phishing',
+  'bitcoinprize.net': 'threat_profile_phishing',
+  'bsvclaim.com': 'threat_profile_phishing',
+  'btc-drop.com': 'threat_profile_phishing',
+  'btcbinance.com': 'threat_profile_phishing',
+  'btcdrop.net': 'threat_profile_phishing',
+  'btcevent.net': 'threat_profile_phishing',
+  'btcholiday.net': 'threat_profile_phishing',
+  'buterinpromo.com': 'threat_profile_phishing',
+  'claim-tool.com': 'threat_profile_phishing',
+  'csgo-exchnge.online': 'threat_profile_phishing',
+  'csgo1x1.com': 'threat_profile_phishing',
+  'csgo24.trade': 'threat_profile_phishing',
+  'csgo2bets.com': 'threat_profile_phishing',
+  'csgocompetive.com': 'threat_profile_phishing',
+  'csgohightbet.com': 'threat_profile_phishing',
+  'csgoswap.de': 'threat_profile_phishing',
+  'csgotrade.money': 'threat_profile_phishing',
+  'csgotrade.su': 'threat_profile_phishing',
+  'csgowinx.com': 'threat_profile_phishing',
+  'csgowix.com': 'threat_profile_phishing',
+  'd2faceit.com': 'threat_profile_phishing',
+  'eth-drop.com': 'threat_profile_phishing',
+  'ethbuterin.com': 'threat_profile_phishing',
+  'ethdrop.net': 'threat_profile_phishing',
+  'ethprize.net': 'threat_profile_phishing',
+  'ethpromo.net': 'threat_profile_phishing',
+  'fast-trade24.com': 'threat_profile_phishing',
+  'fastpromo.su': 'threat_profile_phishing',
+  'skinstrade.zone': 'threat_profile_phishing',
+  'skinstradefast.su': 'threat_profile_phishing',
+  'tradeskinsfast.su': 'threat_profile_phishing'
+}
 ```
 
 
