@@ -59,17 +59,16 @@ By manually inspecting the JSON file I found that the information I needed to ga
 ## Python Solution
 
 My Python solution code:
-```
+```python
 """solution.py"""
 
 import json
-from typing import Tuple, List
+from typing import Tuple, List, Dict
 from statistics import mean
 
 FILE_NAME = "some_dt_data_from_investigate.json"
 
-SolutionReturnType = Tuple[List[Tuple[int, str]], List[str], List[Tuple[str,
-                                                                        str]]]
+SolutionReturnType = Tuple[List[Tuple[int, str]], List[str], Dict[str, str]]
 
 
 def solution(file_name: str) -> SolutionReturnType:
@@ -82,22 +81,22 @@ def solution(file_name: str) -> SolutionReturnType:
 
     Returns:
         SolutionReturnType:
-        A list containing three lists:
+        A tuple containing three containers:
             1. A list of tuples, each containing a domain's risk
                score and name.
             2. A list of IP addresses extracted from the JSON data.
-            3. A list of tuples, each containing a domain name and
-               its associated phishing component.
+            3. A dictionary containing a domain name and it's associated
+               phishing component.
     """
 
     # Load data from JSON file.
     with open(file_name, "r", encoding='utf-8') as data_file:
         data = json.load(data_file)
 
-    # Initialize empty lists.
+    # Initialize empty containers.
     _scores: List[Tuple[int, str]] = []
     _ips: List[str] = []
-    _phishing: List[Tuple[str, str]] = []
+    _phishing: Dict[str, str] = {}
 
     # Loop through results objects in JSON data.
     for result in data['response']['results']:
@@ -110,13 +109,13 @@ def solution(file_name: str) -> SolutionReturnType:
         for addresses in result['ip']:
             _ips.append(addresses['address']['value'])
 
-        # Append a Tuple containing the domain name and its phishing component
-        #   to _phishing list.
+        # Add a domain name and set it's phishing component to _phishing
+        #   dictionary.
         for component in result['domain_risk']['components']:
             if 'phishing' in component['name']:
-                _phishing.append((result['domain'], component['name']))
+                _phishing[result['domain']] = component['name']
 
-    # Return a list containing the _scores, _ips, and _phishing lists.
+    # Return a tuple containing the _scores, _ips, and _phishing containers.
     return (_scores, _ips, _phishing)
 
 
@@ -163,50 +162,50 @@ Output:
 '198.54.117.244', '194.58.56.74', '194.58.56.40', '192.64.117.42',
 '194.58.56.28', '194.58.56.155', '104.21.31.66', '104.21.87.223',
 '91.195.240.117', '194.67.71.99', '194.67.71.11'}
-[('5000eth.net', 'threat_profile_phishing'),
-('5000eth.su', 'threat_profile_phishing'),
-('500btc.su', 'threat_profile_phishing'),
-('bcvclaim.com', 'threat_profile_phishing'),
-('binance5000.com', 'threat_profile_phishing'),
-('binanceairdrop.net', 'threat_profile_phishing'),
-('binancebonus.com', 'threat_profile_phishing'),
-('binanceclaim.com', 'threat_profile_phishing'),
-('binancedrop.com', 'threat_profile_phishing'),
-('binanceprize.net', 'threat_profile_phishing'),
-('binancepromo.net', 'threat_profile_phishing'),
-('binancex10.com', 'threat_profile_phishing'),
-('bitcoindrop.net', 'threat_profile_phishing'),
-('bitcoinprize.net', 'threat_profile_phishing'),
-('bsvclaim.com', 'threat_profile_phishing'),
-('btc-drop.com', 'threat_profile_phishing'),
-('btcbinance.com', 'threat_profile_phishing'),
-('btcdrop.net', 'threat_profile_phishing'),
-('btcevent.net', 'threat_profile_phishing'),
-('btcholiday.net', 'threat_profile_phishing'),
-('buterinpromo.com', 'threat_profile_phishing'),
-('claim-tool.com', 'threat_profile_phishing'),
-('csgo-exchnge.online', 'threat_profile_phishing'),
-('csgo1x1.com', 'threat_profile_phishing'),
-('csgo24.trade', 'threat_profile_phishing'),
-('csgo2bets.com', 'threat_profile_phishing'),
-('csgocompetive.com', 'threat_profile_phishing'),
-('csgohightbet.com', 'threat_profile_phishing'),
-('csgoswap.de', 'threat_profile_phishing'),
-('csgotrade.money', 'threat_profile_phishing'),
-('csgotrade.su', 'threat_profile_phishing'),
-('csgowinx.com', 'threat_profile_phishing'),
-('csgowix.com', 'threat_profile_phishing'),
-('d2faceit.com', 'threat_profile_phishing'),
-('eth-drop.com', 'threat_profile_phishing'),
-('ethbuterin.com', 'threat_profile_phishing'),
-('ethdrop.net', 'threat_profile_phishing'),
-('ethprize.net', 'threat_profile_phishing'),
-('ethpromo.net', 'threat_profile_phishing'),
-('fast-trade24.com', 'threat_profile_phishing'),
-('fastpromo.su', 'threat_profile_phishing'),
-('skinstrade.zone', 'threat_profile_phishing'),
-('skinstradefast.su', 'threat_profile_phishing'),
-('tradeskinsfast.su', 'threat_profile_phishing')]
+{'5000eth.net': 'threat_profile_phishing',
+'5000eth.su': 'threat_profile_phishing',
+'500btc.su': 'threat_profile_phishing',
+'bcvclaim.com': 'threat_profile_phishing',
+'binance5000.com': 'threat_profile_phishing',
+'binanceairdrop.net': 'threat_profile_phishing',
+'binancebonus.com': 'threat_profile_phishing',
+'binanceclaim.com': 'threat_profile_phishing',
+'binancedrop.com': 'threat_profile_phishing',
+'binanceprize.net': 'threat_profile_phishing',
+'binancepromo.net': 'threat_profile_phishing',
+'binancex10.com': 'threat_profile_phishing',
+'bitcoindrop.net': 'threat_profile_phishing',
+'bitcoinprize.net': 'threat_profile_phishing',
+'bsvclaim.com': 'threat_profile_phishing',
+'btc-drop.com': 'threat_profile_phishing',
+'btcbinance.com': 'threat_profile_phishing',
+'btcdrop.net': 'threat_profile_phishing',
+'btcevent.net': 'threat_profile_phishing',
+'btcholiday.net': 'threat_profile_phishing',
+'buterinpromo.com': 'threat_profile_phishing',
+'claim-tool.com': 'threat_profile_phishing',
+'csgo-exchnge.online': 'threat_profile_phishing',
+'csgo1x1.com': 'threat_profile_phishing',
+'csgo24.trade': 'threat_profile_phishing',
+'csgo2bets.com': 'threat_profile_phishing',
+'csgocompetive.com': 'threat_profile_phishing',
+'csgohightbet.com': 'threat_profile_phishing',
+'csgoswap.de': 'threat_profile_phishing',
+'csgotrade.money': 'threat_profile_phishing',
+'csgotrade.su': 'threat_profile_phishing',
+'csgowinx.com': 'threat_profile_phishing',
+'csgowix.com': 'threat_profile_phishing',
+'d2faceit.com': 'threat_profile_phishing',
+'eth-drop.com': 'threat_profile_phishing',
+'ethbuterin.com': 'threat_profile_phishing',
+'ethdrop.net': 'threat_profile_phishing',
+'ethprize.net': 'threat_profile_phishing',
+'ethpromo.net': 'threat_profile_phishing',
+'fast-trade24.com': 'threat_profile_phishing',
+'fastpromo.su': 'threat_profile_phishing',
+'skinstrade.zone': 'threat_profile_phishing',
+'skinstradefast.su': 'threat_profile_phishing',
+'tradeskinsfast.su': 'threat_profile_phishing'}
 ```
 
 ******
@@ -253,7 +252,7 @@ type solutionReturnType = [
  * @returns {solutionReturnType} - An array containing three arrays:
  *   1. An array of objects, each containing a domain's risk score and name.
  *   2. An array of IP addresses extracted from the JSON data.
- *   3. An object containing a domain name and its associated phishing component.
+ *   3. An object containing a domain name and it's associated phishing component.
  */
  function solution(jsonDataFile: string): solutionReturnType {
 
@@ -278,7 +277,7 @@ type solutionReturnType = [
       _ips.push(addresses.address.value);
     }
 
-    // Push an object containing the domain name and its phishing component to _phishing array.
+    // Push an object containing the domain name and it's phishing component to _phishing array.
     for (let component of result.domain_risk.components) {
       if (component.name.includes('phishing')) {
         _phishing[result.domain] = component.name;
