@@ -57,7 +57,7 @@ paginate = 20
 [social]
     'fa-solid fa-code' = "https://leetcode.com/plasticuproject"
     'fa-brands fa-python'     = "https://pypi.org/user/plasticuproject"
-    'fa-solid fa-cube'     = "https://www.hackthebox.com/profile/32882"
+    'fa-solid fa-cube'     = "https://app.hackthebox.com/profile/32882"
     'fa-solid fa-brain'      = "https://cryptohack.org/user/snuggles"
     'fa-brands fa-github'   = "https://www.github.com/plasticuproject"
     'fa-solid fa-envelope' = "mailto:plastic@plasticuproject.com"
