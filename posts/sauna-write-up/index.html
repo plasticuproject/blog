@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-50Z66QSKH7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-50Z66QSKH7');
+</script>
+
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="plasticuproject">
+<meta name="description" content="Self Promoting Blog">
+<meta name="generator" content="Hugo 0.92.2" />
+<title>HackTheBox Sauna Write-Up</title>
+<link rel="shortcut icon" href="https://plasticuproject.com/images/favicon.ico">
+<link rel="stylesheet" href="https://plasticuproject.com/css/style.css">
+<link rel="stylesheet" href="https://plasticuproject.com/css/highlight.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+
+<link href="https://plasticuproject.com/index.xml" rel="alternate" type="application/rss+xml" title="plasticuproject&#39;s blog" />
+
+
+<meta property="og:title" content="HackTheBox Sauna Write-Up" />
+<meta property="og:description" content="Sauna is an easy difficulty Windows machine where we exploit weaknesses in an Active Directory environment." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://plasticuproject.com/posts/sauna-write-up/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-07-18T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-07-18T00:00:00+00:00" />
+
+
+
+<meta itemprop="name" content="HackTheBox Sauna Write-Up">
+<meta itemprop="description" content="Sauna is an easy difficulty Windows machine where we exploit weaknesses in an Active Directory environment."><meta itemprop="datePublished" content="2020-07-18T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2020-07-18T00:00:00+00:00" />
+<meta itemprop="wordCount" content="752">
+<meta itemprop="keywords" content="HTB,Write-Up," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="HackTheBox Sauna Write-Up"/>
+<meta name="twitter:description" content="Sauna is an easy difficulty Windows machine where we exploit weaknesses in an Active Directory environment."/>
+
+
+</head>
+<body>
+    <nav class="main-nav">
+	
+		<a href='https://plasticuproject.com'>Posts</a>
+	
+
+	
+ 		<a href='/about/'>About</a>
+  	
+
+    <a href='https://plasticuproject.com/tags'>Tags</a>
+
+	
+		<a href="https://plasticuproject.com/index.xml">RSS</a>
+	
+</nav>
+
+    <section id="wrapper">
+        
+        
+<article class="post">
+    <header>
+        <h1>HackTheBox Sauna Write-Up</h1>
+        <h2 class="subtitle">Sauna is an easy difficulty Windows machine where we exploit weaknesses in an Active Directory environment.</h2>
+        <h2 class="headline">
+        July 18, 2020
+        <br>
+          
+            
+              
+              <a href="https://plasticuproject.com/tags/htb">HTB</a>
+            
+               | 
+              <a href="https://plasticuproject.com/tags/write-up">Write-Up</a>
+            
+          
+        </h2>
+    </header>
+    <section id="post-body">
+        <p><img src="/images/sauna/sauna.png#center" alt="HackTheBox"></p>
+<hr>
+<h2 id="user--jsmith">User / jsmith</h2>
+<p>First we will run an <strong>nmap</strong> scan of the machine IP address, export our results to an HTML file, and view it in Firefox-ESR.</p>
+<p><img src="/images/sauna/pics/user/1.png" alt="">
+<img src="/images/sauna/pics/user/3.png" alt="">
+<img src="/images/sauna/pics/user/4.png" alt="">
+<img src="/images/sauna/pics/user/5.png" alt=""></p>
+<p>Here we can see the machine is running a <strong>Web Server</strong>, and a number of other services like <strong>Kerberos</strong>, <strong>RPC</strong>, and <strong>Active Directory LDAP</strong>. We do some light, manual recon on the web server and do not find much. One thing that did get my attention is an <strong>about</strong> page with a list of employees, some of which may have user accounts.</p>
+<p><img src="/images/sauna/pics/user/10.png" alt="">
+<img src="/images/sauna/pics/user/11.png" alt=""></p>
+<p>Let&rsquo;s run nmap again, this time using a <a href="https://nmap.org/nsedoc/scripts/ldap-search.html">script</a> to try and enumerate the <a href="https://en.wikipedia.org/wiki/Lightweight_Directory_Access_Protocol">LDAP</a>.</p>
+<p><img src="/images/sauna/pics/user/6.png" alt="">
+<img src="/images/sauna/pics/user/7.png" alt="">
+<img src="/images/sauna/pics/user/8.png" alt=""></p>
+<p>Here we can see that there is a user named <strong>Hugo Smith</strong> and the <strong>Domain Controller</strong> is <strong>EGOTISTICAL-BANK.LOCAL</strong>. Mr. Smith is one of the employee names listed on the <em>about</em> page. Before we move any further let&rsquo;s add the domain controller and web server names to our <strong>/etc/hosts</strong> file.</p>
+<p><img src="/images/sauna/pics/user/13.png" alt=""></p>
+<p>Trying different username formats for the users that we found, we try to perform <a href="https://www.hackingarticles.in/as-rep-roasting/">AS-REP Roasting</a> with <a href="https://github.com/SecureAuthCorp/impacket/blob/master/examples/GetNPUsers.py">impacket-GetNPUsers.py</a>, which will try to retrieve a user&rsquo;s <strong>Kerberos AS-REP Password Hash</strong> if that user has <strong><em>“Do not use Kerberos pre-authentication”</em></strong> set on their account.</p>
+<p><img src="/images/sauna/pics/user/14.png" alt=""></p>
+<p>We&rsquo;ve successfully extracted the password hash for user <strong>fsmith</strong> by AS-REP Roasting. Now let&rsquo;s copy that hash to another computer that has <a href="https://github.com/magnumripper/JohnTheRipper">JohnTheRipper</a> installed and try to crack the hash with the <a href="https://github.com/danielmiessler/SecLists/tree/master/Passwords/Leaked-Databases">rockyou.txt wordlist</a>.</p>
+<p><img src="/images/sauna/pics/user/john.png" alt=""></p>
+<p>John successfully cracked the hash. We still don&rsquo;t have a clear entry point for logging into this machine so let&rsquo;s run nmap again, this time using the <em>-p</em> switch to look at all TCP ports.</p>
+<p><img src="/images/sauna/pics/user/nmap.png" alt=""></p>
+<p>Here we can see <strong>Port 5985</strong> is open. This port handles <a href="https://en.wikipedia.org/wiki/Windows_Remote_Management">WinRM (Windows Remote Management)</a>, an implementation of WS-Management (Web Services-Management) that can be authenticated with <a href="https://en.wikipedia.org/wiki/Kerberos_%28protocol%29">Kerberos</a>.
+Now we can attempt to log in through WinRM with the credentials we obtained and cracked using AS-REP Roasting and JohnTheRipper. We will use <a href="https://github.com/Hackplayers/evil-winrm">Evil-WinRM</a> to do this as it will give us the some added functionality, like the ability to upload and download files between our host and client very easily. After we log in we will find and print the <strong>user.txt</strong> file.</p>
+<p><img src="/images/sauna/pics/user/15.png" alt=""></p>
+<hr>
+<h2 id="privilege-escalation--administrator">Privilege Escalation / Administrator</h2>
+<p>We run <em>net user</em> and get a list of all user accounts. We will ultimately want to get access to the Administrator account, but we may need to pivot through another account to do so.</p>
+<p><img src="/images/sauna/pics/root/6.png" alt=""></p>
+<p>We can upload and run the <a href="https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS">WinPEAS</a> enumeration script. This will help us discover user information, privilege settings, groups, stored credentials, and show us other things that may help us find vulnerabilities for privilege escalation.</p>
+<p><img src="/images/sauna/pics/root/5.png" alt=""></p>
+<p>WinPEAS shows us some valuable information about our current user. It has also found <strong>stored credentials</strong> for the <strong>svc_loanmanager/svc_loanmgr</strong> account.</p>
+<p><img src="/images/sauna/pics/root/n3.png" alt="">
+<img src="/images/sauna/pics/root/n4.png" alt="">
+<img src="/images/sauna/pics/root/n5.png" alt="">
+<img src="/images/sauna/pics/root/4.png" alt=""></p>
+<p>Next we&rsquo;ll use the credentials that we found to log in as <strong>scv_loanmgr</strong>.</p>
+<p><img src="/images/sauna/pics/root/7.png" alt=""></p>
+<p>We run our WinPEAS script again, but don&rsquo;t really discover much of anything else. At this point I think it is a good idea to run <a href="https://github.com/BloodHoundAD/BloodHound">BloodHound</a>, an Active Directory reconnaissance tool. We can use BloodHound to identify different attack paths through a visualized graph. <a href="https://www.pentestpartners.com/security-blog/bloodhound-walkthrough-a-tool-for-many-tradecrafts/">Here</a> is a good article explaining how to download, install, and get started using BloodHound. After we get everything installed and working we will upload the SharpHound Ingestor script, run it with the appropriate arguments, and download the zipped results. At this time we will also upload <a href="https://github.com/gentilkiwi/mimikatz">mimikatz</a>, which we will talk about later.</p>
+<p><img src="/images/sauna/pics/root/16.png" alt="">
+<img src="/images/sauna/pics/root/8.png" alt="">
+<img src="/images/sauna/pics/root/18.png" alt=""></p>
+<p>Afterwords we will download the data, import it into BloodHound and start looking around. Here is the shortest path from svc_loanmgr to Domain Admin.</p>
+<p><img src="/images/sauna/pics/root/21.png" alt=""></p>
+<p>One of the first things we look at is if any users can use a <a href="https://qomplx.com/kerberos_dcsync_attacks_explained/">DCSync attack</a>, which will allow them to simulate the behavior of a Domain Controller and ask other Domain Controllers to replicate information using the <a href="https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-drsr/06205d97-30da-4fdc-a276-3fd831b272e0">Directory Replication Service Remote Protocol (MS-DRSR)</a>. By searching <em>Find Principals With DCSync Rights</em> we find that our current user, svc_loanmgr, should be able to perform this attack.</p>
+<p><img src="/images/sauna/pics/root/19.png" alt=""></p>
+<p>We can try running the <strong>mimikatz</strong> program we uploaded earlier, selecting the <a href="https://attack.stealthbits.com/privilege-escalation-using-mimikatz-dcsync">DCSync</a> option, using it to dump the NTLM Hash for the <strong>Administrator</strong> account.</p>
+<p><img src="/images/sauna/pics/root/9.png" alt=""></p>
+<p>We now have Administrator account ownership, can log in through WinRM, and print the <strong>root.txt</strong> file. With this exploit we can also get the <a href="https://adsecurity.org/?p=483">KRBTGT</a> password hash, giving us the ability to create <a href="https://www.qomplx.com/qomplx-knowledge-golden-ticket-attacks-explained/">Golden Tickets</a> which will grant us unfettered access to the network.</p>
+<p><img src="/images/sauna/pics/root/13.png" alt=""></p>
+<p>I don&rsquo;t have much experience with Windows Active Directory attacks, so this was a great machine for getting started and learning some basic principles and methods. I very much enjoyed the process.</p>
+<hr>
+
+    </section>
+</article>
+
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "plasticuproject-github-io-blog" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        <footer id="footer">
+    
+        <div id="social">
+
+	
+	
+    <a rel="me" class="symbol" href="https://www.github.com/plasticuproject">
+        <i class="fa-brands fa-github"></i>
+    </a>
+    
+    <a rel="me" class="symbol" href="https://fosstodon.org/@plasticuproject">
+        <i class="fa-brands fa-mastodon"></i>
+    </a>
+    
+    <a rel="me" class="symbol" href="https://pypi.org/user/plasticuproject">
+        <i class="fa-brands fa-python"></i>
+    </a>
+    
+    <a rel="me" class="symbol" href="https://cryptohack.org/user/snuggles">
+        <i class="fa-solid fa-brain"></i>
+    </a>
+    
+    <a rel="me" class="symbol" href="https://leetcode.com/plasticuproject">
+        <i class="fa-solid fa-code"></i>
+    </a>
+    
+    <a rel="me" class="symbol" href="https://app.hackthebox.com/profile/32882">
+        <i class="fa-solid fa-cube"></i>
+    </a>
+    
+    <a rel="me" class="symbol" href="mailto:plastic@plasticuproject.com">
+        <i class="fa-solid fa-envelope"></i>
+    </a>
+    
+    <a rel="me" class="symbol" href="https://plasticuproject.com/fingerprint.txt">
+        <i class="fa-solid fa-fingerprint"></i>
+    </a>
+    
+    <a rel="me" class="symbol" href="https://plasticuproject.com/pubkey.txt">
+        <i class="fa-solid fa-key"></i>
+    </a>
+    
+
+
+</div>
+
+    
+    <p class="small">
+    
+        © Copyright 2024 plasticuproject
+    
+    </p>
+</footer>
+
+    </section>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://plasticuproject.com/js/main.js"></script>
+<script src="https://plasticuproject.com/js/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+</body>
+</html>

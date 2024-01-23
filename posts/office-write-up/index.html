@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-50Z66QSKH7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-50Z66QSKH7');
+</script>
+
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="plasticuproject">
+<meta name="description" content="Self Promoting Blog">
+<meta name="generator" content="Hugo 0.92.2" />
+<title>CyberSecLabs Office Write-Up</title>
+<link rel="shortcut icon" href="https://plasticuproject.com/images/favicon.ico">
+<link rel="stylesheet" href="https://plasticuproject.com/css/style.css">
+<link rel="stylesheet" href="https://plasticuproject.com/css/highlight.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+
+<link href="https://plasticuproject.com/index.xml" rel="alternate" type="application/rss+xml" title="plasticuproject&#39;s blog" />
+
+
+<meta property="og:title" content="CyberSecLabs Office Write-Up" />
+<meta property="og:description" content="Office is a hard difficulty linux machine where we need to stop Dwight&#39;s &#34;Accountability Booster&#34; (Doomsday Device) by gaining admin access to a content management system and root access to a server via a system configuration tool vulnerability." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://plasticuproject.com/posts/office-write-up/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-06-19T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-06-19T00:00:00+00:00" />
+
+
+
+<meta itemprop="name" content="CyberSecLabs Office Write-Up">
+<meta itemprop="description" content="Office is a hard difficulty linux machine where we need to stop Dwight&#39;s &#34;Accountability Booster&#34; (Doomsday Device) by gaining admin access to a content management system and root access to a server via a system configuration tool vulnerability."><meta itemprop="datePublished" content="2020-06-19T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2020-06-19T00:00:00+00:00" />
+<meta itemprop="wordCount" content="1287">
+<meta itemprop="keywords" content="CyberSecLabs,Write-Up," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="CyberSecLabs Office Write-Up"/>
+<meta name="twitter:description" content="Office is a hard difficulty linux machine where we need to stop Dwight&#39;s &#34;Accountability Booster&#34; (Doomsday Device) by gaining admin access to a content management system and root access to a server via a system configuration tool vulnerability."/>
+
+
+</head>
+<body>
+    <nav class="main-nav">
+	
+		<a href='https://plasticuproject.com'>Posts</a>
+	
+
+	
+ 		<a href='/about/'>About</a>
+  	
+
+    <a href='https://plasticuproject.com/tags'>Tags</a>
+
+	
+		<a href="https://plasticuproject.com/index.xml">RSS</a>
+	
+</nav>
+
+    <section id="wrapper">
+        
+        
+<article class="post">
+    <header>
+        <h1>CyberSecLabs Office Write-Up</h1>
+        <h2 class="subtitle">Office is a hard difficulty linux machine where we need to stop Dwight&rsquo;s &ldquo;Accountability Booster&rdquo; (Doomsday Device) by gaining admin access to a content management system and root access to a server via a system configuration tool vulnerability.</h2>
+        <h2 class="headline">
+        June 19, 2020
+        <br>
+          
+            
+              
+              <a href="https://plasticuproject.com/tags/cyberseclabs">CyberSecLabs</a>
+            
+               | 
+              <a href="https://plasticuproject.com/tags/write-up">Write-Up</a>
+            
+          
+        </h2>
+    </header>
+    <section id="post-body">
+        <p><img src="/images/office/pics/CyberSecLabs.png#center" alt="CyberSecLabs"></p>
+<hr>
+<h2 id="user--www-data-and-dwight">User / www-data and dwight</h2>
+<p>First we will run an <strong>nmap</strong> scan of the machine IP address, export our results to an HTML file, and view it in Firefox-ESR.</p>
+<p><img src="/images/office/pics/user/1.png" alt="nmap">
+<img src="/images/office/pics/user/2.png" alt="xsltproc">
+<img src="/images/office/pics/user/3.png" alt="">
+<img src="/images/office/pics/user/4.png" alt=""></p>
+<p>We see there is a <strong>HTTP Web Server</strong> running on <strong>Port 80</strong>, a <strong>HTTPS Web Server</strong> on <strong>Port 443</strong>, and a listening <strong>SSH Server</strong> on <strong>Port 22</strong>. Let&rsquo;s add the IP address and hostname to our <strong>/etc/hosts</strong> file.</p>
+<p><img src="/images/office/pics/user/5.png" alt=""></p>
+<p>Next let&rsquo;s take a look at the website on port 80.</p>
+<p><img src="/images/office/pics/user/6.png" alt="">
+<img src="/images/office/pics/user/7.png" alt="">
+<img src="/images/office/pics/user/8.png" alt="">
+<img src="/images/office/pics/user/9.png" alt="">
+<img src="/images/office/pics/user/10.png" alt=""></p>
+<p>Oh just another day at the Dunder Mifflin Office! It looks like Dwight has initiated some sort of &ldquo;Doomsday Device&rdquo; and is using a <strong>WordPress</strong> site and <strong>Forum</strong> to tell everyone in the office about it. We will soon see if there is any way we can get user credentials or bypass authentication.</p>
+<p><img src="/images/office/pics/user/11.png" alt=""></p>
+<p>Also when we take a look at the HTTPS server we see it is just a default Apache landing page.</p>
+<p><img src="/images/office/pics/user/12.png" alt=""></p>
+<p>The SSL certificate also has <strong>dwight@office.csl</strong> as a listed email address. This may be a username we can try to use for the log-in.</p>
+<p><img src="/images/office/pics/user/14.png#center" alt=""></p>
+<p>Next let&rsquo;s try some directory fuzzing for our web servers. Not much turns up for the server on port 80, but the secure web server does have some interesting endpoints.</p>
+<p><img src="/images/office/pics/user/15.png" alt="">
+<img src="/images/office/pics/user/16.png" alt=""></p>
+<p>Let&rsquo;s take a look at the <strong>forum</strong> endpoint and see if we can find anymore useful information.</p>
+<p><img src="/images/office/pics/user/17.png" alt="">
+<img src="/images/office/pics/user/18.png" alt=""></p>
+<p>Looks like everyone in office is concerned about the Accountability Booster, each trying to find a way to deal with it. Some are even trying to brute force a log-in portal that was forwarded to Jim&rsquo;s local machine. We haven&rsquo;t found any such portal yet, but it&rsquo;s good to have an idea what to maybe look for later. Let&rsquo;s keep enumerating this site and check out what&rsquo;s on the <strong>Login</strong> and <strong>Chat Logs</strong> page.</p>
+<p><img src="/images/office/pics/user/19.png" alt=""></p>
+<p>We get an <em>Access Denied</em> on the Login page, but the <strong>Chat Logs</strong> page does show us something interesting.</p>
+<p><img src="/images/office/pics/user/20.png" alt=""></p>
+<p>It appears to load and print out all of the chat messages we just read from a <strong>Text File</strong>. The web server is loading the contents of a local file using the <strong>?file=</strong> parameter. This looks like a great place to try a <a href="https://www.acunetix.com/websitesecurity/directory-traversal/">Directory Traversal</a> exploit. Maybe we can get the server to print out the contents of a useful file.
+<img src="/images/office/pics/user/21.png" alt=""></p>
+<p>Let&rsquo;s run <strong>wfuzz</strong> with the <strong>LFI-Jhaddix.txt</strong> wordlist found in the <a href="https://github.com/danielmiessler/SecLists">SecLists Github Repository</a>, trying each phrase as a filename in the URL parameter and see if we can find any useful files on the machine.</p>
+<p><img src="/images/office/pics/user/22.png" alt="">
+<img src="/images/office/pics/user/23.png" alt=""></p>
+<p>There seems to be a problem. It looks like wfuzz is returning a <em>200 OK HTTP Response Code</em> on every filename that we try. That&rsquo;s not very useful as we won&rsquo;t know which files are really there or not. Luckily we can see that each response has a different amount of returned content and we can filter these based on the amount of data received. Looking at our output, it looks like anything with a line length of 27 may not actually be returning a valid file. Let&rsquo;s filter out any responses that return that number of lines and see what we have.</p>
+<p><img src="/images/office/pics/user/24.png" alt="">
+<img src="/images/office/pics/user/25.png" alt=""></p>
+<p>That&rsquo;s better. The first thing that catches my eye is <strong>../.htpasswd</strong>, which is a flat-file used to store usernames and passwords for basic authentication of HTTP users. Let&rsquo;s use that file as a parameter and see what it returns.</p>
+<p><img src="/images/office/pics/user/26.png" alt=""></p>
+<p>It contained a username/password hash combination for <strong>dwight</strong>! I will copy this hash over to another computer that has the hash cracker <a href="https://github.com/magnumripper/JohnTheRipper">JohnTheRipper</a> installed and we will try to brute force crack this hash with the default wordlist.</p>
+<p><img src="/images/office/pics/user/27.png" alt=""></p>
+<p>And we were successful. We should now have log-in credentials for the WordPress log-in portal.</p>
+<p><img src="/images/office/pics/user/28.png" alt=""></p>
+<p>We are now successfully logged into the <strong>WordPress Admin Dashboard</strong>, and it looks like we have the ability to upload files. We will use this to get shell access to the machine with a <a href="https://www.acunetix.com/blog/articles/local-file-inclusion-lfi/">Local File Inclusion</a> exploit, which will allow us to run the code in our uploaded file on the machine hosting the web server.</p>
+<p><img src="/images/office/pics/user/29.png" alt="">
+<img src="/images/office/pics/user/30.png" alt=""></p>
+<p>First we use the <strong>ifconfig</strong> command to find out what our network IP address is.</p>
+<p><img src="/images/office/pics/user/31.png" alt=""></p>
+<p>Now we find a <a href="https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php">PHP Reverse Shell Script</a> and add our IP address to it, as well as a port number that we will set up a <strong>netcat</strong> listener on for our script to call back to. Here we have renamed the script to <strong>a.php</strong>.</p>
+<p><img src="/images/office/pics/user/32.png" alt=""></p>
+<p>We start our netcat listener, and upload our reverse shell script.</p>
+<p><img src="/images/office/pics/user/33.png" alt="">
+<img src="/images/office/pics/user/34.png" alt="">
+<img src="/images/office/pics/user/35.png" alt=""></p>
+<p>To run our script we just append the filename to the web server URL.</p>
+<p><img src="/images/office/pics/user/36.png" alt=""></p>
+<p>And when we check our listener, we see that we received a callback and now have shell access to the machine.</p>
+<p><img src="/images/office/pics/user/37.png" alt=""></p>
+<p>We run the <strong>whoami</strong> command and see that we have access as user <strong>www-data</strong>, and with a little bit of poking around we find the flag file <strong>/home/dwight/access.txt</strong> and print out the contents.</p>
+<p><img src="/images/office/pics/user/38.png" alt=""></p>
+<p>When we run <strong>sudo -l</strong> we see that the <strong>sudoers</strong> file is configured to give our current user the ability to run the command <strong>/bin/bash</strong> with user <strong>dwight</strong> privileges, and is configured to do so without requiring a password using the <strong>sudo</strong> command. So running <strong>sudo -u dwight /bin/bash</strong> will effectively give us a <strong>bash shell prompt</strong> with dwight&rsquo;s privilege settings. After doing this we find dwight&rsquo;s <strong>.ssh</strong> directory and see that it is empty.</p>
+<p><img src="/images/office/pics/user/39.png" alt=""></p>
+<p>To get <strong>ssh</strong> log-in access to dwight on this machine, let&rsquo;s create a ssh key-pair on our host machine with <strong>ssh-keygen</strong>.</p>
+<p><img src="/images/office/pics/user/40.png" alt=""></p>
+<p>Then copy the <strong>public key</strong> that we created and paste it onto <strong>/home/dwight/.ssh/authorized_keys</strong> on the remote machine.</p>
+<p><img src="/images/office/pics/user/41.png" alt=""></p>
+<p>We now have <strong>ssh</strong> access to dwight on the remote machine with our private key file.</p>
+<p><img src="/images/office/pics/user/42.png" alt=""></p>
+<hr>
+<h2 id="privilege-escalation--root">Privilege Escalation / root</h2>
+<p>After browsing around the machine for a few minutes we find a file called <strong>webmin-setup.out</strong>.</p>
+<p><img src="/images/office/pics/root/1.png" alt=""></p>
+<p>Looking at this file we can see the version number and port that this application is supposed to be running on.</p>
+<p><img src="/images/office/pics/root/2.png" alt=""></p>
+<p>Let&rsquo;s use <strong>netstat</strong> to see if there is actually anything running on this port.</p>
+<p><img src="/images/office/pics/root/3.png" alt=""></p>
+<p>We find that there is an application using this port, so it is most likely this <strong>Webmin</strong>. But what exactly is Webmin?</p>
+<p><img src="/images/office/pics/root/4.png" alt=""></p>
+<p><a href="https://en.wikipedia.org/wiki/Webmin">Wikipedia</a> tells us that it is a web based system configuration tool for linux. Let&rsquo;s do a little bit of searching and see if the version of this software that is installed has any publicly known vulnerabilities.</p>
+<p><img src="/images/office/pics/root/5.png" alt=""></p>
+<p>It most definitely does have known vulnerabilities. Let&rsquo;s use ssh to forward this service port over to our local machine and take a look at it in our browser.</p>
+<p><img src="/images/office/pics/root/6.png" alt="">
+<img src="/images/office/pics/root/7.png" alt=""></p>
+<p>And here we have the <strong>Log-in Portal</strong> for the service. Is this the portal that Jim was talking about trying to find a password for? I&rsquo;m not sure brute force guessing passwords is the best way to approach this, since it has some commonly known vulnerabilities. Let&rsquo;s start up the <em>Metasploit Framework Console</em> with the <strong>msfconsole</strong> command on our host machine and search for exploit scripts for this service. We will try the <strong>webmin_backdoor</strong> exploit, as it seems that we do not need to be authenticated to successfully use this exploit.</p>
+<p><img src="/images/office/pics/root/8.png" alt=""></p>
+<p>We look at the options for the exploit and set the remote machine&rsquo;s address to our localhost address that we are forwarding the service to, then set our listening address to our host machine&rsquo;s network address.</p>
+<p><img src="/images/office/pics/root/9.png" alt=""></p>
+<p>Next we cross our fingers and run the exploit. Success! The exploit ran and called back to the listener giving us an open session.</p>
+<p><img src="/images/office/pics/root/10.png" alt=""></p>
+<p>We now have a shell prompt with <strong>root</strong> level privileges and can print the flag file <strong>/root/system.txt</strong></p>
+<p><img src="/images/office/pics/root/11.png" alt=""></p>
+<p>Now that we have root access to the machine it would be trivial to stop Dwight&rsquo;s &ldquo;Doomsday Device&rdquo;, or set up persistent access and do anything else we wanted to do. I will thank the creator for this very fun, creative challenge. I thoroughly enjoyed it.</p>
+<hr>
+
+    </section>
+</article>
+
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "plasticuproject-github-io-blog" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        <footer id="footer">
+    
+        <div id="social">
+
+	
+	
+    <a rel="me" class="symbol" href="https://www.github.com/plasticuproject">
+        <i class="fa-brands fa-github"></i>
+    </a>
+    
+    <a rel="me" class="symbol" href="https://fosstodon.org/@plasticuproject">
+        <i class="fa-brands fa-mastodon"></i>
+    </a>
+    
+    <a rel="me" class="symbol" href="https://pypi.org/user/plasticuproject">
+        <i class="fa-brands fa-python"></i>
+    </a>
+    
+    <a rel="me" class="symbol" href="https://cryptohack.org/user/snuggles">
+        <i class="fa-solid fa-brain"></i>
+    </a>
+    
+    <a rel="me" class="symbol" href="https://leetcode.com/plasticuproject">
+        <i class="fa-solid fa-code"></i>
+    </a>
+    
+    <a rel="me" class="symbol" href="https://app.hackthebox.com/profile/32882">
+        <i class="fa-solid fa-cube"></i>
+    </a>
+    
+    <a rel="me" class="symbol" href="mailto:plastic@plasticuproject.com">
+        <i class="fa-solid fa-envelope"></i>
+    </a>
+    
+    <a rel="me" class="symbol" href="https://plasticuproject.com/fingerprint.txt">
+        <i class="fa-solid fa-fingerprint"></i>
+    </a>
+    
+    <a rel="me" class="symbol" href="https://plasticuproject.com/pubkey.txt">
+        <i class="fa-solid fa-key"></i>
+    </a>
+    
+
+
+</div>
+
+    
+    <p class="small">
+    
+        © Copyright 2024 plasticuproject
+    
+    </p>
+</footer>
+
+    </section>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://plasticuproject.com/js/main.js"></script>
+<script src="https://plasticuproject.com/js/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+</body>
+</html>

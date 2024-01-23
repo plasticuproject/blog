@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-50Z66QSKH7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-50Z66QSKH7');
+</script>
+
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="plasticuproject">
+<meta name="description" content="Self Promoting Blog">
+<meta name="generator" content="Hugo 0.92.2" />
+<title>CyberSecLabs Shares Write-Up</title>
+<link rel="shortcut icon" href="https://plasticuproject.com/images/favicon.ico">
+<link rel="stylesheet" href="https://plasticuproject.com/css/style.css">
+<link rel="stylesheet" href="https://plasticuproject.com/css/highlight.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+
+<link href="https://plasticuproject.com/index.xml" rel="alternate" type="application/rss+xml" title="plasticuproject&#39;s blog" />
+
+
+<meta property="og:title" content="CyberSecLabs Shares Write-Up" />
+<meta property="og:description" content="Shares is an easy difficulty linux box where we will discover and mount a Network File System, export and crack SSH keys, leverage sudo privileges to run python as another user, and use a SSH shell escape method to obtain root access." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://plasticuproject.com/posts/shares-write-up/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2020-05-19T00:00:00+00:00" />
+<meta property="article:modified_time" content="2020-05-19T00:00:00+00:00" />
+
+
+
+<meta itemprop="name" content="CyberSecLabs Shares Write-Up">
+<meta itemprop="description" content="Shares is an easy difficulty linux box where we will discover and mount a Network File System, export and crack SSH keys, leverage sudo privileges to run python as another user, and use a SSH shell escape method to obtain root access."><meta itemprop="datePublished" content="2020-05-19T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2020-05-19T00:00:00+00:00" />
+<meta itemprop="wordCount" content="876">
+<meta itemprop="keywords" content="CyberSecLabs,Write-Up," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="CyberSecLabs Shares Write-Up"/>
+<meta name="twitter:description" content="Shares is an easy difficulty linux box where we will discover and mount a Network File System, export and crack SSH keys, leverage sudo privileges to run python as another user, and use a SSH shell escape method to obtain root access."/>
+
+
+</head>
+<body>
+    <nav class="main-nav">
+	
+		<a href='https://plasticuproject.com'>Posts</a>
+	
+
+	
+ 		<a href='/about/'>About</a>
+  	
+
+    <a href='https://plasticuproject.com/tags'>Tags</a>
+
+	
+		<a href="https://plasticuproject.com/index.xml">RSS</a>
+	
+</nav>
+
+    <section id="wrapper">
+        
+        
+<article class="post">
+    <header>
+        <h1>CyberSecLabs Shares Write-Up</h1>
+        <h2 class="subtitle">Shares is an easy difficulty linux box where we will discover and mount a Network File System, export and crack SSH keys, leverage sudo privileges to run python as another user, and use a SSH shell escape method to obtain root access.</h2>
+        <h2 class="headline">
+        May 19, 2020
+        <br>
+          
+            
+              
+              <a href="https://plasticuproject.com/tags/cyberseclabs">CyberSecLabs</a>
+            
+               | 
+              <a href="https://plasticuproject.com/tags/write-up">Write-Up</a>
+            
+          
+        </h2>
+    </header>
+    <section id="post-body">
+        <p><img src="/images/shares/pics/CyberSecLabs.png#center" alt="CyberSecLabs"></p>
+<hr>
+<h2 id="user--amir">User / amir</h2>
+<p>First we will run an <strong>nmap</strong> scan of the machine IP address, export our results to an HTML file, and view it in Firefox-ESR.</p>
+<p><img src="/images/shares/pics/amir/1.png" alt="nmap">
+<img src="/images/shares/pics/amir/2.png" alt="xsltproc">
+<img src="/images/shares/pics/amir/3.png" alt="">
+<img src="/images/shares/pics/amir/4.png" alt=""></p>
+<p>Here we see there are services listening on open ports <strong>21 (FTP)</strong>, <strong>80 (HTTP)</strong>, <strong>111 (RPCBIND)</strong>, and <strong>2049 (NFS_ACL)</strong>. We add the IP address to our <strong>/etc/hosts</strong> file and take a look at the content being served on the <strong>HTTP server</strong>.</p>
+<p><img src="/images/shares/pics/amir/5.png" alt="">
+<img src="/images/shares/pics/amir/6.png" alt=""></p>
+<p>After browsing for a few minutes we see it looks like a basic online shop for pet products. We don&rsquo;t see any glaringly obvious vulnerabilities so we&rsquo;ll move on and come back to this if necessary. Next we see if the FTP server is set up to allow anonymous login. We are denied access.</p>
+<p><img src="/images/shares/pics/amir/7.png" alt=""></p>
+<p>To further enumerate the <strong>NFS (Network File System)</strong> we will run the nmap script <a href="https://nmap.org/nsedoc/scripts/nfs-ls.html">nfs-ls</a>. This attempts to get useful information about files from NFS exports. We will also run <strong>showmount</strong> to see what file systems we could possibly mount and get access to.</p>
+<p><img src="/images/shares/pics/amir/8.png" alt="">
+<img src="/images/shares/pics/amir/9.png" alt=""></p>
+<p>It appears that we may be able to mount the user <strong>amir</strong>&rsquo;s home directory <strong>/home/amir</strong>, and have access to the files within it. We create a new directory to mount to, and mount the <strong>NFS Share</strong>.</p>
+<p><img src="/images/shares/pics/amir/10.png" alt=""></p>
+<p>We find there is a <strong>.ssh</strong> directory containing <strong>SSH Keys</strong>. We try to read the keys but find we do not have permissions to do so. <a href="https://book.hacktricks.xyz/pentesting/nfs-service-pentesting#permissions">This site</a> tells us that we need to create a user with the same UUID and then we will be able to access the files.</p>
+<p><img src="/images/shares/pics/amir/11.png" alt=""></p>
+<p>Now we can sudo to that user and read the contents of the files, specifically the <strong>SSH Private Key File</strong>.</p>
+<p><img src="/images/shares/pics/amir/12.png" alt=""></p>
+<p>We will export this file, and save it to another operating system where we have a password cracking suite called <a href="https://github.com/magnumripper/JohnTheRipper">JohnTheRipper</a> installed. We will extract the password hash from the key file with <strong>ssh2john</strong>, then attempt to brute force crack the password using <strong>john</strong> and it&rsquo;s default wordlist.</p>
+<p><img src="/images/shares/pics/amir/13.png" alt="">
+<img src="/images/shares/pics/amir/13_a_ssh2john.png" alt="">
+<img src="/images/shares/pics/amir/13_b_john.png" alt=""></p>
+<p>We have successfully cracked user <strong>amir</strong>&rsquo;s SSH Key password, which is <strong>hello6</strong>. Now that we have the key and password, we should be able to SSH into the machine as user amir. The only thing stopping us is that we did not find an open, listening SSH service on our initial port scan. Our original scan was limited in the number of ports it scanned. We will run another <strong>nmap</strong> scan, this time scanning <strong>all TCP ports</strong>. If this SSH server is running on a <strong>non-standard port</strong>, we should be able to find it.</p>
+<p><img src="/images/shares/pics/amir/14.png" alt=""></p>
+<p>We find there are a number of non-standard ports open. We try to <strong>SSH connect</strong> to them with our known username, password, and key file, and find that a <strong>SSH server</strong> is listening on <strong>port 27853</strong>. We successfully have <strong>shell access</strong> as user <strong>amir</strong>.</p>
+<p><img src="/images/shares/pics/amir/15.png" alt=""></p>
+<hr>
+<h2 id="user--amy">User / amy</h2>
+<p>There is no flag file inside of amir&rsquo;s home directory, but we find that there is another user directory on this machine, user <strong>amy</strong>. We do not have permissions as amir to read files in amy&rsquo;s directory. We run <strong>sudo -l</strong> to see if and what sudo privileges our current user may have.</p>
+<p><img src="/images/shares/pics/amy/1.png" alt=""></p>
+<p>It appears that we have sudo privileges to execute <strong>/usr/bin/python3</strong> with amy&rsquo;s permissions, without having to supply a password. We can take advantage of this by running that command to start a <strong>python interactive session</strong>, and <strong>importing os.system()</strong>. Now we basically have <strong>shell access as amy</strong> through this python session and can list the files in their home directory, where we find <strong>access.txt</strong>. We print the contents of the file and are rewarded with the machine&rsquo;s first flag.</p>
+<p><img src="/images/shares/pics/amy/2.png" alt=""></p>
+<p>Now we would like to get an actual shell, preferably through SSH, as opposed to just being able to run commands in python. To do this we set up a <strong>netcat TCP listener</strong> on port 6666 on our host machine and run some <strong>reverse shell code</strong> in our python session. The code we used can be found at <a href="http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet">pentestmonkey</a>.</p>
+<p><img src="/images/shares/pics/amy/3.png" alt="">
+<img src="/images/shares/pics/amy/4.png" alt="PentestMonkey"></p>
+<p>We run <strong>ifconfig</strong> on our host machine to get it&rsquo;s network IP address, and use that in our <strong>reverse shell payload</strong> so we can call back to our <strong>netcat</strong> listener.</p>
+<p><img src="/images/shares/pics/amy/5.png" alt="">
+<img src="/images/shares/pics/amy/6.png" alt=""></p>
+<p>We now have shell access to the machine with user <strong>amy</strong>.</p>
+<p><img src="/images/shares/pics/amy/7.png" alt=""></p>
+<p>We generate a <strong>SSH key pair</strong> on our host machine and add the <strong>Public Key</strong> to <strong>/home/amy/.ssh/authorized_keys</strong>, which we have created. This will give us the ability to SSH connect to the machine as user amy.</p>
+<p><img src="/images/shares/pics/amy/8.png" alt="">
+<img src="/images/shares/pics/amy/9.png" alt="">
+<img src="/images/shares/pics/amy/10.png" alt=""></p>
+<p>We now have <strong>SSH access</strong> as user <strong>amy</strong>.</p>
+<p><img src="/images/shares/pics/amy/11.png" alt=""></p>
+<hr>
+<h2 id="privilege-escalation--root">Privilege Escalation / root</h2>
+<p>Now we run <strong>sudo -l</strong> as amy and see if we have any sudo privileges under their account.</p>
+<p><img src="/images/shares/pics/root/1.png" alt=""></p>
+<p>Here we see we have the ability to run <strong>/usr/bin/ssh</strong> with root privileges, via sudo,  without being required to supply a password. <a href="https://gtfobins.github.io/gtfobins/ssh/">GTFOBINS</a> shows us there is a  <strong>shell escape</strong> method we can use to get a <strong>root shell</strong>.</p>
+<p><img src="/images/shares/pics/root/2.png" alt="GTFOBINS"></p>
+<p>With <strong>unrestricted root access</strong> we can now find and read the other flag file, <strong>/root/system.txt</strong>, set up persistent access, or a myriad of other unrestricted actions.</p>
+<p><img src="/images/shares/pics/root/3.png" alt=""></p>
+<p>This was a very simple yet fun linux machine that I very much enjoyed rooting. Most of the actions we were required to perform were just basic linux user maneuvering, with some simple enumeration and SSH cracking and connecting. This a great box for someone just getting started with linux penetration testing.</p>
+<hr>
+
+    </section>
+</article>
+
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "plasticuproject-github-io-blog" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        <footer id="footer">
+    
+        <div id="social">
+
+	
+	
+    <a rel="me" class="symbol" href="https://www.github.com/plasticuproject">
+        <i class="fa-brands fa-github"></i>
+    </a>
+    
+    <a rel="me" class="symbol" href="https://fosstodon.org/@plasticuproject">
+        <i class="fa-brands fa-mastodon"></i>
+    </a>
+    
+    <a rel="me" class="symbol" href="https://pypi.org/user/plasticuproject">
+        <i class="fa-brands fa-python"></i>
+    </a>
+    
+    <a rel="me" class="symbol" href="https://cryptohack.org/user/snuggles">
+        <i class="fa-solid fa-brain"></i>
+    </a>
+    
+    <a rel="me" class="symbol" href="https://leetcode.com/plasticuproject">
+        <i class="fa-solid fa-code"></i>
+    </a>
+    
+    <a rel="me" class="symbol" href="https://app.hackthebox.com/profile/32882">
+        <i class="fa-solid fa-cube"></i>
+    </a>
+    
+    <a rel="me" class="symbol" href="mailto:plastic@plasticuproject.com">
+        <i class="fa-solid fa-envelope"></i>
+    </a>
+    
+    <a rel="me" class="symbol" href="https://plasticuproject.com/fingerprint.txt">
+        <i class="fa-solid fa-fingerprint"></i>
+    </a>
+    
+    <a rel="me" class="symbol" href="https://plasticuproject.com/pubkey.txt">
+        <i class="fa-solid fa-key"></i>
+    </a>
+    
+
+
+</div>
+
+    
+    <p class="small">
+    
+        © Copyright 2024 plasticuproject
+    
+    </p>
+</footer>
+
+    </section>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://plasticuproject.com/js/main.js"></script>
+<script src="https://plasticuproject.com/js/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+</body>
+</html>
