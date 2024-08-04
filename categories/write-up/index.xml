@@ -7,10 +7,30 @@
     <description>Recent content in Write-Up on plasticuproject&#39;s blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 23 Mar 2023 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 04 Aug 2024 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://plasticuproject.com/categories/write-up/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <author>plasticuproject</author>
+      <title>corCTF2024 shcitty-challenge</title>
+      <link>https://plasticuproject.com/posts/shcitty-challenge/</link>
+      <pubDate>Sun, 04 Aug 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://plasticuproject.com/posts/shcitty-challenge/</guid>
+      <description>Solution to corCTF2024 forensics challenge &#34;shcitty-challenge&#34;, and a general solution to decrypt shc compiled binaries.</description>
+    </item>
+    
+    <item>
+      <author>plasticuproject</author>
+      <title>corCTF2024 lights-out</title>
+      <link>https://plasticuproject.com/posts/lights_out/</link>
+      <pubDate>Tue, 30 Jul 2024 00:00:00 +0000</pubDate>
+      
+      <guid>https://plasticuproject.com/posts/lights_out/</guid>
+      <description>Solution to corCTF2024 misc challenge &#34;lights-out&#34; using linear algebra.</description>
+    </item>
     
     <item>
       <author>plasticuproject</author>

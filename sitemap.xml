@@ -2,37 +2,43 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://plasticuproject.com/tags/c/</loc>
+    <lastmod>2024-08-04T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://plasticuproject.com/categories/</loc>
-    <lastmod>2024-07-30T00:00:00+00:00</lastmod>
+    <lastmod>2024-08-04T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://plasticuproject.com/tags/corctf/</loc>
-    <lastmod>2024-07-30T00:00:00+00:00</lastmod>
+    <lastmod>2024-08-04T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://plasticuproject.com/categories/corctf/</loc>
-    <lastmod>2024-07-30T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://plasticuproject.com/posts/lights_out/</loc>
-    <lastmod>2024-07-30T00:00:00+00:00</lastmod>
+    <loc>https://plasticuproject.com/posts/shcitty-challenge/</loc>
+    <lastmod>2024-08-04T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://plasticuproject.com/</loc>
-    <lastmod>2024-07-30T00:00:00+00:00</lastmod>
+    <lastmod>2024-08-04T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://plasticuproject.com/posts/</loc>
-    <lastmod>2024-07-30T00:00:00+00:00</lastmod>
+    <lastmod>2024-08-04T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://plasticuproject.com/tags/python/</loc>
-    <lastmod>2024-07-30T00:00:00+00:00</lastmod>
+    <lastmod>2024-08-04T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://plasticuproject.com/tags/</loc>
+    <lastmod>2024-08-04T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://plasticuproject.com/tags/write-up/</loc>
+    <lastmod>2024-08-04T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://plasticuproject.com/categories/write-up/</loc>
+    <lastmod>2024-08-04T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://plasticuproject.com/posts/lights_out/</loc>
     <lastmod>2024-07-30T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://plasticuproject.com/posts/integration-engineer-interview-exercise/</loc>
     <lastmod>2023-03-23T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://plasticuproject.com/tags/javascript/</loc>
-    <lastmod>2023-03-23T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://plasticuproject.com/categories/write-up/</loc>
     <lastmod>2023-03-23T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://plasticuproject.com/posts/sigma-technology-write-up/</loc>
@@ -42,9 +48,6 @@
     <lastmod>2022-11-12T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://plasticuproject.com/tags/misc/</loc>
-    <lastmod>2022-11-12T00:00:00+00:00</lastmod>
-  </url><url>
-    <loc>https://plasticuproject.com/tags/write-up/</loc>
     <lastmod>2022-11-12T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://plasticuproject.com/posts/data_engineer_interview_question/</loc>

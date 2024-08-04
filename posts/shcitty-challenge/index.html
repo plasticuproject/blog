@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    
+    
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-50Z66QSKH7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-50Z66QSKH7');
+</script>
+
+    
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="plasticuproject">
+<meta name="description" content="Self Promoting Blog">
+<meta name="generator" content="Hugo 0.92.2" />
+<title>corCTF2024 shcitty-challenge</title>
+<link rel="shortcut icon" href="https://plasticuproject.com/images/favicon.ico">
+<link rel="stylesheet" href="https://plasticuproject.com/css/style.css">
+<link rel="stylesheet" href="https://plasticuproject.com/css/highlight.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+
+<link href="https://plasticuproject.com/index.xml" rel="alternate" type="application/rss+xml" title="plasticuproject&#39;s blog" />
+
+
+<meta property="og:title" content="corCTF2024 shcitty-challenge" />
+<meta property="og:description" content="Solution to corCTF2024 forensics challenge &#34;shcitty-challenge&#34;, and a general solution to decrypt shc compiled binaries." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://plasticuproject.com/posts/shcitty-challenge/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2024-08-04T00:00:00+00:00" />
+<meta property="article:modified_time" content="2024-08-04T00:00:00+00:00" />
+
+
+
+<meta itemprop="name" content="corCTF2024 shcitty-challenge">
+<meta itemprop="description" content="Solution to corCTF2024 forensics challenge &#34;shcitty-challenge&#34;, and a general solution to decrypt shc compiled binaries."><meta itemprop="datePublished" content="2024-08-04T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2024-08-04T00:00:00+00:00" />
+<meta itemprop="wordCount" content="3492">
+<meta itemprop="keywords" content="corCTF,Write-Up,Python,C," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="corCTF2024 shcitty-challenge"/>
+<meta name="twitter:description" content="Solution to corCTF2024 forensics challenge &#34;shcitty-challenge&#34;, and a general solution to decrypt shc compiled binaries."/>
+
+
+</head>
+<body>
+    <nav class="main-nav">
+	
+		<a href='https://plasticuproject.com'>Posts</a>
+	
+
+	
+ 		<a href='/about/'>About</a>
+  	
+
+    <a href='https://plasticuproject.com/tags'>Tags</a>
+
+	
+		<a href="https://plasticuproject.com/index.xml">RSS</a>
+	
+</nav>
+
+    <section id="wrapper">
+        
+        
+<article class="post">
+    <header>
+        <h1>corCTF2024 shcitty-challenge</h1>
+        <h2 class="subtitle">Solution to corCTF2024 forensics challenge &ldquo;shcitty-challenge&rdquo;, and a general solution to decrypt shc compiled binaries.</h2>
+        <h2 class="headline">
+        August 4, 2024
+        <br>
+          
+            
+              
+              <a href="https://plasticuproject.com/tags/corctf">corCTF</a>
+            
+               | 
+              <a href="https://plasticuproject.com/tags/write-up">Write-Up</a>
+            
+               | 
+              <a href="https://plasticuproject.com/tags/python">Python</a>
+            
+               | 
+              <a href="https://plasticuproject.com/tags/c">C</a>
+            
+          
+        </h2>
+    </header>
+    <section id="post-body">
+        <p><img src="/images/shcitty-challenge/cor.jpg#center" alt="Image"></p>
+<hr>
+<h2 id="the-challenge">The Challenge</h2>
+<p><img src="/images/shcitty-challenge/challenge.png#center" alt="Image"></p>
+<p>First let&rsquo;s take a look at the files that are provided to us. <strong>terminal_output.txt</strong> appears to be the output the challenge description is referencing. It shows some system information, executes a program called <strong>shc</strong>, as well as a program called <strong>file_information</strong>, both of which produce some output.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">fart@fartbox:~$ uname -a
+Linux fartbox 6.5.0-28-generic <span style="color:#75715e">#29~22.04.1-Ubuntu SMP PREEMPT_DYNAMIC Thu Apr  4 14:39:20 UTC 2 x86_64 x86_64 x86_64 GNU/Linux</span>
+fart@fartbox:~$ shc -C
+shc Version 4.0.3, Generic Shell Script Compiler
+shc GNU GPL Version <span style="color:#ae81ff">3</span> Md Jahidul Hamid &lt;jahidulhamid@yahoo.com&gt;
+shc Copying:
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version <span style="color:#ae81ff">3</span> of the License, or
+    <span style="color:#f92672">(</span>at your option<span style="color:#f92672">)</span> any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License <span style="color:#66d9ef">for</span> more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; <span style="color:#66d9ef">if</span> not, write to the Free Software
+    @Neurobin, Dhaka, Bangladesh
+
+    Report problems and questions to:http://github.com/neurobin/shc
+
+    Md Jahidul Hamid &lt;jahidulhamid@yahoo.com&gt;
+
+fart@fartbox:~$ shc -U -H -v -o flag -f flag.sh <span style="color:#f92672">&amp;&amp;</span> rm flag.sh.x.c <span style="color:#f92672">&amp;&amp;</span> rm flag.sh
+shc shll<span style="color:#f92672">=</span>sh
+shc <span style="color:#f92672">[</span>-i<span style="color:#f92672">]=</span>-c
+shc <span style="color:#f92672">[</span>-x<span style="color:#f92672">]=</span>exec <span style="color:#e6db74">&#39;%s&#39;</span> <span style="color:#e6db74">&#34;</span>$@<span style="color:#e6db74">&#34;</span>
+shc <span style="color:#f92672">[</span>-l<span style="color:#f92672">]=</span>
+shc opts<span style="color:#f92672">=</span>
+shc: cc   flag.sh.x.c -o flag
+shc: strip flag.sh.x
+shc: chmod ug<span style="color:#f92672">=</span>rwx,o<span style="color:#f92672">=</span>rx flag.sh.x
+fart@fartbox:~$ ./file_information /bin/sh
+
+Inode Number: <span style="color:#ae81ff">42467530</span>
+Device Number: <span style="color:#ae81ff">2050</span>
+Device ID: <span style="color:#ae81ff">0</span>
+User ID: <span style="color:#ae81ff">0</span>
+Group ID: <span style="color:#ae81ff">0</span>
+File Size: <span style="color:#ae81ff">125688</span>
+Last Modification Time: <span style="color:#ae81ff">1648043363</span>
+Last Status Change Time: <span style="color:#ae81ff">1686442713</span>
+
+fart@fartbox:~$
+</code></pre></div><p>We can see this was run on <em>Ubuntu 22.04, Linux kernel version 6.5.0</em>. We also see that the version of <strong>shc</strong> is <em>4.0.3</em>, and that it is a <em>&ldquo;Generic Shell Script Compiler&rdquo;</em>. We have the options and arguments supplied to the program, and see that after successful completion it then removes two files. It&rsquo;s not a huge logical jump to assume that <strong>shc</strong> was ran with these options, supplied with a shell script named <strong>flag.sh</strong>, generated a binary file named <strong>flag</strong>, and some C source file named <strong>flag.sh.x.c</strong>.</p>
+<p>We see that <strong>file_information</strong> was ran with the supplied argument <strong>/bin/sh</strong>, and we can assume that&rsquo;s the path to the <em>system&rsquo;s default shell binary</em>. Finally, we see the output of <strong>file_information</strong>, which appears to be some of the file <a href="https://linux.die.net/man/2/stat">stats</a> for <strong>/bin/sh</strong>.</p>
+<p>Next we will look at <strong>file_information.c</strong>. This appears to be the source code for the last program that was executed in the captured output above.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;     // printf</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;    // malloc and free</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string.h&gt;    // memcpy</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/stat.h&gt;  // statf</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">file_info</span>(<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span> file)
+{
+        <span style="color:#66d9ef">struct</span> stat statf[<span style="color:#ae81ff">1</span>];
+        <span style="color:#66d9ef">struct</span> stat control[<span style="color:#ae81ff">1</span>];
+
+        <span style="color:#66d9ef">if</span> (stat(file, statf) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>)
+                <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+
+        <span style="color:#75715e">/* Turn on stable fields */</span>
+        memset(control, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(control));
+        control<span style="color:#f92672">-&gt;</span>st_ino <span style="color:#f92672">=</span> statf<span style="color:#f92672">-&gt;</span>st_ino;
+        control<span style="color:#f92672">-&gt;</span>st_dev <span style="color:#f92672">=</span> statf<span style="color:#f92672">-&gt;</span>st_dev;
+        control<span style="color:#f92672">-&gt;</span>st_rdev <span style="color:#f92672">=</span> statf<span style="color:#f92672">-&gt;</span>st_rdev;
+        control<span style="color:#f92672">-&gt;</span>st_uid <span style="color:#f92672">=</span> statf<span style="color:#f92672">-&gt;</span>st_uid;
+        control<span style="color:#f92672">-&gt;</span>st_gid <span style="color:#f92672">=</span> statf<span style="color:#f92672">-&gt;</span>st_gid;
+        control<span style="color:#f92672">-&gt;</span>st_size <span style="color:#f92672">=</span> statf<span style="color:#f92672">-&gt;</span>st_size;
+        control<span style="color:#f92672">-&gt;</span>st_mtime <span style="color:#f92672">=</span> statf<span style="color:#f92672">-&gt;</span>st_mtime;
+        control<span style="color:#f92672">-&gt;</span>st_ctime <span style="color:#f92672">=</span> statf<span style="color:#f92672">-&gt;</span>st_ctime;
+
+        <span style="color:#75715e">// Print readable file information
+</span><span style="color:#75715e"></span>        printf(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">Inode Number: %lu</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, control<span style="color:#f92672">-&gt;</span>st_ino);
+        printf(<span style="color:#e6db74">&#34;Device Number: %lu</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, control<span style="color:#f92672">-&gt;</span>st_dev);
+        printf(<span style="color:#e6db74">&#34;Device ID: %lu</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, control<span style="color:#f92672">-&gt;</span>st_rdev);
+        printf(<span style="color:#e6db74">&#34;User ID: %u</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, control<span style="color:#f92672">-&gt;</span>st_uid);
+        printf(<span style="color:#e6db74">&#34;Group ID: %u</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, control<span style="color:#f92672">-&gt;</span>st_gid);
+        printf(<span style="color:#e6db74">&#34;File Size: %ld</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, control<span style="color:#f92672">-&gt;</span>st_size);
+        printf(<span style="color:#e6db74">&#34;Last Modification Time: %ld</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, control<span style="color:#f92672">-&gt;</span>st_mtime);
+        printf(<span style="color:#e6db74">&#34;Last Status Change Time: %ld</span><span style="color:#ae81ff">\n\n</span><span style="color:#e6db74">&#34;</span>, control<span style="color:#f92672">-&gt;</span>st_ctime);
+
+        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">char</span> <span style="color:#f92672">**</span> argv)
+{
+        file_info(argv[<span style="color:#ae81ff">1</span>]);
+        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+}
+</code></pre></div><p>As mentioned above, this does indeed print file stat information for the supplied file.</p>
+<p>We can run the <strong>file</strong> command on the <strong>shc</strong> generated <strong>flag</strong> binary to get some information about it. We see it is a <em>64 bit ELF binary</em>. No surprises there. When we attempt to execute it as a <em>non-priviledged user</em>, we get an <em>&ldquo;Operation not permitted&rdquo;</em> error. When we try to execute it with <em>root privileges</em>, we get garbage.</p>
+<p><img src="/images/shcitty-challenge/file.png#center" alt="Image"></p>
+<hr>
+<h2 id="research">Research</h2>
+<p>So what the heck is a <em>&ldquo;Generic Shell Script Compiler&rdquo;</em>, and more specifically <strong>shc</strong> anyway? A quick internet search points us to it&rsquo;s <a href="https://github.com/neurobin/shc/tree/4.0.3">open source repository on Github</a>. The <strong>README.md</strong> states:</p>
+<blockquote>
+<p><em>A generic shell script compiler. Shc takes a script, which is specified on the command line and produces C source code. The generated source code is then compiled and linked to produce a stripped binary executable.</em></p>
+<p><em>The compiled binary will still be dependent on the shell specified in the first line of the shell code (i.e shebang) (i.e. #!/bin/sh), thus shc does not create completely independent binaries.</em></p>
+<p><em>shc itself is not a compiler such as cc, it rather encodes and encrypts a shell script and generates C source code with the added expiration capability. It then uses the system compiler to compile a stripped binary which behaves exactly like the original script. Upon execution, the compiled binary will decrypt and execute the code with the shell -c option.</em></p>
+</blockquote>
+<p>Simple enough to understand. Let&rsquo;s install the relevant version of <strong>shc</strong>, and run a <strong>man</strong> command to get a description of the options that can be supplied or omitted to the program.</p>
+<p><img src="/images/shcitty-challenge/options.png#center" alt="Image"></p>
+<p>The execution in question was run with the arguments <em>-U</em> and <em>-H</em>, making the generated binary <em>&ldquo;untraceable&rdquo;</em> and <em>&ldquo;hardened&rdquo;</em>. It was also <strong>NOT</strong> run with option <em>-r</em>, which relaxes security. This prevents execution of the binary on other systems. We&rsquo;ll need to look into how that works in more detail later.</p>
+<p>For now, let&rsquo;s create a test script and run <strong>shc</strong> on it using the same arguments as the challenge.</p>
+<p><img src="/images/shcitty-challenge/shc-test.png#center" alt="Image"></p>
+<p>Carefully reading the generated <strong>test.sh.x.c</strong> intermediate source file we learn it contains the following:</p>
+<blockquote>
+<ul>
+<li>
+<p><em><strong>Compilation Information</strong>: The initial comment block indicates the tool (<code>shc</code>) used to compile the script and the flags passed to it.</em></p>
+</li>
+<li>
+<p><em><strong>Static Data</strong>: The <code>data</code> array contains encrypted data used in the obfuscated script.</em></p>
+</li>
+<li>
+<p><em><strong>Hardened Execution</strong>: The program includes several hardening techniques:</em></p>
+<ul>
+<li><em><strong>ARC4 Encryption/Decryption</strong>: Functions for ARC4 encryption and decryption (<code>arc4</code>, <code>stte_0</code>, <code>key</code>) are used to encrypt/decrypt the script.</em></li>
+<li><em><strong>Seccomp Sandboxing</strong>: <code>seccomp_hardening()</code> sets up a restricted environment to limit the system calls the script can make.</em></li>
+<li><em><strong>Anti-Debugging</strong>: <code>untraceable</code> function prevents tracing and debugging of the script.</em></li>
+<li><em><strong>Environment Checking</strong>: <code>chkenv</code> and <code>key_with_file</code> functions check the environment to ensure the script runs in the expected context.</em></li>
+</ul>
+</li>
+<li>
+<p><em><strong>Execution</strong>: The <code>xsh</code> function handles the actual execution of the obfuscated script:</em></p>
+<ul>
+<li><em>Decrypts the script and checks its validity.</em></li>
+<li><em>Sets up arguments for execution.</em></li>
+<li><em>Executes the decrypted script using <code>execvp</code>.</em></li>
+</ul>
+</li>
+<li>
+<p><em><strong>Main Function</strong>: The <code>main</code> function initializes hardening mechanisms and invokes the obfuscated script.</em></p>
+</li>
+</ul>
+</blockquote>
+<p> </p>
+<p>It is designed to securely execute the shell script while protecting its contents from being easily accessed or tampered with. The obfuscation and encryption techniques, along with the hardened execution environment, make it difficult to reverse-engineer the script, but not impossible.</p>
+<p>It appears to use the <strong>key_with_file</strong> function with <em>stat</em> information from the <em>system&rsquo;s default shell binary</em> for the encryption process if the <em>-r</em> option is not present. Since we probably do not need to actually execute this binary, but rather just decrypt it to get the original shell script, we can remove a lot of the logic from this intermediate source file while adding print debugging for the decrypted static data and such. Here is our resulting code file:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c"><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdio.h&gt;     // printf</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;stdlib.h&gt;    // malloc and free</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string.h&gt;    // memcpy</span><span style="color:#75715e">
+</span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/stat.h&gt;  // statf</span><span style="color:#75715e">
+</span><span style="color:#75715e"></span>
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">print_data</span>(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>data, <span style="color:#66d9ef">int</span> size)
+{
+        <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>data_copy <span style="color:#f92672">=</span> (<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>)malloc(size <span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span>(<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span>));
+        <span style="color:#66d9ef">if</span> (data_copy <span style="color:#f92672">==</span> NULL) {
+                printf(<span style="color:#e6db74">&#34;Memory allocation failed</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+                <span style="color:#66d9ef">return</span>;
+        }
+        memcpy(data_copy, data, size);
+        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> size; i<span style="color:#f92672">++</span>) {
+                printf(<span style="color:#e6db74">&#34;%c&#34;</span>, data_copy[i]);
+        }
+        printf(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        free(data_copy);
+}
+
+<span style="color:#66d9ef">static</span>  <span style="color:#66d9ef">char</span> data [] <span style="color:#f92672">=</span> 
+<span style="color:#75715e">#define      lsto_z	1
+</span><span style="color:#75715e">#define      lsto	((&amp;data[0]))
+</span><span style="color:#75715e"></span>        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\310</span><span style="color:#e6db74">&#34;</span>
+<span style="color:#75715e">#define      tst1_z	22
+</span><span style="color:#75715e">#define      tst1	((&amp;data[4]))
+</span><span style="color:#75715e"></span>        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\172\256\177\263\325\161\300\077\102\350\050\315\143\205\213\111</span><span style="color:#e6db74">&#34;</span>
+        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\222\276\263\157\210\203\272\164\067\145\234</span><span style="color:#e6db74">&#34;</span>
+<span style="color:#75715e">#define      date_z	1
+</span><span style="color:#75715e">#define      date	((&amp;data[28]))
+</span><span style="color:#75715e"></span>        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\026</span><span style="color:#e6db74">&#34;</span>
+<span style="color:#75715e">#define      chk1_z	22
+</span><span style="color:#75715e">#define      chk1	((&amp;data[30]))
+</span><span style="color:#75715e"></span>        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\307\345\036\003\302\305\135\007\277\302\346\171\226\353\152\235</span><span style="color:#e6db74">&#34;</span>
+        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\230\052\363\321\370\045\314\357\033\052</span><span style="color:#e6db74">&#34;</span>
+<span style="color:#75715e">#define      rlax_z	1
+</span><span style="color:#75715e">#define      rlax	((&amp;data[55]))
+</span><span style="color:#75715e"></span>        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\073</span><span style="color:#e6db74">&#34;</span>
+<span style="color:#75715e">#define      tst2_z	19
+</span><span style="color:#75715e">#define      tst2	((&amp;data[59]))
+</span><span style="color:#75715e"></span>        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\054\152\024\142\234\352\301\342\336\201\050\374\165\054\133\066</span><span style="color:#e6db74">&#34;</span>
+        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\041\174\000\264\341\063</span><span style="color:#e6db74">&#34;</span>
+<span style="color:#75715e">#define      pswd_z	256
+</span><span style="color:#75715e">#define      pswd	((&amp;data[133]))
+</span><span style="color:#75715e"></span>        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\157\127\255\321\321\133\120\066\370\200\045\021\352\130\256\262</span><span style="color:#e6db74">&#34;</span>
+        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\110\311\334\377\250\211\344\114\233\021\267\260\026\221\324\205</span><span style="color:#e6db74">&#34;</span>
+        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\350\201\127\272\334\250\360\325\051\026\346\023\156\224\305\266</span><span style="color:#e6db74">&#34;</span>
+        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\136\241\266\006\052\233\123\377\357\301\175\307\233\157\055\067</span><span style="color:#e6db74">&#34;</span>
+        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\124\057\160\334\213\104\204\333\126\356\150\126\144\215\316\173</span><span style="color:#e6db74">&#34;</span>
+        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\320\132\143\240\141\364\237\121\265\035\031\121\214\106\211\340</span><span style="color:#e6db74">&#34;</span>
+        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\165\372\274\001\076\101\335\224\057\105\353\224\323\272\017\243</span><span style="color:#e6db74">&#34;</span>
+        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\024\163\104\166\150\344\310\036\001\341\160\216\050\371\156\236</span><span style="color:#e6db74">&#34;</span>
+        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\364\053\237\062\155\175\307\235\302\263\062\226\155\101\072\202</span><span style="color:#e6db74">&#34;</span>
+        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\265\177\371\035\143\301\074\145\243\254\363\313\246\142\152\232</span><span style="color:#e6db74">&#34;</span>
+        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\216\012\315\373\207\225\231\112\110\313\341\265\015\033\067\302</span><span style="color:#e6db74">&#34;</span>
+        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\232\061\340\376\362\034\143\226\311\127\142\157\271\314\012\107</span><span style="color:#e6db74">&#34;</span>
+        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\327\327\103\136\154\334\251\265\250\212\152\265\246\242\167\101</span><span style="color:#e6db74">&#34;</span>
+        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\323\130\077\306\164\243\135\075\372\277\255\264\214\267\374\143</span><span style="color:#e6db74">&#34;</span>
+        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\217\077\302\374\034\153\261\305\366\033\172\234\276\362\335\222</span><span style="color:#e6db74">&#34;</span>
+        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\112\035\131\276\300\266\374\273\165\252\157\001\142\154\144\361</span><span style="color:#e6db74">&#34;</span>
+        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\254\046\355\310\222\236\215\210\272\010\045\170\372\003\013\104</span><span style="color:#e6db74">&#34;</span>
+        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\040\144\003\341\032\377\235\220\252\015\222\014\171\367\375\045</span><span style="color:#e6db74">&#34;</span>
+        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\035\353\356\260\211\174\071\103\204\136\274\176\142\310\302\203</span><span style="color:#e6db74">&#34;</span>
+        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\054\306\144\107\305\002\330\306\254\012\166\303\234\112\111\205</span><span style="color:#e6db74">&#34;</span>
+<span style="color:#75715e">#define      opts_z	1
+</span><span style="color:#75715e">#define      opts	((&amp;data[398]))
+</span><span style="color:#75715e"></span>        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\012</span><span style="color:#e6db74">&#34;</span>
+<span style="color:#75715e">#define      msg2_z	19
+</span><span style="color:#75715e">#define      msg2	((&amp;data[400]))
+</span><span style="color:#75715e"></span>        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\175\141\363\021\370\214\253\352\372\100\005\061\201\051\133\303</span><span style="color:#e6db74">&#34;</span>
+        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\005\260\164\047</span><span style="color:#e6db74">&#34;</span>
+<span style="color:#75715e">#define      text_z	119
+</span><span style="color:#75715e">#define      text	((&amp;data[427]))
+</span><span style="color:#75715e"></span>        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\205\265\370\112\154\127\353\042\116\061\200\307\201\302\170\162</span><span style="color:#e6db74">&#34;</span>
+        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\200\247\252\066\366\126\121\025\214\317\245\017\030\313\371\161</span><span style="color:#e6db74">&#34;</span>
+        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\047\010\202\113\035\265\376\312\201\252\030\135\161\073\164\326</span><span style="color:#e6db74">&#34;</span>
+        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\223\174\000\004\263\043\235\166\133\025\212\110\007\224\363\223</span><span style="color:#e6db74">&#34;</span>
+        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\226\254\130\261\205\022\366\053\340\301\076\173\374\022\026\010</span><span style="color:#e6db74">&#34;</span>
+        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\056\047\300\016\064\100\225\134\307\141\066\327\047\031\230\203</span><span style="color:#e6db74">&#34;</span>
+        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\241\130\305\051\341\072\345\117\003\135\235\165\211\334\163\303</span><span style="color:#e6db74">&#34;</span>
+        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\003\376\166\375\014\351\325\026\067\252\037\256\246\225\247\136</span><span style="color:#e6db74">&#34;</span>
+        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\026\276\261\335\153\274\123\056\131\236</span><span style="color:#e6db74">&#34;</span>
+<span style="color:#75715e">#define      chk2_z	19
+</span><span style="color:#75715e">#define      chk2	((&amp;data[561]))
+</span><span style="color:#75715e"></span>        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\027\037\023\140\253\120\000\130\063\277\271\310\122\215\161\151</span><span style="color:#e6db74">&#34;</span>
+        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\301\015\315\107\046\315\071\120\220</span><span style="color:#e6db74">&#34;</span>
+<span style="color:#75715e">#define      msg1_z	65
+</span><span style="color:#75715e">#define      msg1	((&amp;data[592]))
+</span><span style="color:#75715e"></span>        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\127\115\355\241\271\104\215\334\243\244\140\231\343\141\252\136</span><span style="color:#e6db74">&#34;</span>
+        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\314\213\142\242\054\370\055\052\020\275\031\140\012\141\072\057</span><span style="color:#e6db74">&#34;</span>
+        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\146\266\321\065\112\233\173\261\152\256\250\100\021\354\036\303</span><span style="color:#e6db74">&#34;</span>
+        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\370\370\175\017\373\177\154\367\377\376\076\371\307\214\322\341</span><span style="color:#e6db74">&#34;</span>
+        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\160\235\105\057\327\253\001\062\122\311\000\233\124\201\006\021</span><span style="color:#e6db74">&#34;</span>
+        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\325\064\153\164\253\112\336\303\152\361\043</span><span style="color:#e6db74">&#34;</span>
+<span style="color:#75715e">#define      shll_z	8
+</span><span style="color:#75715e">#define      shll	((&amp;data[674]))
+</span><span style="color:#75715e"></span>        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\123\123\263\004\315\245\156\314\327\167\115</span><span style="color:#e6db74">&#34;</span>
+<span style="color:#75715e">#define      inlo_z	3
+</span><span style="color:#75715e">#define      inlo	((&amp;data[684]))
+</span><span style="color:#75715e"></span>        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\216\040\236</span><span style="color:#e6db74">&#34;</span>
+<span style="color:#75715e">#define      xecc_z	15
+</span><span style="color:#75715e">#define      xecc	((&amp;data[689]))
+</span><span style="color:#75715e"></span>        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\067\115\067\310\130\263\264\370\344\271\207\014\273\232\260\222</span><span style="color:#e6db74">&#34;</span>
+        <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\041\040</span><span style="color:#e6db74">&#34;</span><span style="color:#75715e">/* End of data[] */</span>;
+<span style="color:#75715e">#define      hide_z	4096
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">/* &#39;Alleged RC4&#39; */</span>
+
+<span style="color:#66d9ef">static</span> <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span> stte[<span style="color:#ae81ff">256</span>], indx, jndx, kndx;
+
+<span style="color:#75715e">/*
+</span><span style="color:#75715e"> * Reset arc4 stte. 
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">stte_0</span>(<span style="color:#66d9ef">void</span>)
+{
+        indx <span style="color:#f92672">=</span> jndx <span style="color:#f92672">=</span> kndx <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+        <span style="color:#66d9ef">do</span> {
+                stte[indx] <span style="color:#f92672">=</span> indx;
+        } <span style="color:#66d9ef">while</span> (<span style="color:#f92672">++</span>indx);
+}
+
+<span style="color:#75715e">/*
+</span><span style="color:#75715e"> * Set key. Can be used more than once. 
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">key</span>(<span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span> str, <span style="color:#66d9ef">int</span> len)
+{
+        <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span> tmp, <span style="color:#f92672">*</span> ptr <span style="color:#f92672">=</span> (<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>)str;
+        <span style="color:#66d9ef">while</span> (len <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+                <span style="color:#66d9ef">do</span> {
+                        tmp <span style="color:#f92672">=</span> stte[indx];
+                        kndx <span style="color:#f92672">+=</span> tmp;
+                        kndx <span style="color:#f92672">+=</span> ptr[(<span style="color:#66d9ef">int</span>)indx <span style="color:#f92672">%</span> len];
+                        stte[indx] <span style="color:#f92672">=</span> stte[kndx];
+                        stte[kndx] <span style="color:#f92672">=</span> tmp;
+                } <span style="color:#66d9ef">while</span> (<span style="color:#f92672">++</span>indx);
+                ptr <span style="color:#f92672">+=</span> <span style="color:#ae81ff">256</span>;
+                len <span style="color:#f92672">-=</span> <span style="color:#ae81ff">256</span>;
+        }
+}
+
+<span style="color:#75715e">/*
+</span><span style="color:#75715e"> * Crypt data. 
+</span><span style="color:#75715e"> */</span>
+<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">arc4</span>(<span style="color:#66d9ef">void</span> <span style="color:#f92672">*</span> str, <span style="color:#66d9ef">int</span> len)
+{
+        <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span> tmp, <span style="color:#f92672">*</span> ptr <span style="color:#f92672">=</span> (<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>)str;
+        <span style="color:#66d9ef">while</span> (len <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) {
+                indx<span style="color:#f92672">++</span>;
+                tmp <span style="color:#f92672">=</span> stte[indx];
+                jndx <span style="color:#f92672">+=</span> tmp;
+                stte[indx] <span style="color:#f92672">=</span> stte[jndx];
+                stte[jndx] <span style="color:#f92672">=</span> tmp;
+                tmp <span style="color:#f92672">+=</span> stte[indx];
+                <span style="color:#f92672">*</span>ptr <span style="color:#f92672">^=</span> stte[tmp];
+                ptr<span style="color:#f92672">++</span>;
+                len<span style="color:#f92672">--</span>;
+        }
+}
+
+<span style="color:#75715e">/* End of ARC4 */</span>
+
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">key_with_file</span>(<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span> file)
+{
+        <span style="color:#66d9ef">struct</span> stat statf[<span style="color:#ae81ff">1</span>];
+        <span style="color:#66d9ef">struct</span> stat control[<span style="color:#ae81ff">1</span>];
+
+        <span style="color:#66d9ef">if</span> (stat(file, statf) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>)
+                <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+
+        <span style="color:#75715e">/* Turn on stable fields */</span>
+        memset(control, <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">sizeof</span>(control));
+        control<span style="color:#f92672">-&gt;</span>st_ino <span style="color:#f92672">=</span> statf<span style="color:#f92672">-&gt;</span>st_ino;
+        control<span style="color:#f92672">-&gt;</span>st_dev <span style="color:#f92672">=</span> statf<span style="color:#f92672">-&gt;</span>st_dev;
+        control<span style="color:#f92672">-&gt;</span>st_rdev <span style="color:#f92672">=</span> statf<span style="color:#f92672">-&gt;</span>st_rdev;
+        control<span style="color:#f92672">-&gt;</span>st_uid <span style="color:#f92672">=</span> statf<span style="color:#f92672">-&gt;</span>st_uid;
+        control<span style="color:#f92672">-&gt;</span>st_gid <span style="color:#f92672">=</span> statf<span style="color:#f92672">-&gt;</span>st_gid;
+        control<span style="color:#f92672">-&gt;</span>st_size <span style="color:#f92672">=</span> statf<span style="color:#f92672">-&gt;</span>st_size;
+        control<span style="color:#f92672">-&gt;</span>st_mtime <span style="color:#f92672">=</span> statf<span style="color:#f92672">-&gt;</span>st_mtime;
+        control<span style="color:#f92672">-&gt;</span>st_ctime <span style="color:#f92672">=</span> statf<span style="color:#f92672">-&gt;</span>st_ctime;
+
+        <span style="color:#75715e">// Print readable file information
+</span><span style="color:#75715e"></span>        printf(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">Inode Number: %lu</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, control<span style="color:#f92672">-&gt;</span>st_ino);
+        printf(<span style="color:#e6db74">&#34;Device Number: %lu</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, control<span style="color:#f92672">-&gt;</span>st_dev);
+        printf(<span style="color:#e6db74">&#34;Device ID: %lu</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, control<span style="color:#f92672">-&gt;</span>st_rdev);
+        printf(<span style="color:#e6db74">&#34;User ID: %u</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, control<span style="color:#f92672">-&gt;</span>st_uid);
+        printf(<span style="color:#e6db74">&#34;Group ID: %u</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, control<span style="color:#f92672">-&gt;</span>st_gid);
+        printf(<span style="color:#e6db74">&#34;File Size: %ld</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, control<span style="color:#f92672">-&gt;</span>st_size);
+        printf(<span style="color:#e6db74">&#34;Last Modification Time: %ld</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>, control<span style="color:#f92672">-&gt;</span>st_mtime);
+        printf(<span style="color:#e6db74">&#34;Last Status Change Time: %ld</span><span style="color:#ae81ff">\n\n</span><span style="color:#e6db74">&#34;</span>, control<span style="color:#f92672">-&gt;</span>st_ctime);
+
+        <span style="color:#75715e">// Print raw bytes of control
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>bytes <span style="color:#f92672">=</span> (<span style="color:#66d9ef">unsigned</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>)control;
+        printf(<span style="color:#e6db74">&#34;Control bytes: &#34;</span>);
+        <span style="color:#66d9ef">for</span> (size_t i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">sizeof</span>(control); i<span style="color:#f92672">++</span>) {
+                printf(<span style="color:#e6db74">&#34;%02x&#34;</span>, bytes[i]);
+        }
+        printf(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>);
+        key(control, <span style="color:#66d9ef">sizeof</span>(control));
+        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+
+
+<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">xsh</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">char</span> <span style="color:#f92672">**</span> argv)
+{
+        <span style="color:#66d9ef">int</span> rFlag <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+
+        stte_0();
+        key(pswd, pswd_z);
+        arc4(msg1, msg1_z);
+        printf(<span style="color:#e6db74">&#34;msg1: &#34;</span>);
+        print_data(msg1, msg1_z);
+        arc4(date, date_z);
+        printf(<span style="color:#e6db74">&#34;date: &#34;</span>);
+        print_data(date, date_z);
+        arc4(shll, shll_z);
+        printf(<span style="color:#e6db74">&#34;shll: &#34;</span>);
+        print_data(shll, shll_z);
+        arc4(inlo, inlo_z);
+        printf(<span style="color:#e6db74">&#34;inlo: &#34;</span>);
+        print_data(inlo, inlo_z);
+        arc4(xecc, xecc_z);
+        printf(<span style="color:#e6db74">&#34;xecc: &#34;</span>);
+        print_data(xecc, xecc_z);
+        arc4(lsto, lsto_z);
+        printf(<span style="color:#e6db74">&#34;lsto: &#34;</span>);
+        print_data(lsto, lsto_z);
+        arc4(tst1, tst1_z);
+        printf(<span style="color:#e6db74">&#34;tst1: &#34;</span>);
+        print_data(tst1, tst1_z);
+        key(tst1, tst1_z);
+        arc4(chk1, chk1_z);
+        printf(<span style="color:#e6db74">&#34;chk1: &#34;</span>);
+        print_data(chk1, chk1_z);
+        arc4(msg2, msg2_z);
+        printf(<span style="color:#e6db74">&#34;msg2: &#34;</span>);
+        print_data(msg2, msg2_z);
+        arc4(rlax, rlax_z);
+        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>rFlag) {
+                key_with_file(shll);
+	}
+	arc4(opts, opts_z);
+        printf(<span style="color:#e6db74">&#34;opts: &#34;</span>);
+        print_data(opts, opts_z);
+	arc4(text, text_z);
+        printf(<span style="color:#e6db74">&#34;text: &#34;</span>);
+        print_data(text, text_z);
+	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc, <span style="color:#66d9ef">char</span> <span style="color:#f92672">**</span> argv)
+{
+        argv[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> xsh(argc, argv);
+        <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+}
+</code></pre></div><p>And when we compile and execute, we get:</p>
+<p><img src="/images/shcitty-challenge/test-decrypt.png#center" alt="Image"></p>
+<p>It&rsquo;s possible that if we had the relevant <em>system default shell binary file stats</em> and the <em>options</em> used when running <strong>shc</strong>, we could reverse everything from the binary&rsquo;s <strong>.data</strong> section and obtain the original shell script. As it turns out, we indeed have all of those.</p>
+<hr>
+<h2 id="decrypting-to-solve">Decrypting to Solve</h2>
+<p>With our test run, we know what <em>static data variables</em> the given <strong>shc</strong> <em>options</em> will be decrypted to. With the information given to us by <strong>file_information</strong> in the <strong>terminal_output.txt</strong> file, we know what bytes will be used in the <strong>key_with_file</strong> function. What we don&rsquo;t know are the offset locations of the variables in the <strong>.data</strong> section. A general approach that should work on <em>any</em> <strong>shc</strong> binary generated with these known values, is to just do a brute force search for these offsets during the decryption process, using the decrypted variables as <em>cribs</em> and using their lengths as window parameters for the brute search. The final <strong>text</strong> variable will contain the original shell script text. For this we can just search for any <em>crib</em> that would be found in the original script. A good guess would be the string <em>&quot;#!/bin/sh&quot;</em>.</p>
+<p>In our Python solve script we will:</p>
+<blockquote>
+<ul>
+<li><em>Recreate the <strong>ARC4</strong> algorithm.</em></li>
+<li><em>Build the <strong>/bin/sh</strong> file stats bytes.</em></li>
+<li><em>Import the binary&rsquo;s <strong>.data</strong> section.</em></li>
+<li><em>Set our variable cribs and lengths.</em></li>
+<li><em>Brute force decrypt sections of the <strong>.data</strong> section in-place, following the prescribed order. Reset the encryption key and restart the decryption process  using the newly found variable location when a crib is found, continuing this process until the algorithm is finished and the original shell script (<strong>text</strong> variable) is decrypted.</em></li>
+</ul>
+</blockquote>
+<hr>
+<h2 id="full-solution">Full Solution</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">With the given shc version and command arguments, you can compile/encrypt a few test scripts and spot some patterns.
+</span><span style="color:#e6db74">Looking at the generated intermediate C files, take note of the ARC4 algo, xsh crypt function, and write a crypter to
+</span><span style="color:#e6db74">decrypt and print the known offsets and lengths of the data array to find byte strings to use for cribbing.
+</span><span style="color:#e6db74">In our solver, load the .data section, clean it, and sliding window brute force each sequential crypt call data section
+</span><span style="color:#e6db74">with our cribs to decrypt the text/original shell script.
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">If the &#34;-r&#34; was used during shc generation, run the script as-is.
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">If the &#34;-r&#34; option was NOT used, details about the system default shell binary are used in the encryption process.
+</span><span style="color:#e6db74">You will need to compile and run the below C program ON THE MACHINE USED TO GENERATE THE SHC ENCRYPTED BINARY
+</span><span style="color:#e6db74">to get this information to use in decryption. Save the printed &#34;Control Bytes&#34; output of this program to the
+</span><span style="color:#e6db74">variable &#34;control&#34; in this script, set &#34;RFLAG = False&#34;, and run as normal.
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">\`\`\`c
+</span><span style="color:#e6db74">#include &lt;stdio.h&gt;     // printf
+</span><span style="color:#e6db74">#include &lt;string.h&gt;    // memset
+</span><span style="color:#e6db74">#include &lt;sys/stat.h&gt;  // statf
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">int key_with_file(char * file)
+</span><span style="color:#e6db74">{
+</span><span style="color:#e6db74">        struct stat statf[1];
+</span><span style="color:#e6db74">        struct stat control[1];
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">        if (stat(file, statf) &lt; 0)
+</span><span style="color:#e6db74">                return -1;
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">        /* Turn on stable fields */
+</span><span style="color:#e6db74">        memset(control, 0, sizeof(control));
+</span><span style="color:#e6db74">        control-&gt;st_ino = statf-&gt;st_ino;
+</span><span style="color:#e6db74">        control-&gt;st_dev = statf-&gt;st_dev;
+</span><span style="color:#e6db74">        control-&gt;st_rdev = statf-&gt;st_rdev;
+</span><span style="color:#e6db74">        control-&gt;st_uid = statf-&gt;st_uid;
+</span><span style="color:#e6db74">        control-&gt;st_gid = statf-&gt;st_gid;
+</span><span style="color:#e6db74">        control-&gt;st_size = statf-&gt;st_size;
+</span><span style="color:#e6db74">        control-&gt;st_mtime = statf-&gt;st_mtime;
+</span><span style="color:#e6db74">        control-&gt;st_ctime = statf-&gt;st_ctime;
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">        // Print readable file information
+</span><span style="color:#e6db74">        printf(&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">Inode Number: </span><span style="color:#e6db74">%lu</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;, control-&gt;st_ino);
+</span><span style="color:#e6db74">        printf(&#34;Device Number: </span><span style="color:#e6db74">%lu</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;, control-&gt;st_dev);
+</span><span style="color:#e6db74">        printf(&#34;Device ID: </span><span style="color:#e6db74">%lu</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;, control-&gt;st_rdev);
+</span><span style="color:#e6db74">        printf(&#34;User ID: </span><span style="color:#e6db74">%u</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;, control-&gt;st_uid);
+</span><span style="color:#e6db74">        printf(&#34;Group ID: </span><span style="color:#e6db74">%u</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;, control-&gt;st_gid);
+</span><span style="color:#e6db74">        printf(&#34;File Size: </span><span style="color:#e6db74">%ld</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;, control-&gt;st_size);
+</span><span style="color:#e6db74">        printf(&#34;Last Modification Time: </span><span style="color:#e6db74">%ld</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;, control-&gt;st_mtime);
+</span><span style="color:#e6db74">        printf(&#34;Last Status Change Time: </span><span style="color:#e6db74">%ld</span><span style="color:#ae81ff">\n\n</span><span style="color:#e6db74">&#34;, control-&gt;st_ctime);
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">        // Print raw bytes of control
+</span><span style="color:#e6db74">        unsigned char *bytes = (unsigned char *)control;
+</span><span style="color:#e6db74">        printf(&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">Control bytes: &#34;);
+</span><span style="color:#e6db74">        for (size_t i = 0; i &lt; sizeof(control); i++) {
+</span><span style="color:#e6db74">                printf(&#34;</span><span style="color:#e6db74">%02x</span><span style="color:#e6db74">&#34;, bytes[i]);
+</span><span style="color:#e6db74">        }
+</span><span style="color:#e6db74">        printf(&#34;</span><span style="color:#ae81ff">\n\n</span><span style="color:#e6db74">&#34;);
+</span><span style="color:#e6db74">        return 0;
+</span><span style="color:#e6db74">}
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">int main()
+</span><span style="color:#e6db74">{
+</span><span style="color:#e6db74">        char *filepath = &#34;/bin/sh&#34;;
+</span><span style="color:#e6db74">        int result = key_with_file(filepath);
+</span><span style="color:#e6db74">        if (result == -1) {
+</span><span style="color:#e6db74">                printf(&#34;Failed to retrieve file stats.</span><span style="color:#ae81ff">\n\n</span><span style="color:#e6db74">&#34;);
+</span><span style="color:#e6db74">        }
+</span><span style="color:#e6db74">        return 0;
+</span><span style="color:#e6db74">}
+</span><span style="color:#e6db74">\`\`\`
+</span><span style="color:#e6db74">
+</span><span style="color:#e6db74">In our &#34;teminal_output.txt&#34; we can see that a similar program is run by the user, giving us the
+</span><span style="color:#e6db74">the &#34;control bytes&#34; information we need for the host default shell binary, so in the &#34;file_information.c&#34;
+</span><span style="color:#e6db74">file, we can just fill in those values and print out the &#34;control&#34; struct hex bytes as shown above, or
+</span><span style="color:#e6db74">use the &#34;get_control_bytes&#34; function below.
+</span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+<span style="color:#f92672">import</span> struct
+<span style="color:#f92672">import</span> lief
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_control_bytes</span>(st_dev, st_ino, st_id, st_gid, st_rdev, st_size,
+                      st_mtime, st_ctime):
+    <span style="color:#e6db74">&#34;&#34;&#34;Generate a byte sequence representing a structured control block.&#34;&#34;&#34;</span>
+
+    <span style="color:#75715e"># Define the values</span>
+    control_bytes <span style="color:#f92672">=</span> struct<span style="color:#f92672">.</span>pack(
+
+        <span style="color:#75715e"># Types are not correct, I may have even messed </span>
+        <span style="color:#75715e">#  the order up but I don&#39;t care because it works</span>
+        <span style="color:#e6db74">&#34;QQQQIIQQQQQQQQQQQQQ&#34;</span>,  <span style="color:#75715e"># Format string</span>
+
+        st_dev,  <span style="color:#75715e"># 8 bytes</span>
+        st_ino,  <span style="color:#75715e"># 8 bytes</span>
+        <span style="color:#ae81ff">0</span>,  <span style="color:#75715e"># 8 bytes Unused</span>
+        <span style="color:#ae81ff">0</span>,  <span style="color:#75715e"># 8 bytes Unused</span>
+        st_id,  <span style="color:#75715e"># 4 bytes</span>
+        st_gid,  <span style="color:#75715e"># 4 bytes</span>
+        st_rdev,  <span style="color:#75715e"># 8 bytes</span>
+        st_size,  <span style="color:#75715e"># 8 bytes</span>
+        <span style="color:#ae81ff">0</span>,  <span style="color:#75715e"># 8 bytes Unused</span>
+        <span style="color:#ae81ff">0</span>,  <span style="color:#75715e"># 8 bytes Unused</span>
+        <span style="color:#ae81ff">0</span>,  <span style="color:#75715e"># 8 bytes Unused</span>
+        <span style="color:#ae81ff">0</span>,  <span style="color:#75715e"># 8 bytes Unused</span>
+        st_mtime,  <span style="color:#75715e"># 8 bytes</span>
+        <span style="color:#ae81ff">0</span>,  <span style="color:#75715e"># 8 bytes Unused</span>
+        st_ctime,  <span style="color:#75715e"># 8 bytes</span>
+        <span style="color:#ae81ff">0</span>,  <span style="color:#75715e"># 8 bytes Unused</span>
+        <span style="color:#ae81ff">0</span>,  <span style="color:#75715e"># 8 bytes Unused</span>
+        <span style="color:#ae81ff">0</span>,  <span style="color:#75715e"># 8 bytes Unused</span>
+        <span style="color:#ae81ff">0</span>,  <span style="color:#75715e"># 8 bytes Unused</span>
+    )
+    <span style="color:#66d9ef">return</span> control_bytes
+
+
+<span style="color:#75715e"># &#39;Alleged RC4&#39; #</span>
+
+<span style="color:#75715e"># Global state for the RC4 cipher</span>
+stte <span style="color:#f92672">=</span> list(range(<span style="color:#ae81ff">256</span>))
+indx <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+jndx <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+kndx <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">stte_0</span>():
+    <span style="color:#e6db74">&#34;&#34;&#34;Reset the RC4 state.&#34;&#34;&#34;</span>
+    <span style="color:#66d9ef">global</span> stte, indx, jndx, kndx
+    indx <span style="color:#f92672">=</span> jndx <span style="color:#f92672">=</span> kndx <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    stte <span style="color:#f92672">=</span> list(range(<span style="color:#ae81ff">256</span>))
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">key</span>(data):
+    <span style="color:#e6db74">&#34;&#34;&#34;Set the key for RC4. This can be called multiple times.&#34;&#34;&#34;</span>
+    <span style="color:#66d9ef">global</span> stte, indx, kndx
+    len_data <span style="color:#f92672">=</span> len(data)
+    <span style="color:#66d9ef">while</span> len_data <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>:
+        <span style="color:#66d9ef">while</span> indx <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">256</span>:
+            tmp <span style="color:#f92672">=</span> stte[indx]
+            kndx <span style="color:#f92672">=</span> (kndx <span style="color:#f92672">+</span> tmp <span style="color:#f92672">+</span> data[indx <span style="color:#f92672">%</span> len(data)]) <span style="color:#f92672">%</span> <span style="color:#ae81ff">256</span>
+            stte[indx], stte[kndx] <span style="color:#f92672">=</span> stte[kndx], stte[indx]
+            indx <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+        data <span style="color:#f92672">=</span> data[<span style="color:#ae81ff">256</span>:]  <span style="color:#75715e"># Move the pointer by 256 bytes in the array</span>
+        len_data <span style="color:#f92672">-=</span> <span style="color:#ae81ff">256</span>
+        indx <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>  <span style="color:#75715e"># Reset indx for next block</span>
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">arc4</span>(data):
+    <span style="color:#e6db74">&#34;&#34;&#34;Encrypt or decrypt data in-place using the current RC4 state.&#34;&#34;&#34;</span>
+    <span style="color:#66d9ef">global</span> stte, indx, jndx
+    n <span style="color:#f92672">=</span> len(data)
+    output <span style="color:#f92672">=</span> bytearray(data)
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(n):
+        indx <span style="color:#f92672">=</span> (indx <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">%</span> <span style="color:#ae81ff">256</span>
+        jndx <span style="color:#f92672">=</span> (jndx <span style="color:#f92672">+</span> stte[indx]) <span style="color:#f92672">%</span> <span style="color:#ae81ff">256</span>
+        stte[indx], stte[jndx] <span style="color:#f92672">=</span> stte[jndx], stte[indx]
+        t <span style="color:#f92672">=</span> (stte[indx] <span style="color:#f92672">+</span> stte[jndx]) <span style="color:#f92672">%</span> <span style="color:#ae81ff">256</span>
+        output[i] <span style="color:#f92672">^=</span> stte[t]
+    data[:] <span style="color:#f92672">=</span> output  <span style="color:#75715e"># Update the original data in-place</span>
+
+
+<span style="color:#75715e"># End of ARC4 #</span>
+
+
+<span style="color:#75715e"># Binary file to crack</span>
+FILE <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;flag&#34;</span>
+
+<span style="color:#75715e"># Crib text to use for the original shell script</span>
+CRIB <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;#!/bin/sh&#34;</span>
+
+<span style="color:#75715e"># Set False if shc was run without the -r option </span>
+RFLAG <span style="color:#f92672">=</span> <span style="color:#66d9ef">False</span>
+
+<span style="color:#75715e"># File stat details of the host system default shell binary used for encryption</span>
+DEVICE_NUMBER <span style="color:#f92672">=</span> <span style="color:#ae81ff">2050</span>
+INODE_NUMER <span style="color:#f92672">=</span> <span style="color:#ae81ff">42467530</span>
+USER_ID <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+GROUP_ID <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+DEVICE_ID <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+FILE_SIZE <span style="color:#f92672">=</span> <span style="color:#ae81ff">125688</span>
+LAST_MODIFICATION_TIME <span style="color:#f92672">=</span> <span style="color:#ae81ff">1648043363</span>
+LAST_STATUS_CHANGE_TIME <span style="color:#f92672">=</span> <span style="color:#ae81ff">1686442713</span>
+
+<span style="color:#66d9ef">try</span>:
+    control <span style="color:#f92672">=</span> get_control_bytes(DEVICE_NUMBER, INODE_NUMER, USER_ID, GROUP_ID,
+                                DEVICE_ID, FILE_SIZE, LAST_MODIFICATION_TIME,
+                                LAST_STATUS_CHANGE_TIME)
+<span style="color:#66d9ef">except</span>:
+    control <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#39;</span>
+
+<span style="color:#75715e"># Load the ELF file</span>
+elf_file <span style="color:#f92672">=</span> lief<span style="color:#f92672">.</span>parse(FILE)
+
+<span style="color:#75715e"># Find the .data section</span>
+data_section <span style="color:#f92672">=</span> elf_file<span style="color:#f92672">.</span>get_section(<span style="color:#e6db74">&#34;.data&#34;</span>)
+<span style="color:#66d9ef">if</span> data_section:
+    <span style="color:#75715e"># Get the content of the .data section as a list of bytes (integers)</span>
+    <span style="color:#75715e"># Convert list of integers to a bytearray</span>
+    <span style="color:#75715e"># Remove the first 32 bytes</span>
+    <span style="color:#75715e"># Strip trailing null bytes (0x00)</span>
+    data <span style="color:#f92672">=</span> bytearray(data_section<span style="color:#f92672">.</span>content)[<span style="color:#ae81ff">32</span>:]<span style="color:#f92672">.</span>rstrip(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#39;</span>)
+
+<span style="color:#75715e"># Data and pswd size</span>
+data_size <span style="color:#f92672">=</span> len(data)
+pswd_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">256</span>
+
+<span style="color:#75715e"># # Cribs; may need to adjust depending on options used when shc was run</span>
+
+<span style="color:#75715e"># Round 1 cribs</span>
+msg1_content <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;has expired!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">Please contact your provider jahidulhamid@yahoo.com</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#39;</span>
+msg1_size <span style="color:#f92672">=</span> len(msg1_content)
+date_content <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#39;</span>
+date_size <span style="color:#f92672">=</span> len(date_content)
+shll_content <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;/bin/sh</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#39;</span>
+shll_size <span style="color:#f92672">=</span> len(shll_content)
+inlo_content <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;-c</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#39;</span>
+inlo_size <span style="color:#f92672">=</span> len(inlo_content)
+xecc_content <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;exec </span><span style="color:#ae81ff">\&#39;</span><span style="color:#e6db74">%s</span><span style="color:#ae81ff">\&#39;</span><span style="color:#e6db74"> &#34;$@&#34;</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#39;</span>
+xecc_size <span style="color:#f92672">=</span> len(xecc_content)
+lsto_content <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#39;</span>
+lsto_size <span style="color:#f92672">=</span> len(lsto_content)
+tst1_content <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;location has changed!</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#39;</span>
+tst1_size <span style="color:#f92672">=</span> len(tst1_content)
+
+<span style="color:#75715e"># Round 2 cribs</span>
+chk1_content <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;location has changed!</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#39;</span>
+chk1_size <span style="color:#f92672">=</span> len(chk1_content)
+msg2_content <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;abnormal behavior!</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#39;</span>
+msg2_size <span style="color:#f92672">=</span> len(msg2_content)
+rlax_content <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x92</span><span style="color:#e6db74">&#39;</span>
+rlax_size <span style="color:#f92672">=</span> len(rlax_content)
+opts_content <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x00</span><span style="color:#e6db74">&#39;</span>
+opts_size <span style="color:#f92672">=</span> len(opts_content)
+chk2_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">19</span> <span style="color:#75715e"># Not used</span>
+tst2_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">19</span> <span style="color:#75715e"># Not used</span>
+
+<span style="color:#75715e"># Largest possible text size</span>
+p_text_size <span style="color:#f92672">=</span> data_size <span style="color:#f92672">-</span> sum([
+    pswd_size, msg1_size, date_size, shll_size, inlo_size, xecc_size,
+    lsto_size, tst1_size, chk1_size, msg2_size, rlax_size, opts_size,
+    chk2_size, tst2_size
+])
+
+<span style="color:#75715e"># Get key and round 1 crypt</span>
+<span style="color:#66d9ef">for</span> pswd_s_idx <span style="color:#f92672">in</span> range(data_size <span style="color:#f92672">-</span> pswd_size <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>):
+    pswd <span style="color:#f92672">=</span> data[pswd_s_idx:pswd_s_idx <span style="color:#f92672">+</span> pswd_size]
+    <span style="color:#66d9ef">for</span> msg1_s_idx <span style="color:#f92672">in</span> range(data_size <span style="color:#f92672">-</span> msg1_size <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>):
+        msg1 <span style="color:#f92672">=</span> data[msg1_s_idx:msg1_s_idx <span style="color:#f92672">+</span> msg1_size]
+        stte_0()
+        key(pswd)
+        arc4(msg1)
+        <span style="color:#66d9ef">if</span> msg1 <span style="color:#f92672">==</span> msg1_content:
+            <span style="color:#75715e"># print(msg1)</span>
+
+            <span style="color:#66d9ef">for</span> date_s_idx <span style="color:#f92672">in</span> range(data_size <span style="color:#f92672">-</span> date_size <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>):
+                date <span style="color:#f92672">=</span> data[date_s_idx:date_s_idx <span style="color:#f92672">+</span> date_size]
+                stte_0()
+                key(pswd)
+                arc4(msg1)
+                arc4(date)
+                <span style="color:#66d9ef">if</span> date <span style="color:#f92672">==</span> date_content:
+                    <span style="color:#75715e"># print(date)</span>
+
+                    <span style="color:#66d9ef">for</span> shll_s_idx <span style="color:#f92672">in</span> range(data_size <span style="color:#f92672">-</span> shll_size <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>):
+                        shll <span style="color:#f92672">=</span> data[shll_s_idx:shll_s_idx <span style="color:#f92672">+</span> shll_size]
+                        stte_0()
+                        key(pswd)
+                        arc4(msg1)
+                        arc4(date)
+                        arc4(shll)
+                        <span style="color:#66d9ef">if</span> shll <span style="color:#f92672">==</span> shll_content:
+                            <span style="color:#75715e"># print(shll)</span>
+
+                            <span style="color:#66d9ef">for</span> inlo_s_idx <span style="color:#f92672">in</span> range(data_size <span style="color:#f92672">-</span> inlo_size <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>):
+                                inlo <span style="color:#f92672">=</span> data[inlo_s_idx:inlo_s_idx <span style="color:#f92672">+</span> inlo_size]
+                                stte_0()
+                                key(pswd)
+                                arc4(msg1)
+                                arc4(date)
+                                arc4(shll)
+                                arc4(inlo)
+                                <span style="color:#66d9ef">if</span> inlo <span style="color:#f92672">==</span> inlo_content:
+                                    <span style="color:#75715e"># print(inlo)</span>
+
+                                    <span style="color:#66d9ef">for</span> xecc_s_idx <span style="color:#f92672">in</span> range(data_size <span style="color:#f92672">-</span> xecc_size <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>):
+                                        xecc <span style="color:#f92672">=</span> data[xecc_s_idx:xecc_s_idx <span style="color:#f92672">+</span> xecc_size]
+                                        stte_0()
+                                        key(pswd)
+                                        arc4(msg1)
+                                        arc4(date)
+                                        arc4(shll)
+                                        arc4(inlo)
+                                        arc4(xecc)
+                                        <span style="color:#66d9ef">if</span> xecc <span style="color:#f92672">==</span> xecc_content:
+                                            <span style="color:#75715e"># print(xecc)</span>
+
+                                            <span style="color:#66d9ef">for</span> lsto_s_idx <span style="color:#f92672">in</span> range(data_size <span style="color:#f92672">-</span> lsto_size <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>):
+                                                lsto <span style="color:#f92672">=</span> data[lsto_s_idx:lsto_s_idx <span style="color:#f92672">+</span> lsto_size]
+                                                stte_0()
+                                                key(pswd)
+                                                arc4(msg1)
+                                                arc4(date)
+                                                arc4(shll)
+                                                arc4(inlo)
+                                                arc4(xecc)
+                                                arc4(lsto)
+                                                <span style="color:#66d9ef">if</span> lsto <span style="color:#f92672">==</span> lsto_content:
+                                                    <span style="color:#75715e"># print(lsto)</span>
+
+                                                    <span style="color:#66d9ef">for</span> tst1_s_idx <span style="color:#f92672">in</span> range(data_size <span style="color:#f92672">-</span> tst1_size <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>):
+                                                        tst1 <span style="color:#f92672">=</span> data[tst1_s_idx:tst1_s_idx <span style="color:#f92672">+</span> tst1_size]
+                                                        stte_0()
+                                                        key(pswd)
+                                                        arc4(msg1)
+                                                        arc4(date)
+                                                        arc4(shll)
+                                                        arc4(inlo)
+                                                        arc4(xecc)
+                                                        arc4(lsto)
+                                                        arc4(tst1)
+                                                        <span style="color:#66d9ef">if</span> tst1 <span style="color:#f92672">==</span> tst1_content:
+                                                            <span style="color:#75715e"># print(tst1)</span>
+
+                                                            <span style="color:#75715e"># Round 2 crypt, preserve keys</span>
+                                                            <span style="color:#66d9ef">for</span> chk1_s_idx <span style="color:#f92672">in</span> range(data_size <span style="color:#f92672">-</span> chk1_size <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>):
+                                                                pswd <span style="color:#f92672">=</span> data[pswd_s_idx:pswd_s_idx <span style="color:#f92672">+</span> pswd_size]
+                                                                tst1 <span style="color:#f92672">=</span> data[tst1_s_idx:tst1_s_idx <span style="color:#f92672">+</span> tst1_size]
+                                                                chk1 <span style="color:#f92672">=</span> data[chk1_s_idx:chk1_s_idx <span style="color:#f92672">+</span> chk1_size]
+                                                                stte_0()
+                                                                key(pswd)
+                                                                arc4(msg1)
+                                                                arc4(date)
+                                                                arc4(shll)
+                                                                arc4(inlo)
+                                                                arc4(xecc)
+                                                                arc4(lsto)
+                                                                arc4(tst1)
+                                                                key(tst1)
+                                                                arc4(chk1)
+                                                                <span style="color:#66d9ef">if</span> chk1 <span style="color:#f92672">==</span> chk1_content:
+                                                                    <span style="color:#75715e"># print(chk1)</span>
+
+                                                                    <span style="color:#66d9ef">for</span> msg2_s_idx <span style="color:#f92672">in</span> range(data_size <span style="color:#f92672">-</span> msg2_size <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>):
+                                                                        pswd <span style="color:#f92672">=</span> data[pswd_s_idx:pswd_s_idx <span style="color:#f92672">+</span> pswd_size]
+                                                                        tst1 <span style="color:#f92672">=</span> data[tst1_s_idx:tst1_s_idx <span style="color:#f92672">+</span> tst1_size]
+                                                                        msg2 <span style="color:#f92672">=</span> data[msg2_s_idx:msg2_s_idx <span style="color:#f92672">+</span> msg2_size]
+                                                                        stte_0()
+                                                                        key(pswd)
+                                                                        arc4(msg1)
+                                                                        arc4(date)
+                                                                        arc4(shll)
+                                                                        arc4(inlo)
+                                                                        arc4(xecc)
+                                                                        arc4(lsto)
+                                                                        arc4(tst1)
+                                                                        key(tst1)
+                                                                        arc4(chk1)
+                                                                        arc4(msg2)
+                                                                        <span style="color:#66d9ef">if</span> msg2 <span style="color:#f92672">==</span> msg2_content:
+                                                                            <span style="color:#75715e"># print(msg2)</span>
+
+                                                                            <span style="color:#66d9ef">for</span> rlax_s_idx <span style="color:#f92672">in</span> range(data_size <span style="color:#f92672">-</span> rlax_size <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>):
+                                                                                pswd <span style="color:#f92672">=</span> data[pswd_s_idx:pswd_s_idx <span style="color:#f92672">+</span> pswd_size]
+                                                                                tst1 <span style="color:#f92672">=</span> data[tst1_s_idx:tst1_s_idx <span style="color:#f92672">+</span> tst1_size]
+                                                                                rlax <span style="color:#f92672">=</span> data[rlax_s_idx:rlax_s_idx <span style="color:#f92672">+</span> rlax_size]
+                                                                                stte_0()
+                                                                                key(pswd)
+                                                                                arc4(msg1)
+                                                                                arc4(date)
+                                                                                arc4(shll)
+                                                                                arc4(inlo)
+                                                                                arc4(xecc)
+                                                                                arc4(lsto)
+                                                                                arc4(tst1)
+                                                                                key(tst1)
+                                                                                arc4(chk1)
+                                                                                arc4(msg2)
+                                                                                arc4(rlax)
+
+                                                                                <span style="color:#66d9ef">for</span> opts_s_idx <span style="color:#f92672">in</span> range(data_size <span style="color:#f92672">-</span> opts_size <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>):
+                                                                                    pswd <span style="color:#f92672">=</span> data[pswd_s_idx:pswd_s_idx <span style="color:#f92672">+</span> pswd_size]
+                                                                                    tst1 <span style="color:#f92672">=</span> data[tst1_s_idx:tst1_s_idx <span style="color:#f92672">+</span> tst1_size]
+                                                                                    opts <span style="color:#f92672">=</span> data[opts_s_idx:opts_s_idx <span style="color:#f92672">+</span> opts_size]
+                                                                                    stte_0()
+                                                                                    key(pswd)
+                                                                                    arc4(msg1)
+                                                                                    arc4(date)
+                                                                                    arc4(shll)
+                                                                                    arc4(inlo)
+                                                                                    arc4(xecc)
+                                                                                    arc4(lsto)
+                                                                                    arc4(tst1)
+                                                                                    key(tst1)
+                                                                                    arc4(chk1)
+                                                                                    arc4(msg2)
+                                                                                    arc4(rlax)
+                                                                                    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> RFLAG:
+                                                                                        key(control)
+                                                                                    arc4(opts)
+                                                                                    <span style="color:#66d9ef">if</span> opts <span style="color:#f92672">==</span> opts_content:
+                                                                                        <span style="color:#75715e"># print(opts)</span>
+
+                                                                                        <span style="color:#66d9ef">while</span> p_text_size <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>:
+                                                                                            <span style="color:#66d9ef">for</span> text_s_idx <span style="color:#f92672">in</span> range(data_size):
+                                                                                                pswd <span style="color:#f92672">=</span> data[pswd_s_idx:pswd_s_idx <span style="color:#f92672">+</span> pswd_size]
+                                                                                                tst1 <span style="color:#f92672">=</span> data[tst1_s_idx:tst1_s_idx <span style="color:#f92672">+</span> tst1_size]
+                                                                                                text <span style="color:#f92672">=</span> data[text_s_idx:text_s_idx <span style="color:#f92672">+</span> data_size]
+                                                                                                stte_0()
+                                                                                                key(pswd)
+                                                                                                arc4(msg1)
+                                                                                                arc4(date)
+                                                                                                arc4(shll)
+                                                                                                arc4(inlo)
+                                                                                                arc4(xecc)
+                                                                                                arc4(lsto)
+                                                                                                arc4(tst1)
+                                                                                                key(tst1)
+                                                                                                arc4(chk1)
+                                                                                                arc4(msg2)
+                                                                                                arc4(rlax)
+                                                                                                <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> RFLAG:
+                                                                                                    key(control)
+                                                                                                arc4(opts)
+                                                                                                arc4(text)
+                                                                                                <span style="color:#66d9ef">if</span> CRIB<span style="color:#f92672">.</span>encode(<span style="color:#e6db74">&#34;utf-8&#34;</span>) <span style="color:#f92672">in</span> text:
+                                                                                                    print(<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">+</span> text[:p_text_size]<span style="color:#f92672">.</span>decode(<span style="color:#e6db74">&#34;utf-8&#34;</span>, errors<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ignore&#34;</span>))
+                                                                                                    <span style="color:#75715e"># print(&#34;\n&#34;, text[:p_text_size])</span>
+                                                                                                    quit()
+</code></pre></div><p>We run our program and are greeted with the flag.</p>
+<p><img src="/images/shcitty-challenge/solve.png#center" alt="Image"></p>
+<hr>
+
+    </section>
+</article>
+
+<div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "plasticuproject-github-io-blog" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+        <footer id="footer">
+    
+        <div id="social">
+
+	
+	
+    <a rel="me" class="symbol" href="https://www.github.com/plasticuproject">
+        <i class="fa-brands fa-github"></i>
+    </a>
+    
+    <a rel="me" class="symbol" href="https://fosstodon.org/@plasticuproject">
+        <i class="fa-brands fa-mastodon"></i>
+    </a>
+    
+    <a rel="me" class="symbol" href="https://pypi.org/user/plasticuproject">
+        <i class="fa-brands fa-python"></i>
+    </a>
+    
+    <a rel="me" class="symbol" href="https://cryptohack.org/user/snuggles">
+        <i class="fa-solid fa-brain"></i>
+    </a>
+    
+    <a rel="me" class="symbol" href="https://leetcode.com/plasticuproject">
+        <i class="fa-solid fa-code"></i>
+    </a>
+    
+    <a rel="me" class="symbol" href="https://app.hackthebox.com/profile/32882">
+        <i class="fa-solid fa-cube"></i>
+    </a>
+    
+    <a rel="me" class="symbol" href="mailto:plastic@plasticuproject.com">
+        <i class="fa-solid fa-envelope"></i>
+    </a>
+    
+    <a rel="me" class="symbol" href="https://plasticuproject.com/fingerprint.txt">
+        <i class="fa-solid fa-fingerprint"></i>
+    </a>
+    
+    <a rel="me" class="symbol" href="https://plasticuproject.com/pubkey.txt">
+        <i class="fa-solid fa-key"></i>
+    </a>
+    
+
+
+</div>
+
+    
+    <p class="small">
+    
+        © Copyright 2024 plasticuproject
+    
+    </p>
+</footer>
+
+    </section>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://plasticuproject.com/js/main.js"></script>
+<script src="https://plasticuproject.com/js/highlight.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+</body>
+</html>
