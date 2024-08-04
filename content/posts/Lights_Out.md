@@ -1,11 +1,11 @@
 ---
 layout: post
 title: "corCTF2024 lights-out"
-categories: corCTF
+categories: Write-Up
 date: 2024-07-30
 image: /images/lights_out/cor.jpg
 description: Solution to corCTF2024 misc challenge "lights-out" using linear algebra.
-tags: [corCTF, Python]
+tags: [corCTF, Write-Up, Python]
 katex: true
 markup: "markdown"
 ---
