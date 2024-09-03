@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        header {
+            background: #333;
+            color: #fff;
+            padding-top: 30px;
+            min-height: 70px;
+            border-bottom: #77aaff 3px solid;
+        }
+
+        header h1 {
+            text-align: center;
+            margin: 0;
+            font-size: 2.5em;
+        }
+
+        nav {
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2em;
+            margin: 0 15px;
+        }
+
+        section {
+            padding: 20px 0;
+            border-bottom: #ddd 1px solid;
+        }
+
+        h2 {
+            font-size: 2em;
+            color: #333;
+        }
+
+        .project {
+            background: #fff;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .project h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .capabilities {
+            margin-top: 10px;
+            padding-left: 20px;
+        }
+
+        .capabilities li {
+            margin-bottom: 5px;
+        }
+
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Portfolio</h1>
+            <nav>
+                <a href="#about">About Me</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <section id="about" class="container">
+        <h2>About Me</h2>
+	    <p>
+	        I’m a software engineer focused on secure backend and systems development, primarily working with Python, Rust, and C in the infosec and cybersec industries. I have experience building and maintaining systems on Linux and in the cloud, with a strong emphasis on writing secure, reliable code. While backend and systems work are my specialty, I have the versatility to contribute across the stack in various languages.
+	    </p>
+	    <p>
+	        This portfolio showcases selected projects that demonstrate my skills in secure programming and efficient development practices. Each project reflects my commitment to quality and my ability to deliver robust solutions.
+	    </p>
+    </section>
+
+    <section id="projects" class="container">
+        <h2>Projects</h2>
+
+	<div class="project">
+	    <h3>Python Built Threat Dashboard</h3>
+	    <ul>
+		<li><a href="https://github.com/plasticuproject/threat-overview-dashboard-demo">threat-overview-dashboard-demo</a></li>
+	    </ul>
+	    <p>
+		A modern and efficient web-based dashboard application developed in Python using the Plotly/Dash libraries. This project provides a comprehensive overview of threat data, visualizing critical insights through interactive charts and graphs. The codebase is clean, well-structured, and fully type-annotated, ensuring clarity and maintainability.
+	    </p>
+	    <p>
+		The project adheres to rigorous coding standards, passing mypy --strict type checks and flake8 linting tests. It leverages Docker for streamlined development and deployment, running on a Rocky Linux 9 image and served with Gunicorn via Supervisord. This setup ensures a robust and scalable environment, ideal for production deployments.
+	    </p>
+	    <ul class="capabilities">
+		<li>Data Visualization with Plotly/Dash</li>
+		<li>Type-safe Python code (mypy --strict)</li>
+		<li>Linting and Code Quality (flake8)</li>
+		<li>Containerized Deployment with Docker</li>
+		<li>Production-ready setup with Gunicorn and Supervisord</li>
+	    </ul>
+	</div>
+
+	<div class="project">
+	    <h3>Rust Built Log Processing Tools</h3>
+	    <ul>
+		<li><a href="https://github.com/plasticuproject/dashboard_aggregator">dashboard_aggregator</a></li>
+		<li><a href="https://github.com/plasticuproject/dashboard_datatable_builder">dashboard_datatable_builder</a></li>
+		<li><a href="https://github.com/plasticuproject/dashboard_location_mapper">dashboard_location_mapper</a></li>
+	    </ul>
+
+	    <p>
+		A set of modern, efficient CLI tools developed in Rust for aggregating and processing log data for use in the Threat Overview Dashboard. These tools leverage Rust's performance and safety features, ensuring reliable and high-performance operations in a production environment. 
+	    </p>
+	    <p>
+		The code is well-documented, adheres to modern Rust code conventions and standards, and is designed to be easily maintainable. Comprehensive GitHub Actions workflows are integrated for Continuous Integration and Continuous Deployment (CI/CD). These workflows include clippy linting, build tests, and automated deployment to GitHub Releases upon tagging, ensuring that the tools are consistently tested and delivered efficiently.
+	    </p>
+	    <ul class="capabilities">
+		<li>High-performance Rust code for data processing</li>
+		<li>Comprehensive CI/CD pipelines with GitHub Actions</li>
+		<li>Automated deployment and release management</li>
+		<li>Extensive documentation for maintainability and ease of use</li>
+	    </ul>
+	</div>
+
+	<div class="project">
+	    <h3>64 Bit FNV-1a Hash Python Module</h3>
+	    <ul>
+		<li><a href="https://github.com/plasticuproject/fnv1a">fnv1a (GitHub)</a></li>
+		<li><a href="https://pypi.org/project/fnv1a/">fnv1a (PyPi)</a></li>
+	    </ul>
+
+	    <p>
+		A highly efficient and modern Python module implementing the 64-bit FNV-1a hash algorithm. This module provides a fast and reliable hashing function that is suitable for a variety of applications, including data storage, retrieval, and validation. The code is clean, well-structured, and fully type-annotated, ensuring both performance and maintainability.
+	    </p>
+	    <p>
+		The project is meticulously documented and adheres to the highest standards of Python development, passing both mypy --strict type checks and flake8 linting tests. It is supported by comprehensive GitHub Actions workflows for Continuous Integration and Continuous Deployment (CI/CD), including mypy and linting checks, doctests, unit tests, build tests, CodeQL scanning, code coverage reports, and SonarCloud SAST scanning and reporting. Additionally, the module is automatically deployed to the Python Package Index (PyPI) upon tagging a release, ensuring seamless distribution and accessibility.
+	    </p>
+	    <ul class="capabilities">
+		<li>Efficient 64-bit FNV-1a hash implementation</li>
+		<li>Type-safe Python code (mypy --strict)</li>
+		<li>Linting and Code Quality (flake8)</li>
+		<li>Comprehensive CI/CD pipelines with GitHub Actions</li>
+		<li>Code Quality and Security Analysis (CodeQL, SonarCloud)</li>
+		<li>Automated deployment to PyPI</li>
+	    </ul>
+	</div>
+    </section>
+
+    <section id="contact" class="container">
+        <h2>Contact</h2>
+        <p>
+	    You can reach me via the contact information found on my <a href="https://plasticuproject.com">blog</a>. Feel free to checkout some of my blog posts and ctf writeups.
+        </p>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 plasticuproject. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
