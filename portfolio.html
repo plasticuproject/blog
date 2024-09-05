@@ -171,6 +171,7 @@
 	    <ul class="capabilities">
 		<li>Efficient 64-bit FNV-1a hash implementation</li>
 		<li>Type-safe Python code (mypy --strict)</li>
+		<li>Python Unit Testing and Doc Testing</li>
 		<li>Linting and Code Quality (flake8)</li>
 		<li>Comprehensive CI/CD pipelines with GitHub Actions</li>
 		<li>Code Quality and Security Analysis (CodeQL, SonarCloud)</li>
@@ -181,10 +182,10 @@
 	<div class="project">
 	    <h3>Simulated Supply-Chain Attack Challenge</h3>
 	    <ul>
-		<li><a href="https://3.144.231.151:42424">Clown Concrete (live demo)</a></li>
-		<li><a href="https://3.144.231.151:42424/about/calculator_wrapper_source">calculator_wrapper library (source download)</a></li>
-		<li><a href="https://3.144.231.151:42424/about/concrete_calculator_source">concrete_calculator library (source download)</a></li>
-		<li><a href="https://3.144.231.151:42425">Vulnerable Pypi Server (live demo)</a></li>
+		<li><a href="https://clownconcrete.plasticuproject.com">Clown Concrete (live demo)</a></li>
+		<li><a href="https://clownconcrete.plasticuproject.com/about/calculator_wrapper_source">calculator_wrapper library (source download)</a></li>
+		<li><a href="https://clownconcrete.plasticuproject.com/about/concrete_calculator_source">concrete_calculator library (source download)</a></li>
+		<li><a href="https://clownconcrete.plasticuproject.com:42425">Vulnerable Pypi Server (live demo)</a></li>
 	    </ul>
 	    
 	    <p>
@@ -192,7 +193,7 @@
 	    </p>
 
 	    <p>
-		The web application and libraries are containerized and run through Docker with dependency re-builds every 60 seconds via supervisord. A private PyPI server is used to pull dependencies, with the entire setup running behind an NGINX reverse proxy, using Docker Compose for orchestration. This infrastructure creates a practical example of how a supply-chain attack could target vulnerable points in a dependency management pipeline.
+		The web application and libraries are containerized and run through Docker with dependency re-builds every 60 seconds via supervisord. A private PyPI server is used to pull dependencies, with the entire setup running behind an NGINX reverse proxy, using Docker Compose for orchestration. The live challenge is hosted on AWS in an AL2023 EC2. This infrastructure creates a practical example of how a supply-chain attack could target vulnerable points in a dependency management pipeline.
 	    </p>
 	    
 	    <p>
